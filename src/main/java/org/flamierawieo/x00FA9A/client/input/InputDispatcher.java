@@ -5,7 +5,6 @@ import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
 
 import java.nio.ByteBuffer;
-import java.util.Stack;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -16,20 +15,21 @@ public class InputDispatcher implements Tickable {
     private GLFWMouseButtonCallback glfwMouseButtonCallback;
     private int lastXCursorPosition;
     private int lastYCursorPosition;
-    private Stack<InputListener> inputListenerStack;
+    private InputListener inputListener;
 
-    public InputDispatcher(long glfwWindow) {
+    public InputDispatcher(long glfwWindow, InputListener initialInputListener) {
         this.glfwWindow = glfwWindow;
+        inputListener = initialInputListener;
         glfwKeyCallback = new GLFWKeyCallback() {
             @Override
             public void invoke(long window, int key, int scancode, int action, int mods) {
                 if(action == GLFW_PRESS) {
-                    if(!inputListenerStack.empty()) {
-                        inputListenerStack.peek().onKeyPress(key, scancode, mods);
+                    if(inputListener != null) {
+                        inputListener.onKeyPress(key, scancode, mods);
                     }
                 } else if (action == GLFW_RELEASE) {
-                    if(!inputListenerStack.empty()) {
-                        inputListenerStack.peek().onKeyRelease(key, scancode, mods);
+                    if(inputListener != null) {
+                        inputListener.onKeyRelease(key, scancode, mods);
                     }
                 }
             }
@@ -38,13 +38,16 @@ public class InputDispatcher implements Tickable {
             @Override
             public void invoke(long window, int button, int action, int mods) {
                 if(action == GLFW_PRESS) {
-                    inputListenerStack.forEach((l -> l.onMouseButtonPress(button, mods, lastXCursorPosition, lastYCursorPosition)));
+                    if(inputListener != null) {
+                        inputListener.onMouseButtonPress(button, mods, lastXCursorPosition, lastYCursorPosition);
+                    }
                 } else if (action == GLFW_RELEASE) {
-                    inputListenerStack.forEach((l -> l.onMouseButtonRelease(button, mods, lastXCursorPosition, lastYCursorPosition)));
+                    if(inputListener != null) {
+                        inputListener.onMouseButtonRelease(button, mods, lastXCursorPosition, lastYCursorPosition);
+                    }
                 }
             }
         };
-        inputListenerStack = new Stack<>();
     }
 
     public GLFWKeyCallback getGlfwKeyCallback() {
@@ -53,6 +56,14 @@ public class InputDispatcher implements Tickable {
 
     public GLFWMouseButtonCallback getGlfwMouseButtonCallback() {
         return glfwMouseButtonCallback;
+    }
+
+    public InputListener getInputListener() {
+        return inputListener;
+    }
+
+    public void setInputListener(InputListener inputListener) {
+        this.inputListener = inputListener;
     }
 
     @Override
@@ -64,8 +75,8 @@ public class InputDispatcher implements Tickable {
         int newXCursorPosition = cursorXPositionByteBuffer.getInt();
         int newYCursorPosition = cursorYPositionByteBuffer.getInt();
         if(newXCursorPosition != lastXCursorPosition || newYCursorPosition != lastYCursorPosition) {
-            if(!inputListenerStack.empty()) {
-                inputListenerStack.peek().onMouseMove(newXCursorPosition, newYCursorPosition, lastXCursorPosition - newXCursorPosition, lastYCursorPosition - newYCursorPosition);
+            if(inputListener != null) {
+                inputListener.onMouseMove(newXCursorPosition, newYCursorPosition, lastXCursorPosition - newXCursorPosition, lastYCursorPosition - newYCursorPosition);
             }
         }
         lastXCursorPosition = newXCursorPosition;

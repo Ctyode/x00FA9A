@@ -1,17 +1,25 @@
 package org.flamierawieo.x00FA9A.client;
 
+import org.flamierawieo.x00FA9A.client.input.InputDispatcher;
+import org.flamierawieo.x00FA9A.client.ui.ViewManager;
+import org.flamierawieo.x00FA9A.client.views.MainMenuView;
+import org.lwjgl.glfw.GLFWFramebufferSizeCallback;
 import org.lwjgl.glfw.GLFWKeyCallback;
+import org.lwjgl.glfw.GLFWWindowSizeCallback;
 import org.lwjgl.opengl.*;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
-
 public class x00FA9AClient implements Runnable {
 
     private GLFWKeyCallback keyCallback;
     private long window;
+    private ViewManager viewManager;
+    private InputDispatcher inputDispatcher;
+    private GLFWFramebufferSizeCallback glfwFramebufferSizeCallback;
+    private GLFWWindowSizeCallback glfwWindowSizeCallback;
 
     public x00FA9AClient() {
         if(glfwInit() != GL_TRUE) {
@@ -20,15 +28,25 @@ public class x00FA9AClient implements Runnable {
         glfwDefaultWindowHints();
         glfwWindowHint(GLFW_VISIBLE, GL_FALSE);
         glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
-
         window = glfwCreateWindow(800, 600, "x00FA9AClient", NULL, NULL);
         if(window == NULL) {
             throw new IllegalStateException("Failed to create the GLFW window");
         }
+        viewManager = new ViewManager(new MainMenuView());
+        inputDispatcher = new InputDispatcher(window, viewManager);
+        glfwSetMouseButtonCallback(window, inputDispatcher.getGlfwMouseButtonCallback());
+        glfwSetKeyCallback(window, inputDispatcher.getGlfwKeyCallback());
         glfwMakeContextCurrent(window);
         glfwSwapInterval(0);
         glfwShowWindow(window);
         GLContext.createFromCurrent();
+        glfwFramebufferSizeCallback = new GLFWFramebufferSizeCallback() {
+            @Override
+            public void invoke(long window, int width, int height) {
+                glViewport(0, 0, width, height);
+            }
+        };
+        glfwSetFramebufferSizeCallback(window, glfwFramebufferSizeCallback);
     }
 
     @Override
@@ -45,11 +63,13 @@ public class x00FA9AClient implements Runnable {
 
     public void tick(double delta) {
         glfwPollEvents();
+        viewManager.tick(delta);
     }
 
     public void draw() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(0.0f, 0.98f, 0.60f, 0.0f);
+        viewManager.draw();
         glfwSwapBuffers(window);
     }
 
