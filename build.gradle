@@ -1,0 +1,87 @@
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'application'
+
+mainClassName = 'org.flamierawieo.x00FA9A.x00FA9A'
+buildDir = new File(rootProject.projectDir, "build/")
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    flatDir {
+        dirs 'lib'
+    }
+}
+
+dependencies {
+    compile 'org.lwjgl:lwjgl-platform:3.0.0a:natives-windows'
+    compile 'org.lwjgl:lwjgl-platform:3.0.0a:natives-linux'
+    compile 'org.lwjgl:lwjgl-platform:3.0.0a:natives-osx'
+    compile name: 'ibxm'
+    compile name: 'jinput'
+    compile name: 'jnlp'
+    compile name: 'jogg-0.0.7'
+    compile name: 'jorbis-0.0.15'
+    compile name: 'lwjgl'
+    compile name: 'lwjgl_util'
+    compile name: 'lwjgl_util_applet'
+    compile name: 'slick'
+    compile name: 'tinylinepp'
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+
+def nativePlatforms = ['windows', 'linux', 'osx']
+nativePlatforms.each { platform -> //noinspection GroovyAssignabilityCheck
+    task "${platform}Natives" {
+        def outputDir = "${buildDir}/natives/"
+        inputs.files(configurations.compile)
+        outputs.dir(outputDir)
+        doLast {
+            copy {
+                def artifacts = configurations.compile.resolvedConfiguration.resolvedArtifacts
+                        .findAll { it.classifier == "natives-$platform" }
+                artifacts.each {
+                    from zipTree(it.file)
+                }
+                into outputDir
+            }
+        }
+    }
+}
+
+processResources {
+    from 'res'
+    exclude '**/Thumbs.db'
+
+    filesMatching('version') {
+        expand(version: project.version, timestamp: new Date().format("yyyy-MM-dd HH:mm"))
+    }
+}
+
+task unpackNatives {
+    description "Copies native libraries to the build directory."
+    dependsOn nativePlatforms.collect { "${it}Natives" }.findAll { tasks[it] }
+}
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'x00FA9A',
+                'Implementation-Version': version,
+                'Main-Class': mainClassName
+    }
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    baseName = "x00FA9A"
+
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    exclude '**/Thumbs.db'
+
+    outputs.upToDateWhen { false }
+}
+
+run {
+    dependsOn 'unpackNatives'
+    systemProperty 'java.library.path', file( 'build/natives' )
+}
