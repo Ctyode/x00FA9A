@@ -6,14 +6,14 @@ public interface InputListener {
      * Called every time key was pressed
      * @param key pressed key
      * @param scancode wtf i dunno lol
-     * @param mods mods (like Ctrl and shit)
+     * @param mods mods (like Ctrl and shit) <--- holy shit! :(
      */
     void onKeyPress(int key, int scancode, int mods);
 
     /**
      * Called every time key was released
      * @param key pressed key
-     * @param scancode wtf i dunno lol
+     * @param scancode wtf i dunno lol <--- heh nickta kak vsegda lol ))))
      * @param mods mods (like Ctrl and shit)
      */
     void onKeyRelease(int key, int scancode, int mods);
