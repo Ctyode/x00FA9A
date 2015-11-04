@@ -17,18 +17,23 @@ public class InputDispatcher implements Tickable {
     private int lastYCursorPosition;
     private InputListener inputListener;
 
+    /**
+     * Constructs a new InputDispatcher
+     * @param glfwWindow GLFW Window ID to dispatch events
+     * @param initialInputListener initial input listener
+     */
     public InputDispatcher(long glfwWindow, InputListener initialInputListener) {
         this.glfwWindow = glfwWindow;
         inputListener = initialInputListener;
         glfwKeyCallback = new GLFWKeyCallback() {
             @Override
             public void invoke(long window, int key, int scancode, int action, int mods) {
-                if(action == GLFW_PRESS) {
-                    if(inputListener != null) {
+                if (action == GLFW_PRESS) {
+                    if (inputListener != null) {
                         inputListener.onKeyPress(key, scancode, mods);
                     }
                 } else if (action == GLFW_RELEASE) {
-                    if(inputListener != null) {
+                    if (inputListener != null) {
                         inputListener.onKeyRelease(key, scancode, mods);
                     }
                 }
@@ -37,12 +42,12 @@ public class InputDispatcher implements Tickable {
         glfwMouseButtonCallback = new GLFWMouseButtonCallback() {
             @Override
             public void invoke(long window, int button, int action, int mods) {
-                if(action == GLFW_PRESS) {
-                    if(inputListener != null) {
+                if (action == GLFW_PRESS) {
+                    if (inputListener != null) {
                         inputListener.onMouseButtonPress(button, mods, lastXCursorPosition, lastYCursorPosition);
                     }
                 } else if (action == GLFW_RELEASE) {
-                    if(inputListener != null) {
+                    if (inputListener != null) {
                         inputListener.onMouseButtonRelease(button, mods, lastXCursorPosition, lastYCursorPosition);
                     }
                 }
@@ -50,18 +55,31 @@ public class InputDispatcher implements Tickable {
         };
     }
 
+    /**
+     * @return GLFW key callback for this input dispatcher
+     */
     public GLFWKeyCallback getGlfwKeyCallback() {
         return glfwKeyCallback;
     }
 
+    /**
+     * @return GLFW mouse button callback for this input dispatcher
+     */
     public GLFWMouseButtonCallback getGlfwMouseButtonCallback() {
         return glfwMouseButtonCallback;
     }
 
+    /**
+     * @return input listener for this input dispatcher
+     */
     public InputListener getInputListener() {
         return inputListener;
     }
 
+    /**
+     * Sets new input listener for this input dispatcher
+     * @param inputListener new input listener
+     */
     public void setInputListener(InputListener inputListener) {
         this.inputListener = inputListener;
     }
@@ -74,8 +92,8 @@ public class InputDispatcher implements Tickable {
         glfwGetCursorPos(glfwWindow, cursorXPositionByteBuffer, cursorYPositionByteBuffer);
         int newXCursorPosition = cursorXPositionByteBuffer.getInt();
         int newYCursorPosition = cursorYPositionByteBuffer.getInt();
-        if(newXCursorPosition != lastXCursorPosition || newYCursorPosition != lastYCursorPosition) {
-            if(inputListener != null) {
+        if (newXCursorPosition != lastXCursorPosition || newYCursorPosition != lastYCursorPosition) {
+            if (inputListener != null) {
                 inputListener.onMouseMove(newXCursorPosition, newYCursorPosition, lastXCursorPosition - newXCursorPosition, lastYCursorPosition - newYCursorPosition);
             }
         }

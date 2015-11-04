@@ -8,20 +8,30 @@ import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWWindowSizeCallback;
 import org.lwjgl.opengl.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
 public class x00FA9AClient implements Runnable {
 
-    private GLFWKeyCallback keyCallback;
+    private static x00FA9AClient instance;
     private long window;
     private ViewManager viewManager;
     private InputDispatcher inputDispatcher;
     private GLFWFramebufferSizeCallback glfwFramebufferSizeCallback;
     private GLFWWindowSizeCallback glfwWindowSizeCallback;
 
-    public x00FA9AClient() {
+    public static x00FA9AClient getInstance() {
+        if(instance == null) {
+            instance = new x00FA9AClient();
+        }
+        return instance;
+    }
+
+    private x00FA9AClient() {
         if(glfwInit() != GL_TRUE) {
             throw new IllegalStateException("Unable to initialize GLFW");
         }
@@ -47,6 +57,10 @@ public class x00FA9AClient implements Runnable {
             }
         };
         glfwSetFramebufferSizeCallback(window, glfwFramebufferSizeCallback);
+    }
+
+    public ViewManager getViewManager() {
+        return viewManager;
     }
 
     @Override

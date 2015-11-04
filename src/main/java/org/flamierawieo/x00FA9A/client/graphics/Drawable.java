@@ -2,6 +2,9 @@ package org.flamierawieo.x00FA9A.client.graphics;
 
 public interface Drawable {
 
-    public void draw();
+    /**
+     * Called for every new frame
+     */
+    void draw();
 
 }

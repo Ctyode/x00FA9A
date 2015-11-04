@@ -11,22 +11,40 @@ public class ViewManager implements Tickable, Drawable, InputListener {
     private Stack<View> viewStack;
     private View currentView;
 
+    /**
+     * Constructs new ViewManager with rootView as start view
+     * @param rootView initial view
+     */
     public ViewManager(View rootView) {
         currentView = rootView;
         viewStack = new Stack<>();
         viewStack.push(rootView);
     }
 
+    /**
+     * Pushes new View to the stack and makes it active
+     * @param view new view
+     * @return active view
+     */
     public View pushView(View view) {
         viewStack.push(view);
         currentView = view;
         return currentView;
     }
 
+    /**
+     * Returns active view (view at the top of the stack)
+     * @return active view
+     */
     public View peekView() {
         return currentView;
     }
 
+    /**
+     * Removes and returns active view (view at the top of the stack)
+     * Makes next view in the stack active
+     * @return old view
+     */
     public View popView() {
         View oldView = viewStack.pop();
         currentView = viewStack.peek();
