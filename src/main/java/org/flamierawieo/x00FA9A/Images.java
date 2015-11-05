@@ -4,9 +4,9 @@ import org.newdawn.slick.Image;
 
 public enum Images {
 
+    CURSOR_IMAGE ("cursor", "svg", true),
 
     //StartMenu UI
-
 
     SINGLEPLAYER_BUTTON ("singleplayer-button", "svg", false) {
         @Override
@@ -18,7 +18,7 @@ public enum Images {
     MULTIPLAYER_BUTTON ("multiplayer-button", "svg", false) {
         @Override
         protected Image process_sub(Image img, int w, int h) {
-            return super.process_sub(img, w, h);
+            return img.getScaledCopy(1.0f);
         }
     };
 
@@ -45,4 +45,24 @@ public enum Images {
         return img;
     }
 
+    private Image defaultImage;
+
+    // TODO lol )))
+    private Image skinStyle;
+
+    public boolean hasMultipleStyles() {
+        return (skinStyle != null);
+    }
+
+    /** Set default image, if user doesn't use skins */
+    public void setDefaultImage() {
+        if (defaultImage != null)
+            return;
+        // TODO else
+    }
+
+    public Image getImages() {
+        setDefaultImage();
+        return (skinStyle != null) ? skinStyle : defaultImage;
+    }
 }
