@@ -1,18 +1,13 @@
 package org.flamierawieo.x00FA9A.client.views;
 
 import org.flamierawieo.x00FA9A.Images;
-import org.flamierawieo.x00FA9A.client.input.InputDispatcher;
 import org.flamierawieo.x00FA9A.client.ui.ButtonsDispatcher;
 
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.Input;
-import org.newdawn.slick.SlickException;
+import org.newdawn.slick.*;
+import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-public class StartMenu {
-
-    private InputDispatcher inputDispatcher;
+public class StartMenu extends BasicGameState {
 
     private ButtonsDispatcher singleplayerButton, multiplayerButton, optionsButton, exitButton;
 
@@ -26,9 +21,7 @@ public class StartMenu {
     private StateBasedGame game;
     private Input input;
 
-    /* TODO @Override
-     * Zdes' hotela pereopredelit, no kakie-to problemki, a ya hochu spat', soryan. (git commit -m "govnokod")
-     */
+    @Override
     public void init(GameContainer container, StateBasedGame game)
             throws SlickException {
         this.game = game;
@@ -53,4 +46,22 @@ public class StartMenu {
 
     }
 
+    @Override
+    public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
+
+        int width = container.getWidth();
+        int height = container.getHeight();
+
+
+    }
+
+    @Override
+    public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
+
+    }
+
+    @Override
+    public int getID() {
+        return state;
+    }
 }

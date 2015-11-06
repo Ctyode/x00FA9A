@@ -2,16 +2,22 @@ package org.flamierawieo.x00FA9A.client.ui;
 
 import org.flamierawieo.x00FA9A.Images;
 import org.flamierawieo.x00FA9A.client.Options;
-import org.flamierawieo.x00FA9A.client.input.InputDispatcher;
-import org.flamierawieo.x00FA9A.client.input.InputListener;
+import org.flamierawieo.x00FA9A.client.Util;
 import org.flamierawieo.x00FA9A.client.userskins.Skin;
+
+import org.flamierawieo.x00FA9A.x00FA9A;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.state.StateBasedGame;
 
-public class Cursor extends InputDispatcher {
+public class Cursor  {
 
-    public Cursor(long glfwWindow, InputListener initialInputListener) {
-        super(glfwWindow, initialInputListener);
-    }
+    private static GameContainer container;
+    private static StateBasedGame game;
+    private static Input input;
+
+    public Cursor() {}
 
     /**
      *  TODO
@@ -19,11 +25,35 @@ public class Cursor extends InputDispatcher {
      *  I hope i will make it, really. :')
      */
 
-    Image cursor = null;
+    public void draw() {
+        int state = game.getCurrentStateID();
+        boolean mousePressed = (state == x00FA9A.VIEW_GAME && Util.isMousePressed()) ||
+                (input.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON)) ||
+                 input.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON);
 
-    boolean multipleStyles = Images.CURSOR_IMAGE.hasMultipleStyles();
-    boolean customSkin;
+        draw(input.getMouseX(), input.getMouseY(), mousePressed);
 
-    Skin skin = Options.getSkin();
+    }
+
+    public void draw(int mouseX, int mouseY, boolean mousePressed) {
+
+        Image cursor = null;
+
+        boolean multipleStyles = Images.CURSOR_IMAGE.hasMultipleStyles();
+        boolean customSkin;
+
+        Skin skin = Options.getSkin();
+
+        if (multipleStyles) {
+            customSkin = true;
+        } else {
+            cursor = Images.CURSOR_IMAGE.getImages();
+        }
+
+    }
+
+    public boolean isStyled() {
+        return (Images.CURSOR_IMAGE.hasMultipleStyles());
+    }
 
 }
