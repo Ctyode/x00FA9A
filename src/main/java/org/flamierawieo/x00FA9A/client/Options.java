@@ -40,6 +40,13 @@ public class Options {
      * like Osu (x and z)
      */
 
+    private static int[][] resolutions;
+    private static int resolutionIndex;
+
+    public static int[] getContainerSize() {
+        return resolutions[resolutionIndex];
+    }
+
     public static int getKeyLeft() {
         return 0;
     }

@@ -2,7 +2,7 @@ package org.flamierawieo.x00FA9A.client.ui;
 
 import org.newdawn.slick.Image;
 
-public class ButtonsDispatcher extends View {
+public class ButtonsDispatcher {
 
     // The image for button
     private Image img;

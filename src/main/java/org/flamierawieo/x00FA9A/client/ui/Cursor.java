@@ -19,17 +19,11 @@ public class Cursor  {
 
     public Cursor() {}
 
-    /**
-     *  TODO
-     *  If player uses a custom skin, it should work.
-     *  I hope i will make it, really. :')
-     */
-
     public void draw() {
         int state = game.getCurrentStateID();
         boolean mousePressed = (state == x00FA9A.VIEW_GAME && Util.isMousePressed()) ||
                 (input.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON)) ||
-                 input.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON);
+                 input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON);
 
         draw(input.getMouseX(), input.getMouseY(), mousePressed);
 
@@ -38,6 +32,12 @@ public class Cursor  {
     public void draw(int mouseX, int mouseY, boolean mousePressed) {
 
         Image cursor = null;
+
+        /**
+         *  TODO
+         *  If player uses a custom skin, it should work.
+         *  I hope i will make it, really. :')
+         */
 
         boolean multipleStyles = Images.CURSOR_IMAGE.hasMultipleStyles();
         boolean customSkin;

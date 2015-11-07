@@ -3,6 +3,7 @@ package org.flamierawieo.x00FA9A.client.views;
 import org.flamierawieo.x00FA9A.Images;
 import org.flamierawieo.x00FA9A.client.ui.ButtonsDispatcher;
 
+import org.flamierawieo.x00FA9A.x00FA9A;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -46,11 +47,18 @@ public class StartMenu extends BasicGameState {
 
     }
 
+
+
     @Override
-    public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
+    public void render(GameContainer container, StateBasedGame game, Graphics g)
+            throws SlickException {
 
         int width = container.getWidth();
         int height = container.getHeight();
+
+        g.setBackground(Color.black);
+        g.setColor(Color.white);
+
 
 
     }
