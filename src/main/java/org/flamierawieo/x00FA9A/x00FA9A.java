@@ -4,6 +4,8 @@ import org.flamierawieo.x00FA9A.client.Options;
 import org.flamierawieo.x00FA9A.client.x00FA9AClient;
 import org.newdawn.slick.*;
 
+import java.io.File;
+
 public class x00FA9A {
 
     public static final int VIEW_STARTMENU = 1;

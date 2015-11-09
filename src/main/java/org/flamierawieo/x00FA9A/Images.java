@@ -4,51 +4,29 @@ import org.newdawn.slick.Image;
 
 public enum Images {
 
-    CURSOR_IMAGE ("cursor", "svg", true),
-
-    //StartMenu UI
-
-    SINGLEPLAYER_BUTTON ("singleplayer-button", "svg", false) {
-        @Override
-        protected Image process_sub(Image img, int w, int h) {
-            return img.getScaledCopy(1.0f);
-        }
-    },
-
-    MULTIPLAYER_BUTTON ("multiplayer-button", "svg", false) {
-        @Override
-        protected Image process_sub(Image img, int w, int h) {
-            return img.getScaledCopy(1.0f);
-        }
-    };
-
+    CURSOR_IMAGE ("res/images/cursor.png", true, 0.6f),
+    SINGLEPLAYER_BUTTON ("res/images/views/mainmenu/singleplayer-button.png", false, 0.6f),
+    MULTIPLAYER_BUTTON ("res/images/views/mainmenu/multiplayer-button.png", false, 0.6f),
+    OPTIONS_BUTTON ("res/images/views/mainmenu/options-button.png", false, 0.6f),
+    EXIT_BUTTON ("res/images/views/mainmenu/exit-button.png", false, 0.6f);
 
     private final String filename;
-    private String fileExtension;
-    private boolean multipleStyles;
+    private boolean useCustomSkin;
+    private Image defaultImage;
+    private Image skinStyle;
+    private float scale;
 
 
     /**
      * Constructor for basic UI
      * @param filename the name of image
-     * @param fileExtension the type of image
-     * @param multipleStyles is true if image can be change (e.g when player uses a skin for the beatmap)
+     * @param useCustomSkin is true if image can be change (e.g when player uses a skin for the beatmap)
      */
-
-    Images(String filename, String fileExtension, boolean multipleStyles) {
+    Images(String filename, boolean useCustomSkin, float scale) {
         this.filename = filename;
-        this.fileExtension = fileExtension;
-        this.multipleStyles = multipleStyles;
+        this.useCustomSkin = useCustomSkin;
+        this.scale = scale;
     }
-
-    protected Image process_sub(Image img, int w, int h) {
-        return img;
-    }
-
-    private Image defaultImage;
-
-    // TODO lol )))
-    private Image skinStyle;
 
     public boolean hasMultipleStyles() {
         return (skinStyle != null);
@@ -56,13 +34,12 @@ public enum Images {
 
     /** Set default image, if user doesn't use skins */
     public void setDefaultImage() {
-        if (defaultImage != null)
-            return;
-        // TODO else
+        defaultImage = ImagesLoader.getImage(this.filename).getScaledCopy(scale);
     }
 
-    public Image getImages() {
+    public Image getImage() {
         setDefaultImage();
-        return (skinStyle != null) ? skinStyle : defaultImage;
+        return defaultImage;
     }
+
 }

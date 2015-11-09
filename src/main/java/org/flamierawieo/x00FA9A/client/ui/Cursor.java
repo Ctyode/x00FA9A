@@ -47,7 +47,7 @@ public class Cursor  {
         if (multipleStyles) {
             customSkin = true;
         } else {
-            cursor = Images.CURSOR_IMAGE.getImages();
+            cursor = Images.CURSOR_IMAGE.getImage();
         }
 
     }

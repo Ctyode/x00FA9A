@@ -1,52 +1,50 @@
 package org.flamierawieo.x00FA9A.client.views;
 
 import org.flamierawieo.x00FA9A.Images;
-import org.flamierawieo.x00FA9A.client.ui.ButtonsDispatcher;
+import org.flamierawieo.x00FA9A.client.ui.BasicView;
+import org.flamierawieo.x00FA9A.client.ui.Button;
 
-import org.flamierawieo.x00FA9A.x00FA9A;
 import org.newdawn.slick.*;
-import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-public class StartMenu extends BasicGameState {
+public class StartMenu extends BasicView {
 
-    private ButtonsDispatcher singleplayerButton, multiplayerButton, optionsButton, exitButton;
-
-    private final int state;
+    private Button singleplayerButton, multiplayerButton, optionsButton, exitButton;
 
     public StartMenu(int state) {
-        this.state = state;
+        super(state);
     }
 
-    private GameContainer container;
-    private StateBasedGame game;
-    private Input input;
 
     @Override
     public void init(GameContainer container, StateBasedGame game)
             throws SlickException {
-        this.game = game;
-        this.container = container;
-        this.input = container.getInput();
 
-        int width = container.getWidth();
-        int height = container.getHeight();
-
+        super.init(container, game);
 
         // initialize menu buttons
-        Image singleplayerImg = Images.SINGLEPLAYER_BUTTON.getImages();
-        Image multiplayerImg = Images.MULTIPLAYER_BUTTON.getImages();
+        Image singleplayerImg = Images.SINGLEPLAYER_BUTTON.getImage();
+        Image multiplayerImg = Images.MULTIPLAYER_BUTTON.getImage();
+        Image optionsImg = Images.OPTIONS_BUTTON.getImage();
+        Image exitImg = Images.EXIT_BUTTON.getImage();
 
-        singleplayerButton = new ButtonsDispatcher(singleplayerImg,
-                width * 0.8f, (height / 2) - (singleplayerImg.getHeight() / 2f)
+        singleplayerButton = new Button(container, singleplayerImg,
+                (width / 2) - ((singleplayerImg.getWidth() / 2f)), height * 0.1f
         );
 
-        multiplayerButton = new ButtonsDispatcher(multiplayerImg,
-                width * 0.8f, (height / 2) - (multiplayerImg.getHeight() / 2f)
+        multiplayerButton = new Button(container, multiplayerImg,
+                (width / 2) - ((multiplayerImg.getWidth() / 2f)), height * 0.3f
+        );
+
+        optionsButton = new Button(container, optionsImg,
+                (width / 2) - ((optionsImg.getWidth() / 2f)), height * 0.5f
+        );
+
+        exitButton = new Button(container, exitImg,
+                (width / 2) - ((exitImg.getWidth() / 2f)), height * 0.7f
         );
 
     }
-
 
 
     @Override
@@ -59,17 +57,10 @@ public class StartMenu extends BasicGameState {
         g.setBackground(Color.black);
         g.setColor(Color.white);
 
+        singleplayerButton.draw();
+        multiplayerButton.draw();
+        optionsButton.draw();
+        exitButton.draw();
 
-
-    }
-
-    @Override
-    public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
-
-    }
-
-    @Override
-    public int getID() {
-        return state;
     }
 }

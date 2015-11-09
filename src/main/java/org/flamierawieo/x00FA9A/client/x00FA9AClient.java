@@ -1,5 +1,6 @@
 package org.flamierawieo.x00FA9A.client;
 
+import org.flamierawieo.x00FA9A.client.views.StartMenu;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -24,11 +25,13 @@ public class x00FA9AClient extends StateBasedGame implements Game {
     @Override
     public void initStatesList(GameContainer gameContainer) throws SlickException {
 
+        addState(new StartMenu(0));
+
     }
 
     @Override
     public boolean closeRequested() {
-        return false;
+        return true;
     }
 
     @Override
