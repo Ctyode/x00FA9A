@@ -7,7 +7,6 @@ import org.newdawn.slick.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class View implements Tickable, Drawable, KeyListener, MouseListener {
 
     private List<Widget> widgets;
