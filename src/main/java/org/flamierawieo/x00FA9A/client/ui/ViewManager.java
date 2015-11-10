@@ -1,12 +1,12 @@
 package org.flamierawieo.x00FA9A.client.ui;
 
-import org.newdawn.slick.Input;
-import org.newdawn.slick.KeyListener;
-import org.newdawn.slick.MouseListener;
+import org.flamierawieo.x00FA9A.client.Drawable;
+import org.flamierawieo.x00FA9A.client.Tickable;
+import org.newdawn.slick.*;
 
 import java.util.Stack;
 
-public class ViewManager implements KeyListener, MouseListener {
+public class ViewManager implements Tickable, Drawable, InputListener {
 
     private Stack<View> viewStack;
     private View currentView;
@@ -75,9 +75,7 @@ public class ViewManager implements KeyListener, MouseListener {
     }
 
     @Override
-    public void setInput(Input input) {
-        // wtf for i dunno lol
-    }
+    public void setInput(Input input) { /* ¯\_(ツ)_/¯ */ }
 
     @Override
     public boolean isAcceptingInput() {
@@ -85,13 +83,49 @@ public class ViewManager implements KeyListener, MouseListener {
     }
 
     @Override
-    public void inputEnded() {
-        // idk lol
+    public void inputEnded() { /* ¯\_(ツ)_/¯ */ }
+
+    @Override
+    public void inputStarted() { /* ¯\_(ツ)_/¯ */ }
+
+    @Override
+    public void controllerLeftPressed(int i) { /* ¯\_(ツ)_/¯ */ }
+
+    @Override
+    public void controllerLeftReleased(int i) { /* ¯\_(ツ)_/¯ */ }
+
+    @Override
+    public void controllerRightPressed(int i) { /* ¯\_(ツ)_/¯ */ }
+
+    @Override
+    public void controllerRightReleased(int i) { /* ¯\_(ツ)_/¯ */ }
+
+    @Override
+    public void controllerUpPressed(int i) { /* ¯\_(ツ)_/¯ */ }
+
+    @Override
+    public void controllerUpReleased(int i) { /* ¯\_(ツ)_/¯ */ }
+
+    @Override
+    public void controllerDownPressed(int i) { /* ¯\_(ツ)_/¯ */ }
+
+    @Override
+    public void controllerDownReleased(int i) { /* ¯\_(ツ)_/¯ */ }
+
+    @Override
+    public void controllerButtonPressed(int i, int i1) { /* ¯\_(ツ)_/¯ */ }
+
+    @Override
+    public void controllerButtonReleased(int i, int i1) { /* ¯\_(ツ)_/¯ */ }
+
+    @Override
+    public void draw(Graphics g) {
+        currentView.draw(g);
     }
 
     @Override
-    public void inputStarted() {
-        // ofc lol
+    public void tick(double delta) {
+        currentView.tick(delta);
     }
 
 }

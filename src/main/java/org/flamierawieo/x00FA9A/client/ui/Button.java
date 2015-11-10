@@ -1,41 +1,37 @@
 package org.flamierawieo.x00FA9A.client.ui;
 
-import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.Renderable;
 
-public class Button {
+public class Button extends Widget {
 
-    private GameContainer container;
+    private Image image;
+    private Runnable onClickRunnable;
 
-    // The image for button
-    private Image img;
-
-    //Size of object
-    private float xSize, ySize;
-
-    //Coordinates of object
-    private float x, y;
-
-    public Button(GameContainer container, Image img, float x, float y) {
-        this.container = container;
-        this.img = img;
-        this.xSize = img.getWidth() / 2f;
-        this.ySize = img.getHeight() / 2f;
-        this.x = x;
-        this.y = y;
+    public Button(Image image, float x, float y, Runnable onClickRunnable) {
+        super(x, y, image.getWidth(), image.getHeight());
+        this.image = image;
+        this.onClickRunnable = onClickRunnable;
     }
 
-    public Image getImages() {
-        return img;
+    public Button(Image image, float x, float y) {
+        this(image, x, y, null);
     }
 
-
-    public void draw() {
-
-        int width = container.getWidth();
-        int height = container.getHeight();
-
-        img.draw(x, y);
+    public void onClick(Runnable r) {
+        onClickRunnable = r;
     }
+
+    @Override
+    public void mousePressed(int button, int x, int y) {
+        if(onClickRunnable != null) {
+            onClickRunnable.run();
+        }
+    }
+
+    @Override
+    public void draw(Graphics g) {
+        g.drawImage(image, getX(), getY());
+    }
+
 }

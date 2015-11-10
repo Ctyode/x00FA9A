@@ -1,78 +1,104 @@
 package org.flamierawieo.x00FA9A.client.ui;
 
+import org.flamierawieo.x00FA9A.client.Drawable;
+import org.flamierawieo.x00FA9A.client.Tickable;
 import org.newdawn.slick.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
 
-public class View implements KeyListener, MouseListener, Game {
+
+public class View implements Tickable, Drawable, KeyListener, MouseListener {
 
     private List<Widget> widgets;
     private Input input;
-    private Predicate<Widget> isHovered = w -> {
-        int mouseX = input.getMouseX();
-        int mouseY = input.getMouseY();
-        float widgetX = w.getX();
-        float widgetY = w.getY();
-        return mouseX <= widgetX && mouseY  <= widgetY &&
-                mouseX >= widgetX + w.getWidth() && mouseY <= widgetY + w.getHeight();
-    };
 
-    public View() {
+    public View(GameContainer container) {
+        input = container.getInput();
         widgets = new ArrayList<>();
     }
 
-    private void eachReversed(Predicate<Widget> p, Consumer<Widget> c) {
-        Widget currentWidget;
-        for(int i = widgets.size(); i > 0; --i) {
-            currentWidget = widgets.get(i);
-            if(p.test(currentWidget)) {
-                c.accept(currentWidget);
-                break;
+    private Widget getHoveredWidget() {
+        Widget hoveredWidget;
+        int mouseXPosition = input.getMouseX();
+        int mouseYPosition = input.getMouseY(); 
+        for(int i = widgets.size() - 1; i >= 0; --i) {
+            hoveredWidget = widgets.get(i);
+            float widgetX = hoveredWidget.getX();
+            float widgetY = hoveredWidget.getY();
+            if(mouseXPosition <= widgetX && mouseYPosition  <= widgetY && mouseXPosition >= widgetX + hoveredWidget.getWidth() && mouseYPosition <= widgetY + hoveredWidget.getHeight()) {
+                return hoveredWidget;
             }
         }
+        return null;
+    }
+
+    public void addWidget(Widget widget) {
+        widgets.add(widget);
     }
 
     @Override
     public void keyPressed(int i, char c) {
-        eachReversed(isHovered, w -> w.keyPressed(i, c));
+        Widget hoveredWidget = getHoveredWidget();
+        if(hoveredWidget != null) {
+            hoveredWidget.keyPressed(i, c);
+        }
     }
 
     @Override
     public void keyReleased(int i, char c) {
-        eachReversed(isHovered, w -> w.keyReleased(i, c));
+        Widget hoveredWidget = getHoveredWidget();
+        if(hoveredWidget != null) {
+            hoveredWidget.keyReleased(i, c);
+        }
     }
 
     @Override
     public void mouseWheelMoved(int i) {
-        eachReversed(isHovered, w -> w.mouseWheelMoved(i));
+        Widget hoveredWidget = getHoveredWidget();
+        if(hoveredWidget != null) {
+            hoveredWidget.mouseWheelMoved(i);
+        }
     }
 
     @Override
     public void mouseClicked(int i, int i1, int i2, int i3) {
-        eachReversed(isHovered, w -> w.mouseClicked(i, i1, i2, i3));
+        Widget hoveredWidget = getHoveredWidget();
+        if(hoveredWidget != null) {
+            hoveredWidget.mouseClicked(i, i1, i2, i3);
+        }
     }
 
     @Override
     public void mousePressed(int i, int i1, int i2) {
-        eachReversed(isHovered, w -> w.mousePressed(i, i1, i2));
+        Widget hoveredWidget = getHoveredWidget();
+        if(hoveredWidget != null) {
+            hoveredWidget.mousePressed(i, i1, i2);
+        }
     }
 
     @Override
     public void mouseReleased(int i, int i1, int i2) {
-        eachReversed(isHovered, w -> w.mouseReleased(i, i1, i2));
+        Widget hoveredWidget = getHoveredWidget();
+        if(hoveredWidget != null) {
+            hoveredWidget.mouseReleased(i, i1, i2);
+        }
     }
 
     @Override
     public void mouseMoved(int i, int i1, int i2, int i3) {
-        eachReversed(isHovered, w -> w.mouseMoved(i, i1, i2, i3));
+        Widget hoveredWidget = getHoveredWidget();
+        if(hoveredWidget != null) {
+            hoveredWidget.mouseMoved(i, i1, i2, i3);
+        }
     }
 
     @Override
     public void mouseDragged(int i, int i1, int i2, int i3) {
-        eachReversed(isHovered, w -> w.mouseDragged(i, i1, i2, i3));
+        Widget hoveredWidget = getHoveredWidget();
+        if(hoveredWidget != null) {
+            hoveredWidget.mouseDragged(i, i1, i2, i3);
+        }
     }
 
     @Override
@@ -96,28 +122,13 @@ public class View implements KeyListener, MouseListener, Game {
     }
 
     @Override
-    public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
-
+    public void draw(Graphics g) {
+        widgets.forEach(w -> w.draw(g));
     }
 
     @Override
-    public boolean closeRequested() {
-        return false;
-    }
-
-    @Override
-    public String getTitle() {
-        return null;
-    }
-
-    @Override
-    public void init(GameContainer gameContainer) throws SlickException {
-
-    }
-
-    @Override
-    public void update(GameContainer gameContainer, int i) throws SlickException {
-
+    public void tick(double delta) {
+        widgets.forEach(w -> w.tick(delta));
     }
 
 }

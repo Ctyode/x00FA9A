@@ -1,186 +1,139 @@
 package org.flamierawieo.x00FA9A.client.ui;
 
+import org.flamierawieo.x00FA9A.client.Drawable;
+import org.flamierawieo.x00FA9A.client.Tickable;
 import org.newdawn.slick.*;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+public class Widget implements Tickable, Drawable, KeyListener, MouseListener {
 
-public class Widget implements KeyListener, MouseListener {
+    private float x;
+    private float y;
+    private float width;
+    private float height;
+    private float originX;
+    private float originY;
 
-    private Widget parent;
-    private GameContainer container;
-    private Input input;
-    private Image img;
-    private float width, height;
-    private float x, y;
-    private float originX, originY;
-    private Map<String, Set<EventListener>> eventListeners;
-
-
-    public Widget(Widget parent, GameContainer container, Image img, float x, float y) {
-        this.parent = parent;
-        this.container = container;
-        this.img = img;
-        this.width = img.getWidth();
-        this.height = img.getHeight();
-        this.originX = img.getWidth() / 2.0f;
-        this.originY = img.getHeight() / 2.0f;
+    public Widget(float x, float y, float width, float height) {
         this.x = x;
         this.y = y;
-        eventListeners = new HashMap<>();
-    }
-
-    public void addEventListener(String eventType, EventListener listener) {
-        if(eventListeners.containsKey(eventType)) {
-            eventListeners.put(eventType, new HashSet<>());
-        }
-        eventListeners.get(eventType).add(listener);
-    }
-
-    public Image getImg() {
-        return img;
-    }
-
-    public float getWidth() {
-        return width;
-    }
-
-    public float getHeight() {
-        return height;
+        this.width = width;
+        this.height = height;
+        originX = x + width / 2.0f;
+        originY = y + height / 2.0f;
     }
 
     public float getX() {
         return x;
     }
 
+    public void setX(float x) {
+        this.x = x;
+        originX = x + width / 2.0f;
+    }
+
     public float getY() {
         return y;
     }
 
-    public float getOriginX() {
-        return originX;
+    public void setY(float y) {
+        this.y = y;
+        originY = y + height / 2.0f;
+    }
+
+    public float getWidth() {
+        return width;
+    }
+
+    public void setWidth(float width) {
+        this.width = width;
+        originX = x + width / 2.0f;
+    }
+
+    public float getHeight() {
+        return height;
+    }
+
+    public void setHeight(float height) {
+        this.height = height;
+        originY = y + height / 2.0f;
     }
 
     public float getOriginY() {
         return originY;
     }
 
-    public Image getImages() {
-        return img;
-    }
-
-    public void draw() {
-        img.draw(x, y);
+    public float getOriginX() {
+        return originX;
     }
 
     @Override
     public void keyPressed(int i, char c) {
-        boolean tossEventToParent = false;
-        for(EventListener l : eventListeners.get("keyPressed")) {
-            tossEventToParent = tossEventToParent || l.onEvent(input);
-        }
-        if(tossEventToParent) {
-            parent.keyPressed(i, c);
-        }
+        // so that we can override it later
     }
 
     @Override
     public void keyReleased(int i, char c) {
-        boolean tossEventToParent = false;
-        for(EventListener l : eventListeners.get("keyReleased")) {
-            tossEventToParent = tossEventToParent || l.onEvent(input);
-        }
-        if(tossEventToParent) {
-            parent.keyReleased(i, c);
-        }
+        // so that we can override it later
     }
 
     @Override
     public void mouseWheelMoved(int i) {
-        boolean tossEventToParent = false;
-        for(EventListener l : eventListeners.get("mouseWheelMoved")) {
-            tossEventToParent = tossEventToParent || l.onEvent(input);
-        }
-        if(tossEventToParent) {
-            parent.mouseWheelMoved(i);
-        }
+        // so that we can override it later
     }
 
     @Override
     public void mouseClicked(int i, int i1, int i2, int i3) {
-        boolean tossEventToParent = false;
-        for(EventListener l : eventListeners.get("mouseClicked")) {
-            tossEventToParent = tossEventToParent || l.onEvent(input);
-        }
-        if(tossEventToParent) {
-            parent.mouseClicked(i, i1, i2, i3);
-        }
+        // so that we can override it later
     }
 
     @Override
     public void mousePressed(int i, int i1, int i2) {
-        boolean tossEventToParent = false;
-        for(EventListener l : eventListeners.get("mousePressed")) {
-            tossEventToParent = tossEventToParent || l.onEvent(input);
-        }
-        if(tossEventToParent) {
-            parent.mousePressed(i, i1, i2);
-        }
+        // so that we can override it later
     }
 
     @Override
     public void mouseReleased(int i, int i1, int i2) {
-        boolean tossEventToParent = false;
-        for(EventListener l : eventListeners.get("mouseReleased")) {
-            tossEventToParent = tossEventToParent || l.onEvent(input);
-        }
-        if(tossEventToParent) {
-            parent.mouseReleased(i, i1, i2);
-        }
+        // so that we can override it later
     }
 
     @Override
     public void mouseMoved(int i, int i1, int i2, int i3) {
-        boolean tossEventToParent = false;
-        for(EventListener l : eventListeners.get("mouseMoved")) {
-            tossEventToParent = tossEventToParent || l.onEvent(input);
-        }
-        if(tossEventToParent) {
-            parent.mouseMoved(i, i1, i2, i3);
-        }
+        // so that we can override it later
     }
 
     @Override
     public void mouseDragged(int i, int i1, int i2, int i3) {
-        boolean tossEventToParent = false;
-        for(EventListener l : eventListeners.get("mouseDragged")) {
-            tossEventToParent = tossEventToParent || l.onEvent(input);
-        }
-        if(tossEventToParent) {
-            parent.mouseDragged(i, i1, i2, i3);
-        }
+        // so that we can override it later
     }
 
     @Override
     public void setInput(Input input) {
-        this.input = input;
+        // lol
     }
 
     @Override
     public boolean isAcceptingInput() {
-        return true;
+        return true; // lol
     }
 
     @Override
     public void inputEnded() {
-        // ayy lmao
+        // LOL
     }
 
     @Override
     public void inputStarted() {
-        // ayy lmao
+        // LOL
+    }
+
+    @Override
+    public void draw(Graphics g) {
+        // so that we can override it later
+    }
+
+    @Override
+    public void tick(double delta) {
+        // so that we can override it later
     }
 
 }

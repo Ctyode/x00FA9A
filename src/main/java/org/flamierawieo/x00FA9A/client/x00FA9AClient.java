@@ -1,15 +1,18 @@
 package org.flamierawieo.x00FA9A.client;
 
+import org.flamierawieo.x00FA9A.client.ui.ViewManager;
+import org.flamierawieo.x00FA9A.client.views.StartMenu;
 import org.newdawn.slick.*;
-
 
 public class x00FA9AClient implements Game {
 
     private static x00FA9AClient instance;
     private String name;
     private Input input;
+    private Graphics graphics;
+    private ViewManager viewManager;
 
-    public x00FA9AClient(String name) {
+    private x00FA9AClient(String name) {
         this.name = name;
     }
 
@@ -23,16 +26,19 @@ public class x00FA9AClient implements Game {
     @Override
     public void init(GameContainer c) throws SlickException {
         input = c.getInput();
+        graphics = c.getGraphics();
+        viewManager = new ViewManager(new StartMenu(c));
+        input.addPrimaryListener(viewManager);
     }
 
     @Override
     public void update(GameContainer c, int delta) throws SlickException {
-
+        viewManager.tick(delta / 1000);
     }
 
     @Override
     public void render(GameContainer c, Graphics g) throws SlickException {
-
+        viewManager.draw(g);
     }
 
     @Override
@@ -44,7 +50,6 @@ public class x00FA9AClient implements Game {
     public String getTitle() {
         return name;
     }
-
 
 }
 
