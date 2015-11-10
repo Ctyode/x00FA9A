@@ -1,18 +1,18 @@
 package org.flamierawieo.x00FA9A.client.views;
 
 import org.flamierawieo.x00FA9A.Images;
-import org.flamierawieo.x00FA9A.client.ui.BasicView;
-import org.flamierawieo.x00FA9A.client.ui.Button;
+import org.flamierawieo.x00FA9A.client.ui.View;
+import org.flamierawieo.x00FA9A.client.ui.Widget;
 
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.StateBasedGame;
 
-public class StartMenu extends BasicView {
+public class StartMenu extends View {
 
-    private Button singleplayerButton, multiplayerButton, optionsButton, exitButton;
+    private Widget singleplayerButton, multiplayerButton, optionsButton, exitButton;
 
-    public StartMenu(int state) {
-        super(state);
+    public StartMenu() {
+
     }
 
 
@@ -28,19 +28,19 @@ public class StartMenu extends BasicView {
         Image optionsImg = Images.OPTIONS_BUTTON.getImage();
         Image exitImg = Images.EXIT_BUTTON.getImage();
 
-        singleplayerButton = new Button(container, singleplayerImg,
+        singleplayerButton = new Widget(null, container, singleplayerImg,
                 (width / 2) - ((singleplayerImg.getWidth() / 2f)), height * 0.1f
         );
 
-        multiplayerButton = new Button(container, multiplayerImg,
+        multiplayerButton = new Widget(null, container, multiplayerImg,
                 (width / 2) - ((multiplayerImg.getWidth() / 2f)), height * 0.3f
         );
 
-        optionsButton = new Button(container, optionsImg,
+        optionsButton = new Widget(null, container, optionsImg,
                 (width / 2) - ((optionsImg.getWidth() / 2f)), height * 0.5f
         );
 
-        exitButton = new Button(container, exitImg,
+        exitButton = new Widget(null, container, exitImg,
                 (width / 2) - ((exitImg.getWidth() / 2f)), height * 0.7f
         );
 

@@ -1,16 +1,16 @@
 package org.flamierawieo.x00FA9A.client;
 
-import org.flamierawieo.x00FA9A.client.views.StartMenu;
 import org.newdawn.slick.*;
-import org.newdawn.slick.state.StateBasedGame;
 
 
-public class x00FA9AClient extends StateBasedGame implements Game {
+public class x00FA9AClient implements Game {
 
     private static x00FA9AClient instance;
+    private String name;
+    private Input input;
 
     public x00FA9AClient(String name) {
-        super(name);
+        this.name = name;
     }
 
     public static x00FA9AClient getInstance() {
@@ -20,12 +20,18 @@ public class x00FA9AClient extends StateBasedGame implements Game {
         return instance;
     }
 
-
+    @Override
+    public void init(GameContainer c) throws SlickException {
+        input = c.getInput();
+    }
 
     @Override
-    public void initStatesList(GameContainer gameContainer) throws SlickException {
+    public void update(GameContainer c, int delta) throws SlickException {
 
-        addState(new StartMenu(0));
+    }
+
+    @Override
+    public void render(GameContainer c, Graphics g) throws SlickException {
 
     }
 
@@ -36,7 +42,7 @@ public class x00FA9AClient extends StateBasedGame implements Game {
 
     @Override
     public String getTitle() {
-        return null;
+        return name;
     }
 
 
