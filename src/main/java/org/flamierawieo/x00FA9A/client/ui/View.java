@@ -9,8 +9,8 @@ import java.util.List;
 
 public class View implements Tickable, Drawable, KeyListener, MouseListener {
 
-    private List<Widget> widgets;
-    private Input input;
+    protected List<Widget> widgets;
+    protected Input input;
 
     public View(GameContainer container) {
         input = container.getInput();
@@ -19,13 +19,13 @@ public class View implements Tickable, Drawable, KeyListener, MouseListener {
 
     private Widget getHoveredWidget() {
         Widget hoveredWidget;
-        int mouseXPosition = input.getMouseX();
-        int mouseYPosition = input.getMouseY();
+        float mouseXPosition = input.getMouseX();
+        float mouseYPosition = input.getMouseY();
         for(int i = widgets.size() - 1; i >= 0; --i) {
             hoveredWidget = widgets.get(i);
             float widgetX = hoveredWidget.getX();
             float widgetY = hoveredWidget.getY();
-            if(mouseXPosition <= widgetX && mouseYPosition  <= widgetY && mouseXPosition >= widgetX + hoveredWidget.getWidth() && mouseYPosition <= widgetY + hoveredWidget.getHeight()) {
+            if(mouseXPosition >= widgetX && mouseYPosition >= widgetY && mouseXPosition <= widgetX + hoveredWidget.getWidth() && mouseYPosition <= widgetY + hoveredWidget.getHeight()) {
                 return hoveredWidget;
             }
         }
@@ -101,9 +101,7 @@ public class View implements Tickable, Drawable, KeyListener, MouseListener {
     }
 
     @Override
-    public void setInput(Input input) {
-        this.input = input;
-    }
+    public void setInput(Input input) { /* ¯\_(ツ)_/¯ */ }
 
     @Override
     public boolean isAcceptingInput() {
