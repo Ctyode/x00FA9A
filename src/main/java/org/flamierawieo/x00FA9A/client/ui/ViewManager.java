@@ -8,10 +8,23 @@ import java.util.Stack;
 
 public class ViewManager implements Tickable, Drawable, InputListener {
 
+    private static ViewManager instance;
     private Stack<View> viewStack;
     private View currentView;
 
-    public ViewManager(View rootView) {
+    public static ViewManager getInstance(View rootView) {
+        if(instance == null) {
+            instance = new ViewManager(rootView);
+            View.setViewManager(instance);
+        }
+        return instance;
+    }
+
+    public static ViewManager getInstance() {
+        return instance;
+    }
+
+    private ViewManager(View rootView) {
         viewStack = new Stack<>();
         currentView = rootView;
         viewStack.push(rootView);

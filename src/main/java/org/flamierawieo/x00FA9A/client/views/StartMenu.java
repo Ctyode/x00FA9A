@@ -13,8 +13,8 @@ public class StartMenu extends View {
     private Button optionsButton;
     private Button exitButton;
 
-    public StartMenu(GameContainer container) {
-        super(container);
+    public StartMenu() {
+        super();
         int width = container.getWidth();
         int height = container.getHeight();
 

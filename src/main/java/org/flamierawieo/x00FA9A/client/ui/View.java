@@ -9,11 +9,29 @@ import java.util.List;
 
 public class View implements Tickable, Drawable, KeyListener, MouseListener {
 
+    protected static ViewManager viewManager;
+    protected static GameContainer container;
+    protected static Input input;
     protected List<Widget> widgets;
-    protected Input input;
 
-    public View(GameContainer container) {
+    public static ViewManager getViewManager() {
+        return viewManager;
+    }
+
+    public static void setViewManager(ViewManager viewManager) {
+        View.viewManager = viewManager;
+    }
+
+    public static GameContainer getContainer() {
+        return container;
+    }
+
+    public static void setContainer(GameContainer container) {
+        View.container = container;
         input = container.getInput();
+    }
+
+    public View() {
         widgets = new ArrayList<>();
     }
 
