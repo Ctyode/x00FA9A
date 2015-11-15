@@ -25,6 +25,8 @@ public class StartMenu extends View {
 
         singleplayerButton = new Button(singleplayerImg, (width / 2) -
                 ((singleplayerImg.getWidth() / 2f)), height * 0.1f);
+        singleplayerButton.onClick(() -> viewManager.pushView(new SongMenu()));
+
         multiplayerButton = new Button(multiplayerImg, (width / 2) -
                 ((multiplayerImg.getWidth() / 2f)), height * 0.3f);
         optionsButton = new Button(optionsImg, (width / 2) -
