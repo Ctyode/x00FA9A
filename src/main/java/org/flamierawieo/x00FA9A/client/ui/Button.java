@@ -8,14 +8,15 @@ public class Button extends Widget {
     private Image image;
     private Runnable onClickRunnable;
 
-    public Button(Image image, float x, float y, Runnable onClickRunnable) {
-        super(x, y, image.getWidth(), image.getHeight());
+    public Button(Image image, float x, float y, float originX, float originY, Runnable onClickRunnable) {
+        super(x, y, image.getWidth(), image.getHeight(), originX, originY);
         this.image = image;
         this.onClickRunnable = onClickRunnable;
     }
 
-    public Button(Image image, float x, float y) {
-        this(image, x, y, null);
+    public Button(Image image, float x, float y, float originX, float originY) {
+        this(image, x, y, originX, originY, null);
+
     }
 
     public void onClick(Runnable r) {
@@ -31,7 +32,7 @@ public class Button extends Widget {
 
     @Override
     public void draw(Graphics g) {
-        g.drawImage(image, getX(), getY());
+        g.drawImage(image, getAbsoluteX(), getAbsoluteY());
     }
 
 }

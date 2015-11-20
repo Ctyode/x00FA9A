@@ -6,20 +6,30 @@ import org.newdawn.slick.*;
 
 public class Widget implements Tickable, Drawable, KeyListener, MouseListener {
 
+    private GameContainer container;
     private float x;
     private float y;
+    private float absoluteX;
+    private float absoluteY;
     private float width;
     private float height;
     private float originX;
     private float originY;
 
-    public Widget(float x, float y, float width, float height) {
+    public Widget(float x, float y, float w, float h, float originX, float originY) {
+        container = View.getContainer();
         this.x = x;
         this.y = y;
-        this.width = width;
-        this.height = height;
-        originX = x + width / 2.0f;
-        originY = y + height / 2.0f;
+        width = w;
+        height = h;
+        this.originX = originX;
+        this.originY = originY;
+        calculateAbsolutePosition();
+    }
+
+    private void calculateAbsolutePosition() {
+        absoluteX = x * container.getWidth() - originX * width;
+        absoluteY = y * container.getHeight() - originY * height;
     }
 
     public float getX() {
@@ -28,7 +38,7 @@ public class Widget implements Tickable, Drawable, KeyListener, MouseListener {
 
     public void setX(float x) {
         this.x = x;
-        originX = x + width / 2.0f;
+        calculateAbsolutePosition();
     }
 
     public float getY() {
@@ -37,33 +47,23 @@ public class Widget implements Tickable, Drawable, KeyListener, MouseListener {
 
     public void setY(float y) {
         this.y = y;
-        originY = y + height / 2.0f;
+        calculateAbsolutePosition();
+    }
+
+    public float getAbsoluteX() {
+        return absoluteX;
+    }
+
+    public float getAbsoluteY() {
+        return absoluteY;
     }
 
     public float getWidth() {
         return width;
     }
 
-    public void setWidth(float width) {
-        this.width = width;
-        originX = x + width / 2.0f;
-    }
-
     public float getHeight() {
         return height;
-    }
-
-    public void setHeight(float height) {
-        this.height = height;
-        originY = y + height / 2.0f;
-    }
-
-    public float getOriginY() {
-        return originY;
-    }
-
-    public float getOriginX() {
-        return originX;
     }
 
     @Override
