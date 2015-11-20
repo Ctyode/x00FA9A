@@ -19,15 +19,9 @@ public class SongMenu extends View {
         Image activeSongBackgroundImg = Images.ACTIVE_SONG_BACKGROUND.getImage();
         Image searchBackgroundImg = Images.SEARCH_BACKGROUND.getImage();
 
-        songListBackground = new Background(songListBackgroundImg,
-                (width - songListBackgroundImg.getWidth()) * 0.95f,
-                (height - songListBackgroundImg.getHeight()) * 0.5f );
-        activeSongBackground = new Background(activeSongBackgroundImg,
-                (width - activeSongBackgroundImg.getWidth()) * 1.03f,
-                (height - activeSongBackgroundImg.getHeight()) * 0.5f );
-        searchBackground = new Background(searchBackgroundImg,
-                (width - searchBackgroundImg.getWidth()) * 0.98f,
-                (height - searchBackgroundImg.getHeight()) * 0.05f );
+        songListBackground = new Background(songListBackgroundImg, 0.95f, 0.5f, 1.0f, 0.5f);
+        activeSongBackground = new Background(activeSongBackgroundImg, 1.03f, 0.5f, 1.0f, 0.5f);
+        searchBackground = new Background(searchBackgroundImg, 0.98f, 0.05f, 1.0f, 0.5f);
 
         addWidget(songListBackground);
         addWidget(activeSongBackground);

@@ -41,8 +41,8 @@ public class View implements Tickable, Drawable, KeyListener, MouseListener {
         float mouseYPosition = input.getMouseY();
         for(int i = widgets.size() - 1; i >= 0; --i) {
             hoveredWidget = widgets.get(i);
-            float widgetX = hoveredWidget.getX();
-            float widgetY = hoveredWidget.getY();
+            float widgetX = hoveredWidget.getAbsoluteX();
+            float widgetY = hoveredWidget.getAbsoluteY();
             if(mouseXPosition >= widgetX && mouseYPosition >= widgetY && mouseXPosition <= widgetX + hoveredWidget.getWidth() && mouseYPosition <= widgetY + hoveredWidget.getHeight()) {
                 return hoveredWidget;
             }
