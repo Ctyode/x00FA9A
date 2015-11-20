@@ -33,6 +33,7 @@ public class StartMenu extends View {
                 ((optionsImg.getWidth() / 2f)), height * 0.5f);
         exitButton = new Button(exitImg, (width / 2) -
                 ((exitImg.getWidth() / 2f)), height * 0.7f);
+        exitButton.onClick(() -> container.exit());
 
         addWidget(singleplayerButton);
         addWidget(multiplayerButton);
