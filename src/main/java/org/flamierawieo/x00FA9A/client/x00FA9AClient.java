@@ -27,7 +27,7 @@ public class x00FA9AClient implements Game {
 
     public static x00FA9AClient getInstance() {
         if (instance == null) {
-            instance = new x00FA9AClient("Vriv");
+            instance = new x00FA9AClient("Beat Party");
         }
         return instance;
     }
