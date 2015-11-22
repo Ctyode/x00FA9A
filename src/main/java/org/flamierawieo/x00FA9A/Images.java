@@ -5,6 +5,7 @@ import org.newdawn.slick.Image;
 public enum Images {
 
     CURSOR_IMAGE ("res/images/cursor.png", true, 0.6f),
+    BASIC_BACKGROUND ("res/images/background.png", false, 1.0f),
 
     //Start menu
     SINGLEPLAYER_BUTTON ("res/images/views/mainmenu/singleplayer-button.png", false, 0.6f),
@@ -15,7 +16,8 @@ public enum Images {
     //Song menu
     SONG_LIST_BACKGROUND ("res/images/views/songmenu/songs-background.png", false, 0.45f),
     ACTIVE_SONG_BACKGROUND ("res/images/views/songmenu/active-song-background.png", false, 0.5f),
-    SEARCH_BACKGROUND ("res/images/views/songmenu/search-background.png", false, 0.6f);
+    SEARCH_BACKGROUND ("res/images/views/songmenu/search-background.png", false, 0.6f),
+    SELECT_MODE ("res/images/views/songmenu/select-mode.png", false, 0.6f);
 
     private final String filename;
     private boolean useCustomSkin;

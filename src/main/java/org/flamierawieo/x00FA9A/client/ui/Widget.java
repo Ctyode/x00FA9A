@@ -32,6 +32,18 @@ public class Widget implements Tickable, Drawable, KeyListener, MouseListener {
         absoluteY = y * container.getHeight() - originY * height;
     }
 
+    private float calculateAbsolutePositionX(float x, float originX, float width) {
+        return x * container.getWidth() - originX * width;
+    }
+
+    private float calculateAbsolutePositionY(float y, float originY, float height) {
+        return y * container.getHeight() - originY * height;
+    }
+
+    public GameContainer getContainer() {
+        return container;
+    }
+
     public float getX() {
         return x;
     }

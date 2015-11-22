@@ -1,5 +1,6 @@
 package org.flamierawieo.x00FA9A.client.ui;
 
+import org.flamierawieo.x00FA9A.Images;
 import org.flamierawieo.x00FA9A.client.Drawable;
 import org.flamierawieo.x00FA9A.client.Tickable;
 import org.newdawn.slick.*;

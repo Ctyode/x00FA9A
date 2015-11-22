@@ -20,6 +20,7 @@ public class x00FA9AClient implements Game {
     private Image cursorImage;
     private float cursorOriginX;
     private float cursorOriginY;
+    private Image basicBackgroundImg;
 
     private x00FA9AClient(String name) {
         this.name = name;
@@ -42,6 +43,9 @@ public class x00FA9AClient implements Game {
         cursorImage = Images.CURSOR_IMAGE.getImage();
         cursorOriginX = cursorImage.getWidth() / 2f;
         cursorOriginY = cursorImage.getHeight() / 2f;
+        MusicPlayer musicPlayer = new MusicPlayer();
+        musicPlayer.play();
+        basicBackgroundImg = Images.BASIC_BACKGROUND.getImage();
     }
 
     @Override
@@ -51,6 +55,7 @@ public class x00FA9AClient implements Game {
 
     @Override
     public void render(GameContainer c, Graphics g) throws SlickException {
+        g.drawImage(basicBackgroundImg, 0.0f, 0.0f);
         viewManager.draw(g);
 
         graphics.drawImage(cursorImage, input.getMouseX() - cursorOriginX, input.getMouseY() - cursorOriginY);

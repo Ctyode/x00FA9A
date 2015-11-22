@@ -15,18 +15,18 @@ public class StartMenu extends View {
 
     public StartMenu() {
         super();
-
         Image singleplayerImg = Images.SINGLEPLAYER_BUTTON.getImage();
         Image multiplayerImg = Images.MULTIPLAYER_BUTTON.getImage();
         Image optionsImg = Images.OPTIONS_BUTTON.getImage();
         Image exitImg = Images.EXIT_BUTTON.getImage();
 
+
         singleplayerButton = new Button(singleplayerImg, 0.5f, 0.1f, 0.5f, 0.5f);
+        singleplayerButton.onClick(() -> viewManager.pushView(new SongMenu()));
         multiplayerButton = new Button(multiplayerImg, 0.5f, 0.3f, 0.5f, 0.5f);
         optionsButton = new Button(optionsImg, 0.5f, 0.5f, 0.5f, 0.5f);
         exitButton = new Button(exitImg, 0.5f, 0.7f, 0.5f, 0.5f);
-
-        singleplayerButton.onClick(() -> viewManager.pushView(new SongMenu()));
+        exitButton.onClick(() -> container.exit());
 
         addWidget(singleplayerButton);
         addWidget(multiplayerButton);
