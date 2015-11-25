@@ -1,7 +1,7 @@
 package org.flamierawieo.x00FA9A.client.ui;
 
-import org.flamierawieo.x00FA9A.client.Drawable;
-import org.flamierawieo.x00FA9A.client.Tickable;
+import org.flamierawieo.x00FA9A.client.graphics.Drawable;
+import org.flamierawieo.x00FA9A.shared.Tickable;
 import org.newdawn.slick.*;
 
 public class Widget implements Tickable, Drawable, KeyListener, MouseListener {

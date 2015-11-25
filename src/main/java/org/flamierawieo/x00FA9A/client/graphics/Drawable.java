@@ -1,4 +1,4 @@
-package org.flamierawieo.x00FA9A.client;
+package org.flamierawieo.x00FA9A.client.graphics;
 
 import org.newdawn.slick.Graphics;
 

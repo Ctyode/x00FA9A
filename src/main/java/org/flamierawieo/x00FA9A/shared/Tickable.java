@@ -1,4 +1,4 @@
-package org.flamierawieo.x00FA9A.client;
+package org.flamierawieo.x00FA9A.shared;
 
 public interface Tickable {
 

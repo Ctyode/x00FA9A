@@ -9,7 +9,7 @@ public class x00FA9A {
         x00FA9AClient client = x00FA9AClient.getInstance();
         try {
             AppGameContainer app = new AppGameContainer(client);
-            app.setDisplayMode(app.getScreenWidth(), app.getScreenHeight(), false);
+            app.setDisplayMode(app.getScreenWidth(), app.getScreenHeight(), true);
 //          app.setDisplayMode(800, 600, false);
             app.start();
         } catch (SlickException e) {

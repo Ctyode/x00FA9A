@@ -5,7 +5,7 @@ import org.newdawn.slick.Image;
 public enum Images {
 
     CURSOR_IMAGE ("res/images/cursor.png", true, 0.6f),
-    BASIC_BACKGROUND ("res/images/background.png", false, 1.0f),
+    BASIC_BACKGROUND ("res/images/background.png", false, 0.8f),
 
     //Start menu
     SINGLEPLAYER_BUTTON ("res/images/views/mainmenu/singleplayer-button.png", false, 0.6f),
@@ -17,7 +17,16 @@ public enum Images {
     SONG_LIST_BACKGROUND ("res/images/views/songmenu/songs-background.png", false, 0.45f),
     ACTIVE_SONG_BACKGROUND ("res/images/views/songmenu/active-song-background.png", false, 0.5f),
     SEARCH_BACKGROUND ("res/images/views/songmenu/search-background.png", false, 0.6f),
-    SELECT_MODE ("res/images/views/songmenu/select-mode.png", false, 0.6f);
+    SELECT_MODE ("res/images/views/songmenu/select-mode.png", false, 0.6f),
+
+    //Square mode backgrounds
+    BUTTONS_BACKGROUND ("res/images/squaremode/buttons-background.png", false, 0.45f),
+    COMBO_BACKGROUND ("res/images/squaremode/combo-background.png", false, 0.45f),
+    HP_BACKGROUND ("res/images/squaremode/hp-background.png", false, 0.45f),
+    STATS_BACKGROUND ("res/images/squaremode/stats-background.png", false, 0.45f),
+
+    //Square mode buttons
+    GREEN_BUTTON ("res/images/squaremode/green-button.png", false, 0.45f);
 
     private final String filename;
     private boolean useCustomSkin;
@@ -36,6 +45,8 @@ public enum Images {
         this.useCustomSkin = useCustomSkin;
         this.scale = scale;
     }
+
+
 
     public boolean hasMultipleStyles() {
         return (skinStyle != null);
