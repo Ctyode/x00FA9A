@@ -1,3 +1,5 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
@@ -74,4 +76,7 @@ jar {
 run {
     dependsOn 'unpackNatives'
     systemProperty 'java.library.path', file( 'build/natives' )
+    if(Os.isFamily(Os.FAMILY_MAC)) {
+        systemProperty '-XstartOnFirstThread'
+    }
 }
