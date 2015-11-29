@@ -1,6 +1,9 @@
 package org.flamierawieo.x00FA9A.client;
 
+import org.lwjgl.glfw.GLFWCursorPosCallback;
 import org.lwjgl.opengl.GL;
+
+import java.nio.ByteBuffer;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -32,6 +35,13 @@ public class x00FA9AClient implements Runnable {
         glfwMakeContextCurrent(window);
         glfwSwapInterval(0);
         glfwShowWindow(window);
+
+        glfwSetCursorPosCallback(window, new GLFWCursorPosCallback() {
+            @Override
+            public void invoke(long window, double xpos, double ypos) {
+                System.out.println(xpos + " " + ypos);
+            }
+        });
     }
 
     @Override
