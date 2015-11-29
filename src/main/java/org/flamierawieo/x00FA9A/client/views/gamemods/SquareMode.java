@@ -1,9 +1,6 @@
 package org.flamierawieo.x00FA9A.client.views.gamemods;
 
-import org.flamierawieo.x00FA9A.Images;
 import org.flamierawieo.x00FA9A.client.ui.View;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 
 public class SquareMode extends View {
 
@@ -35,38 +32,19 @@ public class SquareMode extends View {
         }
     }
 
-
-
     private int Score = 0;
 
-    private Image buttonsBackgroundImg, comboBackgroundImg, hpBackgroundImg, statsBackgroundImg, greenButtonImg;
-
     public SquareMode() {
-        buttonsBackgroundImg = Images.BUTTONS_BACKGROUND.getImage();
-        comboBackgroundImg = Images.COMBO_BACKGROUND.getImage();
-        hpBackgroundImg = Images.HP_BACKGROUND.getImage();
-        statsBackgroundImg = Images.STATS_BACKGROUND.getImage();
-        greenButtonImg = Images.GREEN_BUTTON.getImage();
+        super();
     }
 
     @Override
-    public void draw(Graphics g) {
-        super.draw(g);
-
-        g.drawImage(buttonsBackgroundImg, 0.0f, 0.0f);
-        g.drawImage(comboBackgroundImg, 0.0f, 0.0f);
-        g.drawImage(hpBackgroundImg, 0.0f, 0.0f);
-        g.drawImage(statsBackgroundImg, 0.0f, 0.0f);
-        g.drawImage(greenButtonImg, 0.0f, 0.0f);
-
-        g.drawString(String.valueOf(Score), 0.0f, 0.0f);
+    public void draw() {
 
     }
 
     @Override
     public void tick(double delta) {
-        super.tick(delta);
-
         double currentTime = System.currentTimeMillis() / 1000;
     }
 
@@ -86,17 +64,6 @@ public class SquareMode extends View {
         } else {
             return 0;
         }
-    }
-
-    @Override
-    public void keyPressed(int i, char c) {
-        super.keyPressed(i, c);
-        Score++;
-    }
-
-    @Override
-    public void keyReleased(int i, char c) {
-        super.keyReleased(i, c);
     }
 
 }

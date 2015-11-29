@@ -1,7 +1,5 @@
 package org.flamierawieo.x00FA9A;
 
-import org.newdawn.slick.Image;
-
 public enum Images {
 
     CURSOR_IMAGE ("res/images/cursor.png", true, 0.6f),
@@ -30,10 +28,9 @@ public enum Images {
 
     private final String filename;
     private boolean useCustomSkin;
-    private Image defaultImage;
-    private Image skinStyle;
+    private Object defaultImage;
+    private Object skinStyle;
     private float scale;
-
 
     /**
      * Constructor for basic UI
@@ -46,18 +43,17 @@ public enum Images {
         this.scale = scale;
     }
 
-
-
     public boolean hasMultipleStyles() {
-        return (skinStyle != null);
+        return skinStyle != null;
     }
 
     /** Set default image, if user doesn't use skins */
     public void setDefaultImage() {
-        defaultImage = ImagesLoader.getImage(this.filename).getScaledCopy(scale);
+        // defaultImage = ImagesLoader.getImage(this.filename).getScaledCopy(scale);
+        defaultImage = null; // what the fuck
     }
 
-    public Image getImage() {
+    public Object getImage() {
         setDefaultImage();
         return defaultImage;
     }

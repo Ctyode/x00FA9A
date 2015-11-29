@@ -16,19 +16,10 @@ repositories {
 }
 
 dependencies {
-    compile 'org.lwjgl.lwjgl:lwjgl-platform:2.9.2:natives-windows'
-    compile 'org.lwjgl.lwjgl:lwjgl-platform:2.9.1:natives-linux'
-    compile 'org.lwjgl.lwjgl:lwjgl-platform:2.9.1:natives-osx'
-    compile name: 'ibxm'
-    compile name: 'jinput'
-    compile name: 'jnlp'
-    compile name: 'jogg-0.0.7'
-    compile name: 'jorbis-0.0.15'
-    compile name: 'lwjgl'
-    compile name: 'lwjgl_util'
-    compile name: 'lwjgl_util_applet'
-    compile name: 'slick'
-    compile name: 'tinylinepp'
+    compile 'org.lwjgl:lwjgl:3.0.0b'
+    compile 'org.lwjgl:lwjgl-platform:3.0.0b:natives-windows'
+    compile 'org.lwjgl:lwjgl-platform:3.0.0b:natives-linux'
+    compile 'org.lwjgl:lwjgl-platform:3.0.0b:natives-osx'
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
 
@@ -55,7 +46,7 @@ processResources {
     exclude '**/Thumbs.db'
 
     filesMatching('version') {
-        expand(version: project.version, timestamp: new Date().format("yyyy-MM-dd HH:mm"))
+        expand(version: project.version, timestamp: new Date().format("dd-MM-yyyy HH:mm"))
     }
 }
 

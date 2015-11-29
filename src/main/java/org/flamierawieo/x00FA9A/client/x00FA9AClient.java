@@ -1,69 +1,60 @@
 package org.flamierawieo.x00FA9A.client;
 
-import org.flamierawieo.x00FA9A.Images;
-import org.flamierawieo.x00FA9A.client.ui.ViewManager;
-import org.newdawn.slick.*;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.GameContainer;
+import org.lwjgl.opengl.GL;
 
-public class x00FA9AClient implements Game {
+import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.system.MemoryUtil.*;
 
-    private static x00FA9AClient instance = new x00FA9AClient("Beat Party");
-    private static String name;
-    private static GameContainer gameContainer;
-    private static Input input;
+public class x00FA9AClient implements Runnable {
 
-    // TODO: сделать ченить с этим
-    private static Image cursorImage;
-    private static float cursorOriginX;
-    private static float cursorOriginY;
-    private static Image basicBackgroundImg;
+    private static x00FA9AClient instance;
+    private long window;
 
     public static x00FA9AClient getInstance() {
+        if(instance == null) {
+            instance = new x00FA9AClient();
+        }
         return instance;
     }
 
-    private x00FA9AClient(String n) {
-        name = n;
+    private x00FA9AClient() {
+        if(glfwInit() != GL_TRUE) {
+            throw new IllegalStateException("Unable to initialize GLFW");
+        }
+        glfwDefaultWindowHints();
+        glfwWindowHint(GLFW_VISIBLE, GL_FALSE);
+        glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
+        window = glfwCreateWindow(800, 600, "Beat Party", NULL, NULL);
+        if(window == NULL) {
+            throw new IllegalStateException("Failed to create the GLFW window");
+        }
+        glfwMakeContextCurrent(window);
+        glfwSwapInterval(0);
+        glfwShowWindow(window);
     }
 
     @Override
-    public void init(GameContainer c) throws SlickException {
-        gameContainer = c;
-        input = c.getInput();
-        input.addPrimaryListener(ViewManager.getInstance());
-        cursorImage = Images.CURSOR_IMAGE.getImage();
-        cursorOriginX = cursorImage.getWidth() / 2f;
-        cursorOriginY = cursorImage.getHeight() / 2f;
-        MusicPlayer musicPlayer = new MusicPlayer();
-        musicPlayer.play();
-        basicBackgroundImg = Images.BASIC_BACKGROUND.getImage();
+    public void run() {
+        GL.createCapabilities(false);
+        long lastUpdateTime = System.currentTimeMillis();
+        while(glfwWindowShouldClose(window) == GL_FALSE) {
+            tick(System.currentTimeMillis() - lastUpdateTime / 1000);
+            draw();
+            lastUpdateTime = System.currentTimeMillis();
+        }
+        glfwDestroyWindow(window);
+        glfwTerminate();
     }
 
-    public static GameContainer getGameContainer() {
-        return gameContainer;
+    public void tick(double delta) {
+        glfwPollEvents();
     }
 
-    @Override
-    public boolean closeRequested() {
-        return true;
-    }
-
-    @Override
-    public String getTitle() {
-        return name;
-    }
-
-    @Override
-    public void render(GameContainer c, Graphics g) throws SlickException {
-        g.drawImage(basicBackgroundImg, 0.0f, 0.0f);
-        ViewManager.draw(g);
-        g.drawImage(cursorImage, input.getMouseX() - cursorOriginX, input.getMouseY() - cursorOriginY);
-    }
-
-    @Override
-    public void update(GameContainer c, int delta) throws SlickException {
-        ViewManager.tick(delta / 1000);
+    public void draw() {
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glClearColor(0.0f, 0.98f, 0.60f, 0.0f);
+        glfwSwapBuffers(window);
     }
 
 }

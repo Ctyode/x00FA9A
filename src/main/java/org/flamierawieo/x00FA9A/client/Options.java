@@ -1,7 +1,6 @@
 package org.flamierawieo.x00FA9A.client;
 
 import org.flamierawieo.x00FA9A.client.userskins.Skin;
-import org.newdawn.slick.Input;
 
 public class Options {
 
