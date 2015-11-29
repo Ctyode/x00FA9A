@@ -10,12 +10,11 @@ public class x00FA9A {
         try {
             AppGameContainer app = new AppGameContainer(client);
             app.setDisplayMode(app.getScreenWidth(), app.getScreenHeight(), true);
-//          app.setDisplayMode(800, 600, false);
+            // app.setDisplayMode(800, 600, false);
             app.start();
         } catch (SlickException e) {
             e.printStackTrace();
         }
-
     }
 
 }

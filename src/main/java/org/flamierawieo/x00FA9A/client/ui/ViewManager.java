@@ -1,24 +1,15 @@
 package org.flamierawieo.x00FA9A.client.ui;
 
-import org.flamierawieo.x00FA9A.client.graphics.Drawable;
-import org.flamierawieo.x00FA9A.shared.Tickable;
+import org.flamierawieo.x00FA9A.client.views.StartMenu;
 import org.newdawn.slick.*;
 
 import java.util.Stack;
 
-public class ViewManager implements Tickable, Drawable, InputListener {
+public class ViewManager implements InputListener {
 
-    private static ViewManager instance;
-    private Stack<View> viewStack;
-    private View currentView;
-
-    public static ViewManager getInstance(View rootView) {
-        if(instance == null) {
-            instance = new ViewManager(rootView);
-            View.setViewManager(instance);
-        }
-        return instance;
-    }
+    private static ViewManager instance = new ViewManager(new StartMenu());
+    private static Stack<View> viewStack;
+    private static View currentView;
 
     public static ViewManager getInstance() {
         return instance;
@@ -30,18 +21,18 @@ public class ViewManager implements Tickable, Drawable, InputListener {
         viewStack.push(rootView);
     }
 
-    public View popView() {
+    public static View popView() {
         View lastCurrentView = currentView;
         viewStack.pop();
         currentView = viewStack.peek();
         return lastCurrentView;
     }
 
-    public View peekView() {
+    public static View peekView() {
         return currentView;
     }
 
-    public View pushView(View view) {
+    public static View pushView(View view) {
         currentView = view;
         viewStack.push(view);
         return currentView;
@@ -131,13 +122,11 @@ public class ViewManager implements Tickable, Drawable, InputListener {
     @Override
     public void controllerButtonReleased(int i, int i1) { /* ¯\_(ツ)_/¯ */ }
 
-    @Override
-    public void draw(Graphics g) {
+    public static void draw(Graphics g) {
         currentView.draw(g);
     }
 
-    @Override
-    public void tick(double delta) {
+    public static void tick(double delta) {
         currentView.tick(delta);
     }
 
