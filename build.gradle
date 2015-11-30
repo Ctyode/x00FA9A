@@ -77,6 +77,6 @@ run {
     dependsOn 'unpackNatives'
     systemProperty 'java.library.path', file( 'build/natives' )
     if(Os.isFamily(Os.FAMILY_MAC)) {
-        systemProperty '-XstartOnFirstThread'
+        jvmArgs = ['-XstartOnFirstThread']
     }
 }
