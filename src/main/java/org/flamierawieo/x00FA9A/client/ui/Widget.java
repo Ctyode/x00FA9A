@@ -34,7 +34,7 @@ public class Widget implements Drawable, Tickable, KeyInputListener, MouseInputL
     }
 
     @Override
-    public void onMouseMove(double x, double y) {
+    public void onMouseMove(float x, float y) {
 
     }
 
@@ -54,7 +54,7 @@ public class Widget implements Drawable, Tickable, KeyInputListener, MouseInputL
     }
 
     @Override
-    public void tick(double delta) {
+    public void tick(float delta) {
 
     }
 

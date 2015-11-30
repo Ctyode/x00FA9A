@@ -14,7 +14,8 @@ import static org.lwjgl.opengl.GL11.*;
 
 public class ViewManager implements Tickable, Drawable {
 
-    private double mouseRelativePosX, mouseRelativePosY;
+    private float mouseRelativePosX;
+    private float mouseRelativePosY;
     private Cursor cursor;
     private int windowWidth, windowHeight;
     private Stack<View> viewStack;
@@ -23,12 +24,12 @@ public class ViewManager implements Tickable, Drawable {
     private GLFWKeyCallback glfwKeyCallback;
     private GLFWCursorPosCallback glfwCursorPosCallback;
     private GLFWMouseButtonCallback glfwMouseButtonCallback;
-    private double aspect;
+    private float aspect;
 
     public ViewManager(int initialWindowWidth, int initialWindowHeight, View rootView) {
         windowWidth = initialWindowWidth;
         windowHeight = initialWindowHeight;
-        aspect = (double)windowWidth / (double)windowHeight;
+        aspect = (float)windowWidth / (float)windowHeight;
         viewStack = new Stack<>();
         currentView = rootView;
         viewStack.push(rootView);
@@ -38,7 +39,7 @@ public class ViewManager implements Tickable, Drawable {
             public void invoke(long window, int width, int height) {
                 windowWidth = width;
                 windowHeight = height;
-                aspect = (double)windowWidth / (double)windowHeight;
+                aspect = (float)windowWidth / (float)windowHeight;
             }
         };
         glfwKeyCallback = new GLFWKeyCallback() {
@@ -54,8 +55,8 @@ public class ViewManager implements Tickable, Drawable {
         glfwCursorPosCallback = new GLFWCursorPosCallback() {
             @Override
             public void invoke(long window, double x, double y) {
-                mouseRelativePosX = x / windowWidth * aspect - (aspect - 1) / 2;
-                mouseRelativePosY = (windowHeight - y) / windowHeight;
+                mouseRelativePosX = (float)(x / windowWidth * aspect - (aspect - 1) / 2);
+                mouseRelativePosY = (float)((windowHeight - y) / windowHeight);
                 cursor.onMouseMove(mouseRelativePosX, mouseRelativePosY);
                 currentView.onMouseMove(mouseRelativePosX, mouseRelativePosY);
             }
@@ -105,6 +106,7 @@ public class ViewManager implements Tickable, Drawable {
         return currentView;
     }
 
+    @Override
     public void draw() {
         glLoadIdentity();
         glViewport(0, 0, windowWidth, windowHeight);
@@ -114,7 +116,8 @@ public class ViewManager implements Tickable, Drawable {
         cursor.draw();
     }
 
-    public void tick(double delta) {
+    @Override
+    public void tick(float delta) {
         currentView.tick(delta);
     }
 

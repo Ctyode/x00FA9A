@@ -1,14 +1,16 @@
 package org.flamierawieo.x00FA9A.client;
 
+import org.flamierawieo.x00FA9A.client.graphics.Drawable;
 import org.flamierawieo.x00FA9A.client.ui.ViewManager;
 import org.flamierawieo.x00FA9A.client.views.StartMenu;
+import org.flamierawieo.x00FA9A.shared.Tickable;
 import org.lwjgl.opengl.GL;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
-public class x00FA9AClient implements Runnable {
+public class x00FA9AClient implements Runnable, Tickable, Drawable {
 
     private long window;
     private ViewManager viewManager;
@@ -39,21 +41,23 @@ public class x00FA9AClient implements Runnable {
     @Override
     public void run() {
         GL.createCapabilities(false);
-        double lastUpdateTime = glfwGetTime();
+        float lastUpdateTime = (float)glfwGetTime();
         while(glfwWindowShouldClose(window) == GL_FALSE) {
-            tick(glfwGetTime() - lastUpdateTime);
+            tick((float)glfwGetTime() - lastUpdateTime);
             draw();
-            lastUpdateTime = glfwGetTime();
+            lastUpdateTime = (float)glfwGetTime();
         }
         glfwDestroyWindow(window);
         glfwTerminate();
     }
 
-    public void tick(double delta) {
+    @Override
+    public void tick(float delta) {
         glfwPollEvents();
         viewManager.tick(delta);
     }
 
+    @Override
     public void draw() {
         glClear(GL_COLOR_BUFFER_BIT);
         glClearColor(0.0f, 0.98f, 0.60f, 0.0f);

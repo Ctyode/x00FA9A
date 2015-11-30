@@ -52,7 +52,7 @@ public class View implements Tickable, Drawable, KeyInputListener, MouseInputLis
     }
 
     @Override
-    public void onMouseMove(double x, double y) {
+    public void onMouseMove(float x, float y) {
         Widget hoveredWidget = getHoveredWidget();
         if(hoveredWidget != null) {
             hoveredWidget.onMouseMove(x, y);
@@ -81,7 +81,7 @@ public class View implements Tickable, Drawable, KeyInputListener, MouseInputLis
     }
 
     @Override
-    public void tick(double delta) {
+    public void tick(float delta) {
         widgets.forEach(w -> w.tick(delta));
     }
 

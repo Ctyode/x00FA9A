@@ -21,7 +21,7 @@ public class StartMenu extends View {
     }
 
     @Override
-    public void onMouseMove(double x, double y) {
+    public void onMouseMove(float x, float y) {
         System.out.printf("onMouseMove(%f, %f);\n", x, y);
     }
 

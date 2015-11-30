@@ -44,7 +44,7 @@ public class SquareMode extends View {
     }
 
     @Override
-    public void tick(double delta) {
+    public void tick(float delta) {
         double currentTime = System.currentTimeMillis() / 1000;
     }
 
