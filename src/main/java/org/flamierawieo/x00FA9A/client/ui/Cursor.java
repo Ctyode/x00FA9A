@@ -4,7 +4,7 @@ import org.flamierawieo.x00FA9A.client.graphics.Drawable;
 import org.flamierawieo.x00FA9A.client.input.MouseInputListener;
 import org.flamierawieo.x00FA9A.shared.Tickable;
 
-public class Cursor implements Tickable, Drawable, MouseInputListener{
+public class Cursor implements Tickable, Drawable, MouseInputListener {
 
     private double mouseX, mouseY;
 

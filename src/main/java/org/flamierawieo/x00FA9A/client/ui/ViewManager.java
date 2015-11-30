@@ -12,11 +12,13 @@ import static org.lwjgl.glfw.GLFW.*;
 
 public class ViewManager implements Tickable, Drawable {
 
+    private int windowWidth, windowHeight;
     private Stack<View> viewStack;
     private View currentView;
     private GLFWKeyCallback glfwKeyCallback;
     private GLFWCursorPosCallback glfwCursorPosCallback;
     private GLFWMouseButtonCallback glfwMouseButtonCallback;
+    private double aspect;
 
     public ViewManager(View rootView) {
         viewStack = new Stack<>();
@@ -35,7 +37,7 @@ public class ViewManager implements Tickable, Drawable {
         glfwCursorPosCallback = new GLFWCursorPosCallback() {
             @Override
             public void invoke(long window, double x, double y) {
-                currentView.onMouseMove(x, y);
+                currentView.onMouseMove(x / windowWidth * aspect - (aspect - 1) / 2, (windowHeight - y) / windowHeight);
             }
         };
         glfwMouseButtonCallback = new GLFWMouseButtonCallback() {
@@ -77,6 +79,12 @@ public class ViewManager implements Tickable, Drawable {
         currentView = view;
         viewStack.push(view);
         return currentView;
+    }
+
+    public void setWindowSize(int w, int h) {
+        windowWidth = w;
+        windowHeight = h;
+        aspect = (double)windowWidth / (double)windowHeight;
     }
 
     public void draw() {

@@ -40,6 +40,7 @@ public class x00FA9AClient implements Runnable {
                 windowWidth = width;
                 windowHeight = height;
                 aspect = (double)windowWidth / (double)windowHeight;
+                viewManager.setWindowSize(windowWidth, windowHeight);
             }
         });
     }
