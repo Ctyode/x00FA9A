@@ -62,7 +62,7 @@ public class x00FA9AClient implements Runnable {
     }
 
     public void draw() {
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT);
         glClearColor(0.0f, 0.98f, 0.60f, 0.0f);
         glBegin(GL_TRIANGLES);
         glColor3f(1.0f, 0.0f, 0.0f);
