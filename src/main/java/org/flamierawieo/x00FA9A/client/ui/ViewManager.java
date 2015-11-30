@@ -1,47 +1,89 @@
 package org.flamierawieo.x00FA9A.client.ui;
 
-import org.flamierawieo.x00FA9A.client.views.StartMenu;
+import org.flamierawieo.x00FA9A.client.graphics.Drawable;
+import org.flamierawieo.x00FA9A.shared.Tickable;
+import org.lwjgl.glfw.GLFWCursorPosCallback;
+import org.lwjgl.glfw.GLFWKeyCallback;
+import org.lwjgl.glfw.GLFWMouseButtonCallback;
 
 import java.util.Stack;
 
-public class ViewManager {
+import static org.lwjgl.glfw.GLFW.*;
 
-    private static ViewManager instance = new ViewManager(new StartMenu());
-    private static Stack<View> viewStack;
-    private static View currentView;
+public class ViewManager implements Tickable, Drawable {
 
-    public static ViewManager getInstance() {
-        return instance;
-    }
+    private Stack<View> viewStack;
+    private View currentView;
+    private GLFWKeyCallback glfwKeyCallback;
+    private GLFWCursorPosCallback glfwCursorPosCallback;
+    private GLFWMouseButtonCallback glfwMouseButtonCallback;
 
-    private ViewManager(View rootView) {
+    public ViewManager(View rootView) {
         viewStack = new Stack<>();
         currentView = rootView;
         viewStack.push(rootView);
+        glfwKeyCallback = new GLFWKeyCallback() {
+            @Override
+            public void invoke(long window, int key, int scancode, int action, int mods) {
+                if(action == GLFW_PRESS) {
+                    currentView.onKeyDown(key, scancode, mods);
+                } else if(action == GLFW_RELEASE) {
+                    currentView.onKeyUp(key, scancode, mods);
+                }
+            }
+        };
+        glfwCursorPosCallback = new GLFWCursorPosCallback() {
+            @Override
+            public void invoke(long window, double x, double y) {
+                currentView.onMouseMove(x, y);
+            }
+        };
+        glfwMouseButtonCallback = new GLFWMouseButtonCallback() {
+            @Override
+            public void invoke(long window, int button, int action, int mods) {
+                if(action == GLFW_PRESS) {
+                    currentView.onMouseButtonDown(button, mods);
+                } else if(action == GLFW_RELEASE) {
+                    currentView.onMouseButtonUp(button, mods);
+                }
+            }
+        };
     }
 
-    public static View popView() {
+    public GLFWKeyCallback getGlfwKeyCallback() {
+        return glfwKeyCallback;
+    }
+
+    public GLFWCursorPosCallback getGlfwCursorPosCallback() {
+        return glfwCursorPosCallback;
+    }
+
+    public GLFWMouseButtonCallback getGlfwMouseButtonCallback() {
+        return glfwMouseButtonCallback;
+    }
+
+    public View popView() {
         View lastCurrentView = currentView;
         viewStack.pop();
         currentView = viewStack.peek();
         return lastCurrentView;
     }
 
-    public static View peekView() {
+    public View peekView() {
         return currentView;
     }
 
-    public static View pushView(View view) {
+    public View pushView(View view) {
         currentView = view;
         viewStack.push(view);
         return currentView;
     }
 
-    public static void draw() {
+    public void draw() {
         currentView.draw();
     }
 
-    public static void tick(double delta) {
+    public void tick(double delta) {
         currentView.tick(delta);
     }
 
