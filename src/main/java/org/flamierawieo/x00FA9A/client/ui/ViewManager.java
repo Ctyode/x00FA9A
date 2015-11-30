@@ -5,25 +5,39 @@ import org.flamierawieo.x00FA9A.shared.Tickable;
 import org.lwjgl.glfw.GLFWCursorPosCallback;
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
+import org.lwjgl.glfw.GLFWWindowSizeCallback;
 
 import java.util.Stack;
 
 import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.opengl.GL11.*;
 
 public class ViewManager implements Tickable, Drawable {
 
     private int windowWidth, windowHeight;
     private Stack<View> viewStack;
     private View currentView;
+    private GLFWWindowSizeCallback glfwWindowSizeCallback;
     private GLFWKeyCallback glfwKeyCallback;
     private GLFWCursorPosCallback glfwCursorPosCallback;
     private GLFWMouseButtonCallback glfwMouseButtonCallback;
     private double aspect;
 
-    public ViewManager(View rootView) {
+    public ViewManager(int initialWindowWidth, int initialWindowHeight, View rootView) {
+        windowWidth = initialWindowWidth;
+        windowHeight = initialWindowHeight;
+        aspect = (double)windowWidth / (double)windowHeight;
         viewStack = new Stack<>();
         currentView = rootView;
         viewStack.push(rootView);
+        glfwWindowSizeCallback = new GLFWWindowSizeCallback() {
+            @Override
+            public void invoke(long window, int width, int height) {
+                windowWidth = width;
+                windowHeight = height;
+                aspect = (double)windowWidth / (double)windowHeight;
+            }
+        };
         glfwKeyCallback = new GLFWKeyCallback() {
             @Override
             public void invoke(long window, int key, int scancode, int action, int mods) {
@@ -50,6 +64,10 @@ public class ViewManager implements Tickable, Drawable {
                 }
             }
         };
+    }
+
+    public GLFWWindowSizeCallback getGlfwWindowSizeCallback() {
+        return glfwWindowSizeCallback;
     }
 
     public GLFWKeyCallback getGlfwKeyCallback() {
@@ -81,13 +99,11 @@ public class ViewManager implements Tickable, Drawable {
         return currentView;
     }
 
-    public void setWindowSize(int w, int h) {
-        windowWidth = w;
-        windowHeight = h;
-        aspect = (double)windowWidth / (double)windowHeight;
-    }
-
     public void draw() {
+        glLoadIdentity();
+        glViewport(0, 0, windowWidth, windowHeight);
+        double offset = (aspect - 1.0) / 2.0;
+        glOrtho(-offset, 1.0 + offset, 0.0, 1.0, -1.0, 1.0);
         currentView.draw();
     }
 
