@@ -14,6 +14,8 @@ import static org.lwjgl.opengl.GL11.*;
 
 public class ViewManager implements Tickable, Drawable {
 
+    private double mouseRelativePosX, mouseRelativePosY;
+    private Cursor cursor;
     private int windowWidth, windowHeight;
     private Stack<View> viewStack;
     private View currentView;
@@ -30,6 +32,7 @@ public class ViewManager implements Tickable, Drawable {
         viewStack = new Stack<>();
         currentView = rootView;
         viewStack.push(rootView);
+        cursor = new Cursor();
         glfwWindowSizeCallback = new GLFWWindowSizeCallback() {
             @Override
             public void invoke(long window, int width, int height) {
@@ -51,7 +54,10 @@ public class ViewManager implements Tickable, Drawable {
         glfwCursorPosCallback = new GLFWCursorPosCallback() {
             @Override
             public void invoke(long window, double x, double y) {
-                currentView.onMouseMove(x / windowWidth * aspect - (aspect - 1) / 2, (windowHeight - y) / windowHeight);
+                mouseRelativePosX = x / windowWidth * aspect - (aspect - 1) / 2;
+                mouseRelativePosY = (windowHeight - y) / windowHeight;
+                cursor.onMouseMove(mouseRelativePosX, mouseRelativePosY);
+                currentView.onMouseMove(mouseRelativePosX, mouseRelativePosY);
             }
         };
         glfwMouseButtonCallback = new GLFWMouseButtonCallback() {
@@ -105,6 +111,7 @@ public class ViewManager implements Tickable, Drawable {
         double offset = (aspect - 1.0) / 2.0;
         glOrtho(-offset, 1.0 + offset, 0.0, 1.0, -1.0, 1.0);
         currentView.draw();
+        cursor.draw();
     }
 
     public void tick(double delta) {
