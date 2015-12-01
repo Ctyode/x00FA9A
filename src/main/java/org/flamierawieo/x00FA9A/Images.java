@@ -37,6 +37,7 @@ public enum Images {
      * @param filename the name of image
      * @param useCustomSkin is true if image can be change (e.g when player uses a skin for the beatmap)
      */
+
     Images(String filename, boolean useCustomSkin, float scale) {
         this.filename = filename;
         this.useCustomSkin = useCustomSkin;

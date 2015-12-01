@@ -31,6 +31,7 @@ public class x00FA9AClient implements Runnable, Tickable, Drawable {
         glfwMakeContextCurrent(window);
         glfwSwapInterval(0);
         glfwShowWindow(window);
+        GL.createCapabilities(false);
         viewManager = new ViewManager(initialWindowWidth, initialWindowHeight, new StartMenu());
         glfwSetKeyCallback(window, viewManager.getGlfwKeyCallback());
         glfwSetCursorPosCallback(window, viewManager.getGlfwCursorPosCallback());
@@ -40,7 +41,6 @@ public class x00FA9AClient implements Runnable, Tickable, Drawable {
 
     @Override
     public void run() {
-        GL.createCapabilities(false);
         float lastUpdateTime = (float)glfwGetTime();
         while(glfwWindowShouldClose(window) == GL_FALSE) {
             tick((float)glfwGetTime() - lastUpdateTime);
