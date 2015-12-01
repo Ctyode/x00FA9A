@@ -18,6 +18,7 @@ repositories {
 }
 
 dependencies {
+    compile name: 'PNGDecoder'
     compile 'org.lwjgl:lwjgl:3.0.0b'
     compile 'org.lwjgl:lwjgl-platform:3.0.0b:natives-windows'
     compile 'org.lwjgl:lwjgl-platform:3.0.0b:natives-linux'

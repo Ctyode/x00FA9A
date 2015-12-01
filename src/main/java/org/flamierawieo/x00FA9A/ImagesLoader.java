@@ -4,6 +4,8 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
+
 public class ImagesLoader {
 
     private static boolean loaded;
@@ -14,6 +16,7 @@ public class ImagesLoader {
     }
 
     public static Object getImage(String path) {
+
         if(!cachedImages.containsKey(path)) {
             try {
                 // cachedImages.put(path, new Image(new FileInputStream(path), path, false));

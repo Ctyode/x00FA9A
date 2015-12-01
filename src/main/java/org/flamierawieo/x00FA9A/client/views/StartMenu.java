@@ -1,10 +1,22 @@
 package org.flamierawieo.x00FA9A.client.views;
 
 import org.flamierawieo.x00FA9A.client.ui.View;
+import org.flamierawieo.x00FA9A.client.ui.Widget;
+import org.lwjgl.glfw.GLFWImage;
+import org.lwjgl.opengl.GL;
+import org.lwjgl.opengl.GL11;
+import sun.awt.image.PNGImageDecoder;
 
+import java.io.*;
+
+import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.system.MemoryUtil.*;
 
 public class StartMenu extends View {
+
+    private File filePath;
+    private GLFWImage imageData;
 
     public StartMenu() {
         super();
