@@ -4,6 +4,7 @@ import org.flamierawieo.x00FA9A.client.graphics.Drawable;
 import org.flamierawieo.x00FA9A.client.ui.ViewManager;
 import org.flamierawieo.x00FA9A.client.views.StartMenu;
 import org.flamierawieo.x00FA9A.shared.Tickable;
+import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -14,8 +15,6 @@ public class x00FA9AClient implements Runnable, Tickable, Drawable {
 
     private long window;
     private ViewManager viewManager;
-    private static final int initialWindowWidth = 800;
-    private static final int initialWindowHeight = 600;
 
     public x00FA9AClient() {
         if(glfwInit() != GL_TRUE) {
@@ -24,7 +23,11 @@ public class x00FA9AClient implements Runnable, Tickable, Drawable {
         glfwDefaultWindowHints();
         glfwWindowHint(GLFW_VISIBLE, GL_FALSE);
         glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
-        window = glfwCreateWindow(initialWindowWidth, initialWindowHeight, "Beat Party", NULL, NULL);
+        long primaryMonitor = glfwGetPrimaryMonitor();
+        GLFWVidMode vidMode = glfwGetVideoMode(primaryMonitor);
+        int initialWindowWidth = vidMode.width();
+        int initialWindowHeight = vidMode.height();
+        window = glfwCreateWindow(initialWindowWidth, initialWindowHeight, "Beat Party", primaryMonitor, NULL);
         if(window == NULL) {
             throw new IllegalStateException("Failed to create the GLFW window");
         }
