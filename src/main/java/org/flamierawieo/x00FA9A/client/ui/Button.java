@@ -5,21 +5,29 @@ import org.flamierawieo.x00FA9A.client.graphics.Sprite;
 import org.flamierawieo.x00FA9A.client.input.MouseInputListener;
 import org.flamierawieo.x00FA9A.shared.Tickable;
 
-import static org.lwjgl.glfw.GLFW.*;
-
 public class Button extends Widget implements Tickable, Drawable, MouseInputListener {
 
     private Runnable onClickRunnable;
     private Sprite sprite;
 
-    public Button(Sprite sprite, float x, float y, float width, float height, Runnable onClickRunnable) {
+    public Button(float x, float y, float width, float height, float originX, float originY, Sprite sprite, Runnable onClickRunnable) {
+        super(x, y, width, height, originX, originY);
+        this.sprite = sprite;
+        this.onClickRunnable = onClickRunnable;
+    }
+
+    public Button(float x, float y, float width, float height, Sprite sprite, Runnable onClickRunnable) {
         super(x, y, width, height);
         this.sprite = sprite;
         this.onClickRunnable = onClickRunnable;
     }
 
-    public Button(Sprite sprite, float x, float y, float width, float height) {
-        this(sprite, x, y, width, height, null);
+    public Button(float x, float y, float width, float height, float originX, float originY, Sprite sprite) {
+        this(x, y, width, height, originX, originY, sprite, null);
+    }
+
+    public Button(float x, float y, float width, float height, Sprite sprite) {
+        this(x, y, width, height, sprite, null);
     }
 
     public void setOnClickRunnable(Runnable onClickRunnable) {
@@ -45,7 +53,7 @@ public class Button extends Widget implements Tickable, Drawable, MouseInputList
 
     @Override
     public void draw() {
-        sprite.draw();
+        sprite.draw(getAbsolutePositionX(), getAbsolutePositionY(), getWidth(), getHeight());
     }
 
     @Override

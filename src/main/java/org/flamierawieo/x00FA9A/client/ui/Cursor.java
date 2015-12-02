@@ -9,14 +9,17 @@ import org.flamierawieo.x00FA9A.shared.Tickable;
 public class Cursor implements Tickable, Drawable, MouseInputListener {
 
     private Sprite sprite;
+    private float x;
+    private float y;
 
     public Cursor() {
-        sprite = new Sprite(Images.CURSOR_IMAGE.getTextureID(), 0.0f, 0.0f, 0.1f, 0.1f);
+        sprite = new Sprite(Images.CURSOR_IMAGE.getTextureID());
     }
 
     @Override
     public void onMouseMove(float x, float y) {
-        sprite.move(x - 0.05f, y - 0.05f);
+        this.x = x;
+        this.y = y;
     }
 
     @Override
@@ -31,7 +34,7 @@ public class Cursor implements Tickable, Drawable, MouseInputListener {
 
     @Override
     public void draw() {
-        sprite.draw();
+        sprite.draw(x - 0.05f, y - 0.05f, 0.1f, 0.1f);
     }
 
     @Override

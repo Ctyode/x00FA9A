@@ -11,28 +11,108 @@ public class Widget implements Drawable, Tickable, KeyInputListener, MouseInputL
     private float y;
     private float width;
     private float height;
+    private float originX;
+    private float originY;
+    private float absolutePositionX;
+    private float absolutePositionY;
 
-    public Widget(float x, float y, float width, float height) {
+    public Widget(float x, float y, float width, float height, float originX, float originY) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
+        this.originX = originX;
+        this.originY = originY;
+        updateAbsolutePosition();
+    }
+
+    public Widget(float x, float y, float width, float height) {
+        this(x, y, width, height, 0.0f, 0.0f);
+    }
+
+    private void updateAbsolutePosition() {
+        absolutePositionX = x - width * originX;
+        absolutePositionY = y - height * originY;
     }
 
     public float getX() {
         return x;
     }
 
+    public void setX(float x) {
+        this.x = x;
+        updateAbsolutePosition();
+    }
+
     public float getY() {
         return y;
+    }
+
+    public void setY(float y) {
+        this.y = y;
+        updateAbsolutePosition();
+    }
+
+    public void setPosition(float x, float y) {
+        this.x = x;
+        this.y = y;
+        updateAbsolutePosition();
     }
 
     public float getWidth() {
         return width;
     }
 
+    public void setWidth(float width) {
+        this.width = width;
+        updateAbsolutePosition();
+    }
+
     public float getHeight() {
         return height;
+    }
+
+    public void setHeight(float height) {
+        this.height = height;
+        updateAbsolutePosition();
+    }
+
+    public void setSize(float width, float height) {
+        this.width = width;
+        this.height = height;
+        updateAbsolutePosition();
+    }
+
+    public float getOriginX() {
+        return originX;
+    }
+
+    public void setOriginX(float originX) {
+        this.originX = originX;
+        updateAbsolutePosition();
+    }
+
+    public float getOriginY() {
+        return originY;
+    }
+
+    public void setOriginY(float originY) {
+        this.originY = originY;
+        updateAbsolutePosition();
+    }
+
+    public void setOrigin(float originX, float originY) {
+        this.originX = originX;
+        this.originY = originY;
+        updateAbsolutePosition();
+    }
+
+    public float getAbsolutePositionX() {
+        return absolutePositionX;
+    }
+
+    public float getAbsolutePositionY() {
+        return absolutePositionY;
     }
 
     @Override

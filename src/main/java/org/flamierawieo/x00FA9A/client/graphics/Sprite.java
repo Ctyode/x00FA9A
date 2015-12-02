@@ -2,29 +2,15 @@ package org.flamierawieo.x00FA9A.client.graphics;
 
 import static org.lwjgl.opengl.GL11.*;
 
-public class Sprite implements Drawable {
+public class Sprite {
 
     private int textureID;
-    private float x;
-    private float y;
-    private float width;
-    private float height;
 
-    public Sprite(int textureID, float x, float y, float width, float height) {
+    public Sprite(int textureID) {
         this.textureID = textureID;
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
     }
 
-    public void move(float x, float y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    @Override
-    public void draw() {
+    public void draw(float x, float y, float width, float height) {
         glPushMatrix();
         glTranslatef(x, y, 0.0f);
         glEnable(GL_TEXTURE_2D);
