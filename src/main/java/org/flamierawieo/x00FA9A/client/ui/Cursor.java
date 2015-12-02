@@ -1,41 +1,22 @@
 package org.flamierawieo.x00FA9A.client.ui;
 
+import org.flamierawieo.x00FA9A.Images;
 import org.flamierawieo.x00FA9A.client.graphics.Drawable;
-import org.flamierawieo.x00FA9A.client.input.KeyInputListener;
+import org.flamierawieo.x00FA9A.client.graphics.Sprite;
 import org.flamierawieo.x00FA9A.client.input.MouseInputListener;
 import org.flamierawieo.x00FA9A.shared.Tickable;
 
-public class Widget implements Drawable, Tickable, KeyInputListener, MouseInputListener {
+public class Cursor implements Tickable, Drawable, MouseInputListener {
 
-    public int getWidth() {
-        return 0;
-    }
+    private Sprite sprite;
 
-    public int getHeight() {
-        return 0;
-    }
-
-    public int getAbsoluteX() {
-        return 0;
-    }
-
-    public int getAbsoluteY() {
-        return 0;
-    }
-
-    @Override
-    public void onKeyDown(int key, int scancode, int mods) {
-
-    }
-
-    @Override
-    public void onKeyUp(int key, int scancode, int mods) {
-
+    public Cursor() {
+        sprite = new Sprite(Images.CURSOR_IMAGE.getTextureID(), 0.0f, 0.0f, 0.1f, 0.1f);
     }
 
     @Override
     public void onMouseMove(float x, float y) {
-
+        sprite.move(x, y);
     }
 
     @Override
@@ -50,7 +31,7 @@ public class Widget implements Drawable, Tickable, KeyInputListener, MouseInputL
 
     @Override
     public void draw() {
-
+        sprite.draw();
     }
 
     @Override

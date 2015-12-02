@@ -1,52 +1,53 @@
 package org.flamierawieo.x00FA9A;
 
-import org.newdawn.slick.Image;
+import org.flamierawieo.x00FA9A.client.Resources;
 
 public enum Images {
 
-    CURSOR_IMAGE ("res/images/cursor.png", true, 0.6f),
+    CURSOR_IMAGE ("res/images/cursor.png"),
+    BASIC_BACKGROUND ("res/images/background.png"),
 
-    //Start menu
-    SINGLEPLAYER_BUTTON ("res/images/views/mainmenu/singleplayer-button.png", false, 0.6f),
-    MULTIPLAYER_BUTTON ("res/images/views/mainmenu/multiplayer-button.png", false, 0.6f),
-    OPTIONS_BUTTON ("res/images/views/mainmenu/options-button.png", false, 0.6f),
-    EXIT_BUTTON ("res/images/views/mainmenu/exit-button.png", false, 0.6f),
+    // Start menu
+    SINGLEPLAYER_BUTTON ("res/images/views/mainmenu/singleplayer-button.png"),
+    MULTIPLAYER_BUTTON ("res/images/views/mainmenu/multiplayer-button.png"),
+    OPTIONS_BUTTON ("res/images/views/mainmenu/options-button.png"),
+    EXIT_BUTTON ("res/images/views/mainmenu/exit-button.png"),
 
-    //Song menu
-    SONG_LIST_BACKGROUND ("res/images/views/songmenu/songs-background.png", false, 0.45f),
-    ACTIVE_SONG_BACKGROUND ("res/images/views/songmenu/active-song-background.png", false, 0.5f),
-    SEARCH_BACKGROUND ("res/images/views/songmenu/search-background.png", false, 0.6f);
+    // Song menu
+    SONG_LIST_BACKGROUND ("res/images/views/songmenu/songs-background.png"),
+    ACTIVE_SONG_BACKGROUND ("res/images/views/songmenu/active-song-background.png"),
+    SEARCH_BACKGROUND ("res/images/views/songmenu/search-background.png"),
+    SELECT_MODE ("res/images/views/songmenu/select-mode.png"),
 
-    private final String filename;
-    private boolean useCustomSkin;
-    private Image defaultImage;
-    private Image skinStyle;
-    private float scale;
+    // Square mode backgrounds
+    BUTTONS_BACKGROUND ("res/images/squaremode/buttons-background.png"),
+    COMBO_BACKGROUND ("res/images/squaremode/combo-background.png"),
+    HP_BACKGROUND ("res/images/squaremode/hp-background.png"),
+    STATS_BACKGROUND ("res/images/squaremode/stats-background.png"),
 
+    // Square mode buttons
+    GREEN_BUTTON ("res/images/squaremode/green-button.png");
+
+    private String path;
+    private Integer textureID;
 
     /**
-     * Constructor for basic UI
-     * @param filename the name of image
-     * @param useCustomSkin is true if image can be change (e.g when player uses a skin for the beatmap)
+     * Basic image
+     * @param path to the image
      */
-    Images(String filename, boolean useCustomSkin, float scale) {
-        this.filename = filename;
-        this.useCustomSkin = useCustomSkin;
-        this.scale = scale;
+    Images(String path) {
+        this.path = path;
+        textureID = null;
     }
 
-    public boolean hasMultipleStyles() {
-        return (skinStyle != null);
-    }
-
-    /** Set default image, if user doesn't use skins */
-    public void setDefaultImage() {
-        defaultImage = ImagesLoader.getImage(this.filename).getScaledCopy(scale);
-    }
-
-    public Image getImage() {
-        setDefaultImage();
-        return defaultImage;
+    /**
+     * @return OpenGL texture ID
+     */
+    public int getTextureID() {
+        if(textureID == null) {
+            textureID = Resources.getTexture(path);
+        }
+        return textureID;
     }
 
 }

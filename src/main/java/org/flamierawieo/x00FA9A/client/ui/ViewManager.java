@@ -1,33 +1,92 @@
 package org.flamierawieo.x00FA9A.client.ui;
 
-import org.flamierawieo.x00FA9A.client.Drawable;
-import org.flamierawieo.x00FA9A.client.Tickable;
-import org.newdawn.slick.*;
+import org.flamierawieo.x00FA9A.client.graphics.Drawable;
+import org.flamierawieo.x00FA9A.shared.Tickable;
+import org.lwjgl.glfw.GLFWCursorPosCallback;
+import org.lwjgl.glfw.GLFWKeyCallback;
+import org.lwjgl.glfw.GLFWMouseButtonCallback;
+import org.lwjgl.glfw.GLFWWindowSizeCallback;
 
 import java.util.Stack;
 
-public class ViewManager implements Tickable, Drawable, InputListener {
+import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.opengl.GL11.*;
 
-    private static ViewManager instance;
+public class ViewManager implements Tickable, Drawable {
+
+    private float mouseRelativePosX;
+    private float mouseRelativePosY;
+    private Cursor cursor;
+    private int windowWidth, windowHeight;
     private Stack<View> viewStack;
     private View currentView;
+    private GLFWWindowSizeCallback glfwWindowSizeCallback;
+    private GLFWKeyCallback glfwKeyCallback;
+    private GLFWCursorPosCallback glfwCursorPosCallback;
+    private GLFWMouseButtonCallback glfwMouseButtonCallback;
+    private float aspect;
 
-    public static ViewManager getInstance(View rootView) {
-        if(instance == null) {
-            instance = new ViewManager(rootView);
-            View.setViewManager(instance);
-        }
-        return instance;
-    }
-
-    public static ViewManager getInstance() {
-        return instance;
-    }
-
-    private ViewManager(View rootView) {
+    public ViewManager(int initialWindowWidth, int initialWindowHeight, View rootView) {
+        windowWidth = initialWindowWidth;
+        windowHeight = initialWindowHeight;
+        aspect = (float)windowWidth / (float)windowHeight;
         viewStack = new Stack<>();
         currentView = rootView;
         viewStack.push(rootView);
+        cursor = new Cursor();
+        glfwWindowSizeCallback = new GLFWWindowSizeCallback() {
+            @Override
+            public void invoke(long window, int width, int height) {
+                windowWidth = width;
+                windowHeight = height;
+                aspect = (float)windowWidth / (float)windowHeight;
+            }
+        };
+        glfwKeyCallback = new GLFWKeyCallback() {
+            @Override
+            public void invoke(long window, int key, int scancode, int action, int mods) {
+                if(action == GLFW_PRESS) {
+                    currentView.onKeyDown(key, scancode, mods);
+                } else if(action == GLFW_RELEASE) {
+                    currentView.onKeyUp(key, scancode, mods);
+                }
+            }
+        };
+        glfwCursorPosCallback = new GLFWCursorPosCallback() {
+            @Override
+            public void invoke(long window, double x, double y) {
+                mouseRelativePosX = (float)(x / windowWidth * aspect - (aspect - 1) / 2);
+                mouseRelativePosY = (float)((windowHeight - y) / windowHeight);
+                cursor.onMouseMove(mouseRelativePosX, mouseRelativePosY);
+                currentView.onMouseMove(mouseRelativePosX, mouseRelativePosY);
+            }
+        };
+        glfwMouseButtonCallback = new GLFWMouseButtonCallback() {
+            @Override
+            public void invoke(long window, int button, int action, int mods) {
+                if(action == GLFW_PRESS) {
+                    currentView.onMouseButtonDown(button, mods);
+                } else if(action == GLFW_RELEASE) {
+                    currentView.onMouseButtonUp(button, mods);
+                }
+            }
+        };
+    }
+
+    public GLFWWindowSizeCallback getGlfwWindowSizeCallback() {
+        return glfwWindowSizeCallback;
+    }
+
+    public GLFWKeyCallback getGlfwKeyCallback() {
+        return glfwKeyCallback;
+    }
+
+    public GLFWCursorPosCallback getGlfwCursorPosCallback() {
+        return glfwCursorPosCallback;
+    }
+
+    public GLFWMouseButtonCallback getGlfwMouseButtonCallback() {
+        return glfwMouseButtonCallback;
     }
 
     public View popView() {
@@ -48,96 +107,17 @@ public class ViewManager implements Tickable, Drawable, InputListener {
     }
 
     @Override
-    public void keyPressed(int i, char c) {
-        currentView.keyPressed(i, c);
+    public void draw() {
+        glLoadIdentity();
+        glViewport(0, 0, windowWidth, windowHeight);
+        double offset = (aspect - 1.0) / 2.0;
+        glOrtho(-offset, 1.0 + offset, 0.0, 1.0, -1.0, 1.0);
+        currentView.draw();
+        cursor.draw();
     }
 
     @Override
-    public void keyReleased(int i, char c) {
-        currentView.keyReleased(i, c);
-    }
-
-    @Override
-    public void mouseWheelMoved(int i) {
-        currentView.mouseWheelMoved(i);
-    }
-
-    @Override
-    public void mouseClicked(int i, int i1, int i2, int i3) {
-        currentView.mouseClicked(i, i1, i2, i3);
-    }
-
-    @Override
-    public void mousePressed(int i, int i1, int i2) {
-        currentView.mousePressed(i, i1, i2);
-    }
-
-    @Override
-    public void mouseReleased(int i, int i1, int i2) {
-        currentView.mouseReleased(i, i1, i2);
-    }
-
-    @Override
-    public void mouseMoved(int i, int i1, int i2, int i3) {
-        currentView.mouseMoved(i, i1, i2, i3);
-    }
-
-    @Override
-    public void mouseDragged(int i, int i1, int i2, int i3) {
-        currentView.mouseDragged(i, i1, i2, i3);
-    }
-
-    @Override
-    public void setInput(Input input) { /* ¯\_(ツ)_/¯ */ }
-
-    @Override
-    public boolean isAcceptingInput() {
-        return true; // cus i dont give even a single fuck
-    }
-
-    @Override
-    public void inputEnded() { /* ¯\_(ツ)_/¯ */ }
-
-    @Override
-    public void inputStarted() { /* ¯\_(ツ)_/¯ */ }
-
-    @Override
-    public void controllerLeftPressed(int i) { /* ¯\_(ツ)_/¯ */ }
-
-    @Override
-    public void controllerLeftReleased(int i) { /* ¯\_(ツ)_/¯ */ }
-
-    @Override
-    public void controllerRightPressed(int i) { /* ¯\_(ツ)_/¯ */ }
-
-    @Override
-    public void controllerRightReleased(int i) { /* ¯\_(ツ)_/¯ */ }
-
-    @Override
-    public void controllerUpPressed(int i) { /* ¯\_(ツ)_/¯ */ }
-
-    @Override
-    public void controllerUpReleased(int i) { /* ¯\_(ツ)_/¯ */ }
-
-    @Override
-    public void controllerDownPressed(int i) { /* ¯\_(ツ)_/¯ */ }
-
-    @Override
-    public void controllerDownReleased(int i) { /* ¯\_(ツ)_/¯ */ }
-
-    @Override
-    public void controllerButtonPressed(int i, int i1) { /* ¯\_(ツ)_/¯ */ }
-
-    @Override
-    public void controllerButtonReleased(int i, int i1) { /* ¯\_(ツ)_/¯ */ }
-
-    @Override
-    public void draw(Graphics g) {
-        currentView.draw(g);
-    }
-
-    @Override
-    public void tick(double delta) {
+    public void tick(float delta) {
         currentView.tick(delta);
     }
 
