@@ -89,20 +89,43 @@ public class ViewManager implements Tickable, Drawable {
         return glfwMouseButtonCallback;
     }
 
-    public View popView() {
-        View lastCurrentView = currentView;
-        viewStack.pop();
-        currentView = viewStack.peek();
-        return lastCurrentView;
+    public float getAspect() {
+        return aspect;
     }
 
+    /**
+     * Stops view and pops it from stack
+     * @return previous current view
+     */
+    public View popView() {
+        View prevCurrentView = currentView;
+        viewStack.pop();
+        currentView = viewStack.peek();
+        prevCurrentView.onViewStopped(this);
+        currentView.onViewStarted(this);
+        return prevCurrentView;
+    }
+
+    /**
+     * Peeks current view
+     * @return current view
+     */
     public View peekView() {
         return currentView;
     }
 
+    /**
+     * Pushes view to stack and starts it
+     * Pauses previous current view
+     * @param view view to push and start
+     * @return new current view
+     */
     public View pushView(View view) {
+        View prevCurrentView = currentView;
         currentView = view;
         viewStack.push(view);
+        prevCurrentView.onViewPaused(this);
+        currentView.onViewStarted(this);
         return currentView;
     }
 

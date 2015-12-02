@@ -60,7 +60,8 @@ public class x00FA9AClient implements Runnable, Tickable, Drawable {
     @Override
     public void draw() {
         glClear(GL_COLOR_BUFFER_BIT);
-        glClearColor(0.0f, 0.98f, 0.60f, 0.0f);
+        // glClearColor(0.0f, 0.98f, 0.60f, 0.0f);
+        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         viewManager.draw();
         glfwSwapBuffers(window);
     }

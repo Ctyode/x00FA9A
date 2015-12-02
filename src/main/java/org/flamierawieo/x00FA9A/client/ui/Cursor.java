@@ -16,7 +16,7 @@ public class Cursor implements Tickable, Drawable, MouseInputListener {
 
     @Override
     public void onMouseMove(float x, float y) {
-        sprite.move(x, y);
+        sprite.move(x - 0.05f, y - 0.05f);
     }
 
     @Override

@@ -35,6 +35,30 @@ public class View implements Tickable, Drawable, KeyInputListener, MouseInputLis
         widgets.add(widget);
     }
 
+    /**
+     * Invokes when View Manager starts this view
+     * @param viewManager view manager this view has started on
+     */
+    public void onViewStarted(ViewManager viewManager) {
+
+    }
+
+    /**
+     * Invokes when View Manager pauses this view
+     * @param viewManager view manager this view has paused on
+     */
+    public void onViewPaused(ViewManager viewManager) {
+
+    }
+
+    /**
+     * Invokes when View Manager stops this view
+     * @param viewManager view manager this view has stopped on
+     */
+    public void onViewStopped(ViewManager viewManager) {
+
+    }
+
     @Override
     public void onKeyDown(int key, int scancode, int mods) {
         Widget hoveredWidget = getHoveredWidget();
