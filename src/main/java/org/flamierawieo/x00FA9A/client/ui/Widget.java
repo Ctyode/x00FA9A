@@ -7,20 +7,32 @@ import org.flamierawieo.x00FA9A.shared.Tickable;
 
 public class Widget implements Drawable, Tickable, KeyInputListener, MouseInputListener {
 
-    public int getWidth() {
-        return 0;
+    private float x;
+    private float y;
+    private float width;
+    private float height;
+
+    public Widget(float x, float y, float width, float height) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
     }
 
-    public int getHeight() {
-        return 0;
+    public float getX() {
+        return x;
     }
 
-    public int getAbsoluteX() {
-        return 0;
+    public float getY() {
+        return y;
     }
 
-    public int getAbsoluteY() {
-        return 0;
+    public float getWidth() {
+        return width;
+    }
+
+    public float getHeight() {
+        return height;
     }
 
     @Override

@@ -8,10 +8,7 @@ public enum Images {
     BASIC_BACKGROUND ("res/images/background.png"),
 
     // Start menu
-    SINGLEPLAYER_BUTTON ("res/images/views/mainmenu/singleplayer-button.png"),
-    MULTIPLAYER_BUTTON ("res/images/views/mainmenu/multiplayer-button.png"),
-    OPTIONS_BUTTON ("res/images/views/mainmenu/options-button.png"),
-    EXIT_BUTTON ("res/images/views/mainmenu/exit-button.png"),
+    MENU_BUTTON ("res/images/menu-buttons.png"),
 
     // Song menu
     SONG_LIST_BACKGROUND ("res/images/views/songmenu/songs-background.png"),

@@ -11,8 +11,8 @@ import java.util.List;
 public class View implements Tickable, Drawable, KeyInputListener, MouseInputListener {
 
     protected List<Widget> widgets;
-    protected int xMousePosition;
-    protected int yMousePosition;
+    protected float xMousePosition;
+    protected float yMousePosition;
 
     public View() {
         widgets = new ArrayList<>();
@@ -22,9 +22,12 @@ public class View implements Tickable, Drawable, KeyInputListener, MouseInputLis
         Widget hoveredWidget;
         for(int i = widgets.size() - 1; i >= 0; --i) {
             hoveredWidget = widgets.get(i);
-            float widgetX = hoveredWidget.getAbsoluteX();
-            float widgetY = hoveredWidget.getAbsoluteY();
-            if(xMousePosition >= widgetX && yMousePosition >= widgetY && xMousePosition <= widgetX + hoveredWidget.getWidth() && yMousePosition <= widgetY + hoveredWidget.getHeight()) {
+            float widgetX = hoveredWidget.getX();
+            float widgetY = hoveredWidget.getY();
+            if(xMousePosition >= widgetX &&
+               yMousePosition >= widgetY &&
+               xMousePosition <= widgetX + hoveredWidget.getWidth() &&
+               yMousePosition <= widgetY + hoveredWidget.getHeight()) {
                 return hoveredWidget;
             }
         }
@@ -33,6 +36,7 @@ public class View implements Tickable, Drawable, KeyInputListener, MouseInputLis
 
     public void addWidget(Widget widget) {
         widgets.add(widget);
+
     }
 
     /**
@@ -77,6 +81,8 @@ public class View implements Tickable, Drawable, KeyInputListener, MouseInputLis
 
     @Override
     public void onMouseMove(float x, float y) {
+        xMousePosition = x;
+        yMousePosition = y;
         Widget hoveredWidget = getHoveredWidget();
         if(hoveredWidget != null) {
             hoveredWidget.onMouseMove(x, y);
