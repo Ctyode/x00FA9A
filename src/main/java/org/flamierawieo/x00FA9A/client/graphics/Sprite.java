@@ -19,10 +19,10 @@ public class Sprite {
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glBindTexture(GL_TEXTURE_2D, textureID);
         glBegin(GL_QUADS);
-        glTexCoord2f(0.0f, 0.0f); glVertex3f(0.0f, 0.0f, 0.0f);
-        glTexCoord2f(1.0f, 0.0f); glVertex3f(width, 0.0f, 0.0f);
-        glTexCoord2f(1.0f, 1.0f); glVertex3f(width, height, 0.0f);
-        glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0f, height, 0.0f);
+        glTexCoord2f(0.0f, 0.0f); glVertex3f(0.0f, height, 0.0f);
+        glTexCoord2f(1.0f, 0.0f); glVertex3f(width, height, 0.0f);
+        glTexCoord2f(1.0f, 1.0f); glVertex3f(width, 0.0f, 0.0f);
+        glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0f, 0.0f, 0.0f);
         glEnd();
         glDisable(GL_BLEND);
         glDisable(GL_TEXTURE_2D);

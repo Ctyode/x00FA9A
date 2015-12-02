@@ -33,6 +33,7 @@ public class ViewManager implements Tickable, Drawable {
         viewStack = new Stack<>();
         currentView = rootView;
         viewStack.push(rootView);
+        rootView.onViewStarted(this);
         cursor = new Cursor();
         glfwWindowSizeCallback = new GLFWWindowSizeCallback() {
             @Override

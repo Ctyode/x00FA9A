@@ -8,13 +8,13 @@ public enum Images {
     BASIC_BACKGROUND ("res/images/background.png"),
 
     // Start menu
-    MENU_BUTTON ("res/images/menu-buttons.png"),
+    MENU_BUTTON ("res/images/startmenu/menu-buttons.png"),
 
     // Song menu
-    SONG_LIST_BACKGROUND ("res/images/views/songmenu/songs-background.png"),
-    ACTIVE_SONG_BACKGROUND ("res/images/views/songmenu/active-song-background.png"),
-    SEARCH_BACKGROUND ("res/images/views/songmenu/search-background.png"),
-    SELECT_MODE ("res/images/views/songmenu/select-mode.png"),
+    SONG_LIST_BACKGROUND ("res/images/songmenu/songs-background.png"),
+    ACTIVE_SONG_BACKGROUND ("res/images/songmenu/active-song-background.png"),
+    SEARCH_BACKGROUND ("res/images/songmenu/search-background.png"),
+    SELECT_MODE ("res/images/songmenu/select-mode.png"),
 
     // Square mode backgrounds
     BUTTONS_BACKGROUND ("res/images/squaremode/buttons-background.png"),
