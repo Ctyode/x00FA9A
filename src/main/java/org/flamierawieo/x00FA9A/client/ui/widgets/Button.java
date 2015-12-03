@@ -1,8 +1,9 @@
-package org.flamierawieo.x00FA9A.client.ui;
+package org.flamierawieo.x00FA9A.client.ui.widgets;
 
 import org.flamierawieo.x00FA9A.client.graphics.Drawable;
 import org.flamierawieo.x00FA9A.client.graphics.Sprite;
 import org.flamierawieo.x00FA9A.client.input.MouseInputListener;
+import org.flamierawieo.x00FA9A.client.ui.Widget;
 import org.flamierawieo.x00FA9A.shared.Tickable;
 
 public class Button extends Widget implements Tickable, Drawable, MouseInputListener {

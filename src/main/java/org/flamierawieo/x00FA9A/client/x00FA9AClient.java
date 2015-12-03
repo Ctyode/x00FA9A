@@ -28,6 +28,7 @@ public class x00FA9AClient implements Runnable, Tickable, Drawable {
         int initialWindowWidth = vidMode.width();
         int initialWindowHeight = vidMode.height();
         window = glfwCreateWindow(initialWindowWidth, initialWindowHeight, "Beat Party", primaryMonitor, NULL);
+//        window = glfwCreateWindow(initialWindowWidth, initialWindowHeight, "Beat Party", NULL, NULL);
         if(window == NULL) {
             throw new IllegalStateException("Failed to create the GLFW window");
         }

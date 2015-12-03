@@ -2,8 +2,8 @@ package org.flamierawieo.x00FA9A.client.views;
 
 import org.flamierawieo.x00FA9A.Images;
 import org.flamierawieo.x00FA9A.client.graphics.Sprite;
-import org.flamierawieo.x00FA9A.client.ui.Background;
-import org.flamierawieo.x00FA9A.client.ui.Button;
+import org.flamierawieo.x00FA9A.client.ui.widgets.Background;
+import org.flamierawieo.x00FA9A.client.ui.widgets.Button;
 import org.flamierawieo.x00FA9A.client.ui.View;
 import org.flamierawieo.x00FA9A.client.ui.ViewManager;
 import org.flamierawieo.x00FA9A.client.views.gamemods.SquareMode;

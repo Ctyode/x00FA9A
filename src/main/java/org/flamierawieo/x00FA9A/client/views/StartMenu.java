@@ -2,9 +2,12 @@ package org.flamierawieo.x00FA9A.client.views;
 
 import org.flamierawieo.x00FA9A.Images;
 import org.flamierawieo.x00FA9A.client.graphics.Sprite;
-import org.flamierawieo.x00FA9A.client.ui.Button;
+import org.flamierawieo.x00FA9A.client.ui.widgets.Button;
 import org.flamierawieo.x00FA9A.client.ui.View;
 import org.flamierawieo.x00FA9A.client.ui.ViewManager;
+import org.flamierawieo.x00FA9A.client.ui.widgets.Text;
+
+import java.awt.*;
 
 public class StartMenu extends View {
 
@@ -12,6 +15,7 @@ public class StartMenu extends View {
     private Button multiplayerButton;
     private Button optionsButton;
     private Button exitButton;
+    private Text text;
 
     public StartMenu() {
         super();

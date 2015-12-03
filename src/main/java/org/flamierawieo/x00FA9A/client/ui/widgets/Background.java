@@ -1,6 +1,7 @@
-package org.flamierawieo.x00FA9A.client.ui;
+package org.flamierawieo.x00FA9A.client.ui.widgets;
 
 import org.flamierawieo.x00FA9A.client.graphics.Sprite;
+import org.flamierawieo.x00FA9A.client.ui.Widget;
 
 public class Background extends Widget {
 

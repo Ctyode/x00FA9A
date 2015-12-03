@@ -10,6 +10,14 @@ public class Sprite {
         this.textureID = textureID;
     }
 
+    public int getTextureID() {
+        return textureID;
+    }
+
+    public void setTextureID(int textureID) {
+        this.textureID = textureID;
+    }
+
     public void draw(float x, float y, float width, float height) {
         glPushMatrix();
         glTranslatef(x, y, 0.0f);
