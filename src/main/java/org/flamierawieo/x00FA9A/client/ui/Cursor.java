@@ -13,7 +13,7 @@ public class Cursor implements Tickable, Drawable, MouseInputListener {
     private float y;
 
     public Cursor() {
-        sprite = new Sprite(Images.CURSOR_IMAGE.getTextureID());
+        sprite = new Sprite(Images.CURSOR_IMAGE.getTexture());
     }
 
     @Override

@@ -1,46 +1,43 @@
-package org.flamierawieo.x00FA9A.client.ui.widgets;
+package org.flamierawieo.x00FA9A.client.graphics;
 
-import org.flamierawieo.x00FA9A.client.graphics.Sprite;
-import org.flamierawieo.x00FA9A.client.ui.Widget;
 import org.lwjgl.BufferUtils;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import static org.lwjgl.opengl.GL11.*;
 
-public class Text extends Widget {
+public class Text extends Sprite {
 
     public static final float FONT_SCALE = 0.01f;
 
-    private String text;
+    private String string;
     private Font font;
     private Color color;
-    private Integer textureID;
-    private Sprite sprite;
+    private float width;
+    private float height;
+    private Integer texture;
 
-    public Text(String text, Font font, Color color, float x, float y, float originX, float originY) {
-        super(x, y, 0.0f, 0.0f, originX, originY);
-        this.text = text;
+    public Text(String string, Font font, Color color) {
+        super(null);
+        this.string = string;
         this.font = font;
         this.color = color;
-        generateTexture();
+        updateTexture();
     }
 
-    public Text(String text, Font font, Color color, float x, float y) {
-        this(text, font, color, x, y, 0.0f, 0.0f);
+    public Text(String string, Font font) {
+        this(string, font, Color.black);
     }
 
-    public String getText() {
-        return text;
+    public String getString() {
+        return string;
     }
 
-    public void setText(String text) {
-        this.text = text;
-        generateTexture();
+    public void setString(String string) {
+        this.string = string;
+        updateTexture();
     }
 
     public Font getFont() {
@@ -49,7 +46,7 @@ public class Text extends Widget {
 
     public void setFont(Font font) {
         this.font = font;
-        generateTexture();
+        updateTexture();
     }
 
     public Color getColor() {
@@ -58,19 +55,25 @@ public class Text extends Widget {
 
     public void setColor(Color color) {
         this.color = color;
-        generateTexture();
+        updateTexture();
     }
 
-    private void generateTexture() {
+    public float getWidth() {
+        return width;
+    }
+
+    public float getHeight() {
+        return height;
+    }
+
+    private void updateTexture() {
         BufferedImage bufferedImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
         Graphics2D graphics2D = bufferedImage.createGraphics();
         graphics2D.setFont(font);
         FontMetrics fontMetrics = graphics2D.getFontMetrics();
-        int width = fontMetrics.stringWidth(text);
+        int width = fontMetrics.stringWidth(string);
         int height = fontMetrics.getHeight();
         graphics2D.dispose();
-
-        System.out.println("THIS DANK CODE IS 2COOL4U"); // MAJESTIC GLORIOUS
 
         bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         graphics2D = bufferedImage.createGraphics();
@@ -85,10 +88,8 @@ public class Text extends Widget {
         graphics2D.setFont(font);
         fontMetrics = graphics2D.getFontMetrics();
         graphics2D.setColor(Color.BLACK);
-        graphics2D.drawString(text, 0, fontMetrics.getAscent());
+        graphics2D.drawString(string, 0, fontMetrics.getAscent());
         graphics2D.dispose();
-
-        System.out.println("Очередной никому не нужный логгер (очередь номер 2)"); // MAJESTIC GLORIOUS
 
         int[] pixels = new int[bufferedImage.getWidth() * bufferedImage.getHeight()];
         bufferedImage.getRGB(0, 0, bufferedImage.getWidth(), bufferedImage.getHeight(), pixels, 0, bufferedImage.getWidth());
@@ -104,12 +105,10 @@ public class Text extends Widget {
         }
         buffer.flip();
 
-        System.out.println("Очень осмысленный текст (3)"); // MAJESTIC GLORIOUS
-
-        if(textureID == null) {
-            textureID = glGenTextures();
+        if(texture == null) {
+            texture = glGenTextures();
         }
-        glBindTexture(GL_TEXTURE_2D, textureID);
+        glBindTexture(GL_TEXTURE_2D, texture);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -117,24 +116,13 @@ public class Text extends Widget {
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
         glDisable(GL_TEXTURE_2D);
 
-        System.out.println("Что-то претендующее на осмысленность (4)"); // MAJESTIC GLORIOUS
-
-        if(sprite == null) {
-            sprite = new Sprite(textureID);
-        } else {
-            sprite.setTextureID(textureID);
-        }
-
-        System.out.println("Не более осмысленное, но другое (5)"); // MAJESTIC GLORIOUS
-
-        setWidth((float)font.getSize() * FONT_SCALE * ((float)width / (float)height));
-        setHeight((float)font.getSize() * FONT_SCALE);
+        this.width = (float)font.getSize() * FONT_SCALE * ((float)width / (float)height);
+        this.height = (float)font.getSize() * FONT_SCALE;
+        setTexture(texture); // QUESTIONABLE
     }
 
-    @Override
-    public void draw() {
-        if (sprite != null) {
-            sprite.draw(getAbsolutePositionX(), getAbsolutePositionY(), getWidth(), getHeight());
-        }
+    public void draw(float x, float y) {
+        draw(x, y, width, height);
     }
+
 }

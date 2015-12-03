@@ -16,6 +16,10 @@ public class Widget implements Drawable, Tickable, KeyInputListener, MouseInputL
     private float absolutePositionX;
     private float absolutePositionY;
 
+    public static float calculateAbsolutePosition(float position, float length, float origin) {
+        return position - length * origin;
+    }
+
     public Widget(float x, float y, float width, float height, float originX, float originY) {
         this.x = x;
         this.y = y;
@@ -31,8 +35,8 @@ public class Widget implements Drawable, Tickable, KeyInputListener, MouseInputL
     }
 
     private void updateAbsolutePosition() {
-        absolutePositionX = x - width * originX;
-        absolutePositionY = y - height * originY;
+        absolutePositionX = calculateAbsolutePosition(x, width, originX);
+        absolutePositionY = calculateAbsolutePosition(y, height, originY);
     }
 
     public float getX() {

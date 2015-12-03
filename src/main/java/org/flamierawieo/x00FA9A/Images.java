@@ -26,7 +26,7 @@ public enum Images {
     GREEN_BUTTON ("res/images/squaremode/green-button.png");
 
     private String path;
-    private Integer textureID;
+    private Integer texture;
 
     /**
      * Basic image
@@ -34,17 +34,17 @@ public enum Images {
      */
     Images(String path) {
         this.path = path;
-        textureID = null;
+        texture = null;
     }
 
     /**
-     * @return OpenGL texture ID
+     * @return OpenGL texture
      */
-    public int getTextureID() {
-        if(textureID == null) {
-            textureID = Resources.getTexture(path);
+    public int getTexture() {
+        if(texture == null) {
+            texture = Resources.getTexture(path);
         }
-        return textureID;
+        return texture;
     }
 
 }

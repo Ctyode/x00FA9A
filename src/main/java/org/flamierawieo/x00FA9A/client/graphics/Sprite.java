@@ -4,37 +4,43 @@ import static org.lwjgl.opengl.GL11.*;
 
 public class Sprite {
 
-    private int textureID;
+    private Integer texture;
 
-    public Sprite(int textureID) {
-        this.textureID = textureID;
+    public Sprite(Integer texture) {
+        this.texture = texture;
     }
 
-    public int getTextureID() {
-        return textureID;
+    public Integer getTexture() {
+        return texture;
     }
 
-    public void setTextureID(int textureID) {
-        this.textureID = textureID;
+    public void setTexture(int texture) {
+        this.texture = texture;
     }
 
     public void draw(float x, float y, float width, float height) {
-        glPushMatrix();
-        glTranslatef(x, y, 0.0f);
-        glEnable(GL_TEXTURE_2D);
-        glColor3f(1.0f, 1.0f, 1.0f);
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        glBindTexture(GL_TEXTURE_2D, textureID);
-        glBegin(GL_QUADS);
-        glTexCoord2f(0.0f, 0.0f); glVertex3f(0.0f, height, 0.0f);
-        glTexCoord2f(1.0f, 0.0f); glVertex3f(width, height, 0.0f);
-        glTexCoord2f(1.0f, 1.0f); glVertex3f(width, 0.0f, 0.0f);
-        glTexCoord2f(0.0f, 1.0f); glVertex3f(0.0f, 0.0f, 0.0f);
-        glEnd();
-        glDisable(GL_BLEND);
-        glDisable(GL_TEXTURE_2D);
-        glPopMatrix();
+        if(texture != null) {
+            glPushMatrix();
+            glTranslatef(x, y, 0.0f);
+            glEnable(GL_TEXTURE_2D);
+            glColor3f(1.0f, 1.0f, 1.0f);
+            glEnable(GL_BLEND);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            glBindTexture(GL_TEXTURE_2D, texture);
+            glBegin(GL_QUADS);
+            glTexCoord2f(0.0f, 0.0f);
+            glVertex3f(0.0f, height, 0.0f);
+            glTexCoord2f(1.0f, 0.0f);
+            glVertex3f(width, height, 0.0f);
+            glTexCoord2f(1.0f, 1.0f);
+            glVertex3f(width, 0.0f, 0.0f);
+            glTexCoord2f(0.0f, 1.0f);
+            glVertex3f(0.0f, 0.0f, 0.0f);
+            glEnd();
+            glDisable(GL_BLEND);
+            glDisable(GL_TEXTURE_2D);
+            glPopMatrix();
+        }
     }
 
 }
