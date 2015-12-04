@@ -145,6 +145,11 @@ public class Widget implements Drawable, Tickable, KeyInputListener, MouseInputL
     }
 
     @Override
+    public void onScroll(double x, double y) {
+
+    }
+
+    @Override
     public void draw() {
 
     }

@@ -106,6 +106,14 @@ public class View implements Tickable, Drawable, KeyInputListener, MouseInputLis
     }
 
     @Override
+    public void onScroll(double x, double y) {
+        Widget hoveredWidget = getHoveredWidget();
+        if(hoveredWidget != null) {
+            hoveredWidget.onScroll(x, y);
+        }
+    }
+
+    @Override
     public void draw() {
         widgets.forEach(Widget::draw);
     }

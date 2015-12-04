@@ -37,10 +37,11 @@ public class x00FA9AClient implements Runnable, Tickable, Drawable {
         glfwShowWindow(window);
         GL.createCapabilities(false);
         viewManager = new ViewManager(initialWindowWidth, initialWindowHeight, new StartMenu());
+        glfwSetWindowSizeCallback(window, viewManager.getGlfwWindowSizeCallback());
         glfwSetKeyCallback(window, viewManager.getGlfwKeyCallback());
         glfwSetCursorPosCallback(window, viewManager.getGlfwCursorPosCallback());
         glfwSetMouseButtonCallback(window, viewManager.getGlfwMouseButtonCallback());
-        glfwSetWindowSizeCallback(window, viewManager.getGlfwWindowSizeCallback());
+        glfwSetScrollCallback(window, viewManager.getGlfwScrollCallback());
     }
 
     @Override

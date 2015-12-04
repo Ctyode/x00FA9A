@@ -4,10 +4,7 @@ import org.flamierawieo.x00FA9A.Images;
 import org.flamierawieo.x00FA9A.client.graphics.Drawable;
 import org.flamierawieo.x00FA9A.client.graphics.Sprite;
 import org.flamierawieo.x00FA9A.shared.Tickable;
-import org.lwjgl.glfw.GLFWCursorPosCallback;
-import org.lwjgl.glfw.GLFWKeyCallback;
-import org.lwjgl.glfw.GLFWMouseButtonCallback;
-import org.lwjgl.glfw.GLFWWindowSizeCallback;
+import org.lwjgl.glfw.*;
 
 import java.util.Stack;
 
@@ -26,6 +23,7 @@ public class ViewManager implements Tickable, Drawable {
     private GLFWKeyCallback glfwKeyCallback;
     private GLFWCursorPosCallback glfwCursorPosCallback;
     private GLFWMouseButtonCallback glfwMouseButtonCallback;
+    private GLFWScrollCallback glfwScrollCallback;
     private float aspect;
     private Sprite gameBackground;
 
@@ -76,6 +74,12 @@ public class ViewManager implements Tickable, Drawable {
                 }
             }
         };
+        glfwScrollCallback = new GLFWScrollCallback() {
+            @Override
+            public void invoke(long window, double x, double y) {
+                currentView.onScroll(x, y);
+            }
+        };
     }
 
     public GLFWWindowSizeCallback getGlfwWindowSizeCallback() {
@@ -92,6 +96,10 @@ public class ViewManager implements Tickable, Drawable {
 
     public GLFWMouseButtonCallback getGlfwMouseButtonCallback() {
         return glfwMouseButtonCallback;
+    }
+
+    public GLFWScrollCallback getGlfwScrollCallback() {
+        return glfwScrollCallback;
     }
 
     public float getAspect() {

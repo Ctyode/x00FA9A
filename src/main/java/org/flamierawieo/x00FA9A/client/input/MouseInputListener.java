@@ -5,5 +5,6 @@ public interface MouseInputListener {
     void onMouseMove(float x, float y);
     void onMouseButtonDown(int button, int mods);
     void onMouseButtonUp(int button, int mods);
+    void onScroll(double x, double y);
 
 }

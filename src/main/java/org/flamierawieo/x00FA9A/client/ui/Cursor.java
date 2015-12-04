@@ -33,6 +33,11 @@ public class Cursor implements Tickable, Drawable, MouseInputListener {
     }
 
     @Override
+    public void onScroll(double x, double y) {
+
+    }
+
+    @Override
     public void draw() {
         sprite.draw(x - 0.05f, y - 0.05f, 0.1f, 0.1f);
     }
