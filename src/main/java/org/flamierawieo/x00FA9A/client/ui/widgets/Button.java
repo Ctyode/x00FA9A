@@ -123,7 +123,7 @@ public class Button extends Widget implements Tickable, Drawable, MouseInputList
         }
         if(text != null) {
             text.draw(calculateAbsolutePosition(getX(), text.getWidth(), 0.5f),
-                      calculateAbsolutePosition(getX(), text.getHeight(), 0.5f));
+                      calculateAbsolutePosition(getY(), text.getHeight(), 0.5f));
         }
     }
 

@@ -10,7 +10,7 @@ import static org.lwjgl.opengl.GL11.*;
 
 public class Text extends Sprite {
 
-    public static final float FONT_SCALE = 0.01f;
+    public static final float FONT_SCALE = 0.0010f;
 
     private String string;
     private Font font;
