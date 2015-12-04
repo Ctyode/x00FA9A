@@ -78,6 +78,6 @@ run {
     dependsOn 'unpackNatives'
     systemProperty 'java.library.path', file( 'build/natives' )
     if(Os.isFamily(Os.FAMILY_MAC)) {
-        jvmArgs = ['-XstartOnFirstThread']
+        jvmArgs = ['-XstartOnFirstThread', '-Djava.awt.headless=true']
     }
 }
