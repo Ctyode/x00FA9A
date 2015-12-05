@@ -5,7 +5,10 @@ import org.flamierawieo.x00FA9A.client.ui.widgets.Background;
 import org.flamierawieo.x00FA9A.client.ui.widgets.Button;
 import org.flamierawieo.x00FA9A.client.ui.View;
 import org.flamierawieo.x00FA9A.client.ui.ViewManager;
+import org.flamierawieo.x00FA9A.client.ui.widgets.SongList;
 import org.flamierawieo.x00FA9A.client.views.gamemods.SquareMode;
+
+import java.util.ArrayList;
 
 public class SongMenu extends View {
 
@@ -28,11 +31,18 @@ public class SongMenu extends View {
                 .setPosition(0.8f, 0.5f)
                 .setSize(0.8f, 0.18f)
                 .setOrigin(0.5f, 0.5f).build();
+        SongList songList = new SongList(new ArrayList<SongList.ListItem>() {{
+            add(new SongList.ListItem("Sonya", "Meow song", "Nicktael Rawieo", (byte) 0b00000000));
+            add(new SongList.ListItem("Nickta", "The club", "Renard", (byte) 0b00000000));
+            add(new SongList.ListItem("Nickta", "Figurehead", "The Queenstons", (byte) 0b00000000));
+            add(new SongList.ListItem("Sonya", "TU4AR", "Renard", (byte) 0b00000000));
+        }}, 0.5f, 0.5f, 0.5f, 0.5f);
 
         addWidget(selectModeBackground);
         addWidget(songListBackground);
         addWidget(searchBackground);
         addWidget(activeSongBackground);
+        addWidget(songList);
     }
 
     @Override

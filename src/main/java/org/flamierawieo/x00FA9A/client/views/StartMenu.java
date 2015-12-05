@@ -6,6 +6,7 @@ import org.flamierawieo.x00FA9A.client.graphics.Text;
 import org.flamierawieo.x00FA9A.client.ui.widgets.Button;
 import org.flamierawieo.x00FA9A.client.ui.View;
 import org.flamierawieo.x00FA9A.client.ui.ViewManager;
+import org.flamierawieo.x00FA9A.client.ui.widgets.SongList;
 
 import java.awt.*;
 
@@ -52,6 +53,7 @@ public class StartMenu extends View {
     @Override
     public void onViewStarted(ViewManager viewManager) {
         singleplayerButton.setOnClickRunnable(() -> viewManager.pushView(new SongMenu()));
+        optionsButton.setOnClickRunnable(() -> viewManager.pushView(new SettingsMenu()));
         exitButton.setOnClickRunnable(() -> System.exit(0)); // TODO: Replace with requiring exit
     }
 

@@ -1,6 +1,8 @@
 package org.flamierawieo.x00FA9A.client.ui;
 
+import org.flamierawieo.x00FA9A.Images;
 import org.flamierawieo.x00FA9A.client.graphics.Drawable;
+import org.flamierawieo.x00FA9A.client.graphics.Sprite;
 import org.flamierawieo.x00FA9A.shared.Tickable;
 import org.lwjgl.glfw.GLFWCursorPosCallback;
 import org.lwjgl.glfw.GLFWKeyCallback;
@@ -25,6 +27,7 @@ public class ViewManager implements Tickable, Drawable {
     private GLFWCursorPosCallback glfwCursorPosCallback;
     private GLFWMouseButtonCallback glfwMouseButtonCallback;
     private float aspect;
+    private Sprite gameBackground;
 
     public ViewManager(int initialWindowWidth, int initialWindowHeight, View rootView) {
         windowWidth = initialWindowWidth;
@@ -35,6 +38,7 @@ public class ViewManager implements Tickable, Drawable {
         viewStack.push(rootView);
         rootView.onViewStarted(this);
         cursor = new Cursor();
+        gameBackground = new Sprite(Images.BASIC_BACKGROUND.getTexture());
         glfwWindowSizeCallback = new GLFWWindowSizeCallback() {
             @Override
             public void invoke(long window, int width, int height) {
@@ -136,6 +140,7 @@ public class ViewManager implements Tickable, Drawable {
         glViewport(0, 0, windowWidth, windowHeight);
         double offset = (aspect - 1.0) / 2.0;
         glOrtho(-offset, 1.0 + offset, 0.0, 1.0, -1.0, 1.0);
+        gameBackground.draw((float) -offset, 0.0f, aspect, 1.0f);
         currentView.draw();
         cursor.draw();
     }
