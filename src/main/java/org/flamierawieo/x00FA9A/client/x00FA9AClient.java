@@ -5,6 +5,8 @@ import org.flamierawieo.x00FA9A.client.ui.ViewManager;
 import org.flamierawieo.x00FA9A.client.views.StartMenu;
 import org.flamierawieo.x00FA9A.shared.Tickable;
 import org.lwjgl.glfw.GLFWVidMode;
+import org.lwjgl.openal.ALC;
+import org.lwjgl.openal.ALContext;
 import org.lwjgl.opengl.GL;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -14,6 +16,7 @@ import static org.lwjgl.system.MemoryUtil.*;
 public class x00FA9AClient implements Runnable, Tickable, Drawable {
 
     private long window;
+    private ALContext context;
     private ViewManager viewManager;
 
     public x00FA9AClient() {
@@ -42,6 +45,11 @@ public class x00FA9AClient implements Runnable, Tickable, Drawable {
         glfwSetCursorPosCallback(window, viewManager.getGlfwCursorPosCallback());
         glfwSetMouseButtonCallback(window, viewManager.getGlfwMouseButtonCallback());
         glfwSetScrollCallback(window, viewManager.getGlfwScrollCallback());
+        context = ALContext.create();
+        if(!context.getCapabilities().OpenAL10) {
+            throw new IllegalStateException("Failed to create OpenAL context");
+        }
+        context.makeCurrent();
     }
 
     @Override
@@ -54,6 +62,8 @@ public class x00FA9AClient implements Runnable, Tickable, Drawable {
         }
         glfwDestroyWindow(window);
         glfwTerminate();
+        context.destroy();
+        ALC.destroy();
     }
 
     @Override
