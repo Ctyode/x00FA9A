@@ -3,8 +3,8 @@ package org.flamierawieo.x00FA9A.client.audio;
 import org.newdawn.slick.openal.OggData;
 import org.newdawn.slick.openal.OggDecoder;
 
-import javax.sound.sampled.UnsupportedAudioFileException;
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 import static org.flamierawieo.x00FA9A.client.Util.*;
 import static org.lwjgl.openal.AL10.*;
@@ -15,7 +15,7 @@ public class Sound {
     private int buffer;
     private int state;
 
-    public Sound(String path) throws IOException, UnsupportedAudioFileException {
+    public Sound(String path) throws IOException {
         OggData oggData = new OggDecoder().getData(new FileInputStream(path));
         al(() -> {
             source = alGenSources();

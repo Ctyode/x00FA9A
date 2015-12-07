@@ -10,13 +10,15 @@ import org.lwjgl.openal.ALC;
 import org.lwjgl.openal.ALContext;
 import org.lwjgl.opengl.GL;
 
-import static org.lwjgl.openal.AL10.*;
-
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 
+import static org.flamierawieo.x00FA9A.client.Util.*;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.openal.AL10.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
 public class x00FA9AClient implements Runnable, Tickable, Drawable {
@@ -56,23 +58,23 @@ public class x00FA9AClient implements Runnable, Tickable, Drawable {
             throw new IllegalStateException("Failed to create OpenAL context");
         }
         context.makeCurrent();
+        al(() -> {
+            alListener3f(AL_POSITION, 0.0f, 0.0f, 0.0f);
+            alListener3f(AL_VELOCITY, 0.0f, 0.0f, 0.0f);
+        });
     }
 
     @Override
     public void run() {
-        alListener3f(AL_POSITION, 0.0f, 0.0f, 1.0f);
-        alListener3f(AL_VELOCITY, 0.0f, 0.0f, 0.0f);
-        alListenerfv(AL_ORIENTATION, FloatBuffer.wrap(new float[]{0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f}));
         Sound sound = null;
         try {
             sound = new Sound("res/testmusic/05 Canada Was The Largest Eurodance Market Outside Europe.ogg");
             sound.play();
-        } catch (IOException e) {
+        } catch (IOException | UnsupportedAudioFileException e) {
             e.printStackTrace();
         }
         float lastUpdateTime = (float)glfwGetTime();
         while(glfwWindowShouldClose(window) == GL_FALSE) {
-            sound.checkState();
             tick((float)glfwGetTime() - lastUpdateTime);
             draw();
             lastUpdateTime = (float)glfwGetTime();
