@@ -1,14 +1,10 @@
 package org.flamierawieo.x00FA9A.client.audio;
 
+import org.newdawn.slick.openal.OggData;
+import org.newdawn.slick.openal.OggDecoder;
 
-import org.gagravarr.vorbis.VorbisAudioData;
-import org.gagravarr.vorbis.VorbisFile;
-import org.gagravarr.vorbis.VorbisInfo;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.nio.ByteBuffer;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.*;
 
 import static org.flamierawieo.x00FA9A.client.Util.*;
 import static org.lwjgl.openal.AL10.*;
@@ -19,25 +15,13 @@ public class Sound {
     private int buffer;
     private int state;
 
-    public Sound(String path) throws IOException {
-        VorbisFile vorbisFile = new VorbisFile(new File(path));
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        for(VorbisAudioData packet = vorbisFile.getNextAudioPacket(); packet != null; packet = vorbisFile.getNextAudioPacket()) {
-            byteArrayOutputStream.write(packet.getData());
-        }
-        ByteBuffer data = ByteBuffer.wrap(byteArrayOutputStream.toByteArray());
-        data.flip();
-        VorbisInfo vorbisInfo = vorbisFile.getInfo();
+    public Sound(String path) throws IOException, UnsupportedAudioFileException {
+        OggData oggData = new OggDecoder().getData(new FileInputStream(path));
         al(() -> {
             source = alGenSources();
             buffer = alGenBuffers();
-            alBufferData(buffer, vorbisInfo.getChannels() == 1 ? AL_FORMAT_MONO16 : AL_FORMAT_STEREO16, data, (int) vorbisInfo.getRate());
+            alBufferData(buffer, oggData.channels == 1 ? AL_FORMAT_MONO16 : AL_FORMAT_STEREO16, oggData.data, oggData.rate);
             alSourcei(source, AL_BUFFER, buffer);
-            alSourcef(source, AL_REFERENCE_DISTANCE, 1.0f);
-            alSourcef(source, AL_MAX_DISTANCE, 1000.0f);
-            alSourcef(source, AL_ROLLOFF_FACTOR, 1.0f);
-            alSourcef(source, AL_PITCH, 1.0f);
-            alSourcef(source, AL_GAIN, 1.0f);
         });
     }
 
