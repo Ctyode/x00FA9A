@@ -1,58 +1,61 @@
 package org.flamierawieo.x00FA9A.client.audio;
 
-import org.gagravarr.ogg.OggFile;
-import org.gagravarr.ogg.OggPacket;
-import org.gagravarr.ogg.OggPacketReader;
+
+import org.gagravarr.vorbis.VorbisAudioData;
 import org.gagravarr.vorbis.VorbisFile;
 import org.gagravarr.vorbis.VorbisInfo;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
+import static org.flamierawieo.x00FA9A.client.Util.*;
 import static org.lwjgl.openal.AL10.*;
 
 public class Sound {
 
     private int source;
     private int buffer;
+    private int state;
 
     public Sound(String path) throws IOException {
-        source = alGenSources();
-        buffer = alGenBuffers();
-        OggFile oggFile = new OggFile(new FileInputStream(path));
-        OggPacketReader packetReader = oggFile.getPacketReader();
+        VorbisFile vorbisFile = new VorbisFile(new File(path));
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        for(OggPacket packet = packetReader.getNextPacket(); packet != null; packet = packetReader.getNextPacket()) {
+        for(VorbisAudioData packet = vorbisFile.getNextAudioPacket(); packet != null; packet = vorbisFile.getNextAudioPacket()) {
             byteArrayOutputStream.write(packet.getData());
         }
-        VorbisFile vorbisFile = new VorbisFile(new File(path));
+        ByteBuffer data = ByteBuffer.wrap(byteArrayOutputStream.toByteArray());
+        data.flip();
         VorbisInfo vorbisInfo = vorbisFile.getInfo();
-        alBufferData(buffer, vorbisInfo.getChannels() == 1 ? AL_FORMAT_MONO16 : AL_FORMAT_STEREO16, ByteBuffer.wrap(byteArrayOutputStream.toByteArray()), vorbisInfo.getBlocksize0());
-        alSourcef(source, AL_PITCH, 1.0f);
-        alSourcef(source, AL_GAIN, 1.0f);
-        alSourcei(source, AL_BUFFER, buffer);
+        al(() -> {
+            source = alGenSources();
+            buffer = alGenBuffers();
+            alBufferData(buffer, vorbisInfo.getChannels() == 1 ? AL_FORMAT_MONO16 : AL_FORMAT_STEREO16, data, (int) vorbisInfo.getRate());
+            alSourcei(source, AL_BUFFER, buffer);
+            alSourcef(source, AL_REFERENCE_DISTANCE, 1.0f);
+            alSourcef(source, AL_MAX_DISTANCE, 1000.0f);
+            alSourcef(source, AL_ROLLOFF_FACTOR, 1.0f);
+            alSourcef(source, AL_PITCH, 1.0f);
+            alSourcef(source, AL_GAIN, 1.0f);
+        });
     }
 
     public void play() {
-        alSourcePlay(source);
-        int alError = alGetError();
-        if (alError != AL_NO_ERROR) {
-            System.out.println("mda " + alError);
+        al(() -> {
+            alSourcePlay(source);
+            state = alGetSourcei(source, AL_SOURCE_STATE);
+        });
+        if(state != AL_PLAYING) {
+            System.out.println("nickta zloi");
         }
-
     }
 
     public void stop() {
-        alSourceStop(source);
-    }
-
-    public void checkState() {
-//        if(alGetSourcei(source, AL_SOURCE_STATE) != AL_PLAYING) {
-//            System.out.println("nickta zloi");
-//        }
+        al(() -> {
+            alSourceStop(source);
+            state = alGetSourcei(source, AL_SOURCE_STATE);
+        });
     }
 
     // TODO: finalize
