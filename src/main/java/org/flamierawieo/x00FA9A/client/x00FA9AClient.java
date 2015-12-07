@@ -10,10 +10,7 @@ import org.lwjgl.openal.ALC;
 import org.lwjgl.openal.ALContext;
 import org.lwjgl.opengl.GL;
 
-import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.FloatBuffer;
 
 import static org.flamierawieo.x00FA9A.client.Util.*;
 import static org.lwjgl.glfw.GLFW.*;
@@ -70,7 +67,7 @@ public class x00FA9AClient implements Runnable, Tickable, Drawable {
         try {
             sound = new Sound("res/testmusic/05 Canada Was The Largest Eurodance Market Outside Europe.ogg");
             sound.play();
-        } catch (IOException | UnsupportedAudioFileException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         float lastUpdateTime = (float)glfwGetTime();
