@@ -2,6 +2,8 @@ package org.flamierawieo.x00FA9A.client;
 
 import de.matthiasmann.twl.utils.PNGDecoder;
 import org.flamierawieo.x00FA9A.client.audio.Sound;
+import org.newdawn.slick.openal.OggData;
+import org.newdawn.slick.openal.OggDecoder;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -10,13 +12,17 @@ import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.flamierawieo.x00FA9A.client.Util.al;
+import static org.lwjgl.openal.AL10.*;
+import static org.lwjgl.openal.AL10.AL_BUFFER;
+import static org.lwjgl.openal.AL10.alSourcei;
 import static org.lwjgl.opengl.GL11.*;
 
 public class Resources {
 
     private static Map<String, Integer> textures = new HashMap<>();
     private static Integer missingTextureTextureID;
-    private static Map<String, Sound> sounds = new HashMap<>();
+    private static Map<String, Integer> sounds = new HashMap<>();
 
     private static int loadTextureFromPNG(String path) throws IOException {
         InputStream inputStream = new FileInputStream(path);
@@ -36,8 +42,11 @@ public class Resources {
         return textureID;
     }
 
-    private static Sound loadSoundFromOgg(String path) throws IOException {
-        return new Sound(path);
+    private static int loadSoundFromOgg(String path) throws IOException {
+        OggData oggData = new OggDecoder().getData(new FileInputStream(path));
+        int buffer = alGenBuffers();
+        alBufferData(buffer, oggData.channels == 1 ? AL_FORMAT_MONO16 : AL_FORMAT_STEREO16, oggData.data, oggData.rate);
+        return buffer;
     }
 
     public static int getTexture(String path) {
@@ -63,8 +72,8 @@ public class Resources {
         }
     }
 
-    public static Sound getSound(String path) {
-        Sound sound = sounds.get(path);
+    public static Integer getSound(String path) {
+        Integer sound = sounds.get(path);
         if(sound == null) {
             try {
                 sounds.put(path, sound = loadSoundFromOgg(path));

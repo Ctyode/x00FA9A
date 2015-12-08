@@ -1,11 +1,5 @@
 package org.flamierawieo.x00FA9A.client.audio;
 
-import org.newdawn.slick.openal.OggData;
-import org.newdawn.slick.openal.OggDecoder;
-
-import java.io.FileInputStream;
-import java.io.IOException;
-
 import static org.flamierawieo.x00FA9A.client.Util.*;
 import static org.lwjgl.openal.AL10.*;
 
@@ -13,33 +7,21 @@ public class Sound {
 
     private int source;
     private int buffer;
-    private int state;
 
-    public Sound(String path) throws IOException {
-        OggData oggData = new OggDecoder().getData(new FileInputStream(path));
+    public Sound(int buffer) {
+        this.buffer = buffer;
         al(() -> {
             source = alGenSources();
-            buffer = alGenBuffers();
-            alBufferData(buffer, oggData.channels == 1 ? AL_FORMAT_MONO16 : AL_FORMAT_STEREO16, oggData.data, oggData.rate);
             alSourcei(source, AL_BUFFER, buffer);
         });
     }
 
     public void play() {
-        al(() -> {
-            alSourcePlay(source);
-            state = alGetSourcei(source, AL_SOURCE_STATE);
-        });
-        if(state != AL_PLAYING) {
-            System.out.println("nickta zloi");
-        }
+        al(() -> alSourcePlay(source));
     }
 
     public void stop() {
-        al(() -> {
-            alSourceStop(source);
-            state = alGetSourcei(source, AL_SOURCE_STATE);
-        });
+        al(() -> alSourceStop(source));
     }
 
     // TODO: finalize
