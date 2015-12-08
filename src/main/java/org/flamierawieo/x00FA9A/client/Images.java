@@ -1,4 +1,4 @@
-package org.flamierawieo.x00FA9A;
+package org.flamierawieo.x00FA9A.client;
 
 import org.flamierawieo.x00FA9A.client.Resources;
 

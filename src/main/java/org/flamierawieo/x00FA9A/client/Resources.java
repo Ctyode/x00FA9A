@@ -1,6 +1,7 @@
 package org.flamierawieo.x00FA9A.client;
 
 import de.matthiasmann.twl.utils.PNGDecoder;
+import org.flamierawieo.x00FA9A.client.audio.Sound;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -15,6 +16,7 @@ public class Resources {
 
     private static Map<String, Integer> textures = new HashMap<>();
     private static Integer missingTextureTextureID;
+    private static Map<String, Sound> sounds = new HashMap<>();
 
     private static int loadTextureFromPNG(String path) throws IOException {
         InputStream inputStream = new FileInputStream(path);
@@ -32,6 +34,10 @@ public class Resources {
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, decoder.getWidth(), decoder.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, byteBuffer);
         glDisable(GL_TEXTURE_2D);
         return textureID;
+    }
+
+    private static Sound loadSoundFromOgg(String path) throws IOException {
+        return new Sound(path);
     }
 
     public static int getTexture(String path) {
@@ -55,6 +61,18 @@ public class Resources {
         } else {
             return textureID;
         }
+    }
+
+    public static Sound getSound(String path) {
+        Sound sound = sounds.get(path);
+        if(sound == null) {
+            try {
+                sounds.put(path, sound = loadSoundFromOgg(path));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return sound;
     }
 
 }

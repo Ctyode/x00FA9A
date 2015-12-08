@@ -44,12 +44,6 @@ public class x00FA9AClient implements Runnable, Tickable, Drawable {
         glfwSwapInterval(0);
         glfwShowWindow(window);
         GL.createCapabilities(false);
-        viewManager = new ViewManager(initialWindowWidth, initialWindowHeight, new StartMenu());
-        glfwSetWindowSizeCallback(window, viewManager.getGlfwWindowSizeCallback());
-        glfwSetKeyCallback(window, viewManager.getGlfwKeyCallback());
-        glfwSetCursorPosCallback(window, viewManager.getGlfwCursorPosCallback());
-        glfwSetMouseButtonCallback(window, viewManager.getGlfwMouseButtonCallback());
-        glfwSetScrollCallback(window, viewManager.getGlfwScrollCallback());
         context = ALContext.create();
         if(!context.getCapabilities().OpenAL10) {
             throw new IllegalStateException("Failed to create OpenAL context");
@@ -59,17 +53,16 @@ public class x00FA9AClient implements Runnable, Tickable, Drawable {
             alListener3f(AL_POSITION, 0.0f, 0.0f, 0.0f);
             alListener3f(AL_VELOCITY, 0.0f, 0.0f, 0.0f);
         });
+        viewManager = new ViewManager(initialWindowWidth, initialWindowHeight, new StartMenu());
+        glfwSetWindowSizeCallback(window, viewManager.getGlfwWindowSizeCallback());
+        glfwSetKeyCallback(window, viewManager.getGlfwKeyCallback());
+        glfwSetCursorPosCallback(window, viewManager.getGlfwCursorPosCallback());
+        glfwSetMouseButtonCallback(window, viewManager.getGlfwMouseButtonCallback());
+        glfwSetScrollCallback(window, viewManager.getGlfwScrollCallback());
     }
 
     @Override
     public void run() {
-        Sound sound = null;
-        try {
-            sound = new Sound("res/testmusic/05 Canada Was The Largest Eurodance Market Outside Europe.ogg");
-            sound.play();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         float lastUpdateTime = (float)glfwGetTime();
         while(glfwWindowShouldClose(window) == GL_FALSE) {
             tick((float)glfwGetTime() - lastUpdateTime);

@@ -1,6 +1,6 @@
 package org.flamierawieo.x00FA9A.client.views;
 
-import org.flamierawieo.x00FA9A.Images;
+import org.flamierawieo.x00FA9A.client.Images;
 import org.flamierawieo.x00FA9A.client.ui.View;
 import org.flamierawieo.x00FA9A.client.ui.widgets.Background;
 

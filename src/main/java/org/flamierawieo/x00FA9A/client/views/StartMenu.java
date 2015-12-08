@@ -1,12 +1,11 @@
 package org.flamierawieo.x00FA9A.client.views;
 
-import org.flamierawieo.x00FA9A.Images;
+import org.flamierawieo.x00FA9A.client.Images;
 import org.flamierawieo.x00FA9A.client.Fonts;
 import org.flamierawieo.x00FA9A.client.graphics.Text;
 import org.flamierawieo.x00FA9A.client.ui.widgets.Button;
 import org.flamierawieo.x00FA9A.client.ui.View;
 import org.flamierawieo.x00FA9A.client.ui.ViewManager;
-import org.flamierawieo.x00FA9A.client.ui.widgets.SongList;
 
 import java.awt.*;
 

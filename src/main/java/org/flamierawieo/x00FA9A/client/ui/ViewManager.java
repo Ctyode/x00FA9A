@@ -1,6 +1,8 @@
 package org.flamierawieo.x00FA9A.client.ui;
 
-import org.flamierawieo.x00FA9A.Images;
+import org.flamierawieo.x00FA9A.client.Images;
+import org.flamierawieo.x00FA9A.client.Sounds;
+import org.flamierawieo.x00FA9A.client.audio.Sound;
 import org.flamierawieo.x00FA9A.client.graphics.Drawable;
 import org.flamierawieo.x00FA9A.client.graphics.Sprite;
 import org.flamierawieo.x00FA9A.shared.Tickable;
@@ -26,6 +28,7 @@ public class ViewManager implements Tickable, Drawable {
     private GLFWScrollCallback glfwScrollCallback;
     private float aspect;
     private Sprite gameBackground;
+    private Sound backgroundMusic;
 
     public ViewManager(int initialWindowWidth, int initialWindowHeight, View rootView) {
         windowWidth = initialWindowWidth;
@@ -37,6 +40,8 @@ public class ViewManager implements Tickable, Drawable {
         rootView.onViewStarted(this);
         cursor = new Cursor();
         gameBackground = new Sprite(Images.BASIC_BACKGROUND.getTexture());
+        backgroundMusic = Sounds.CANADA.getSound();
+        backgroundMusic.play();
         glfwWindowSizeCallback = new GLFWWindowSizeCallback() {
             @Override
             public void invoke(long window, int width, int height) {
