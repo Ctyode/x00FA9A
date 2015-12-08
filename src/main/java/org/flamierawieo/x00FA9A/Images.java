@@ -19,6 +19,7 @@ public enum Images {
     ACTIVE_SONG_BACKGROUND ("res/images/songmenu/active-song-background.png"),
     SEARCH_BACKGROUND ("res/images/songmenu/search-background.png"),
     SELECT_MODE ("res/images/songmenu/select-mode.png"),
+    LIST_LINE ("res/images/songmenu/line-song-list.png"),
 
     // Square mode backgrounds
     BUTTONS_BACKGROUND ("res/images/squaremode/buttons-background.png"),

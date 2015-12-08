@@ -105,6 +105,10 @@ public class Button extends Widget implements Tickable, Drawable, MouseInputList
         this.onClickRunnable = onClickRunnable;
     }
 
+    public void setText(Text text) {
+        this.text = text;
+    }
+
     public void setOnClickRunnable(Runnable onClickRunnable) {
         this.onClickRunnable = onClickRunnable;
     }
