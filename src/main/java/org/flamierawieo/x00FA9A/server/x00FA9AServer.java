@@ -15,7 +15,7 @@ public class X00FA9AServer extends Thread implements Runnable {
 
     @Override
     public void run() {
-
+        server.run();
     }
 
 }
