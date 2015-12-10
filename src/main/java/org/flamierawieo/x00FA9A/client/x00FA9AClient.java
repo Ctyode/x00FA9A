@@ -10,8 +10,6 @@ import org.lwjgl.openal.ALC;
 import org.lwjgl.openal.ALContext;
 import org.lwjgl.opengl.GL;
 
-import java.io.IOException;
-
 import static org.flamierawieo.x00FA9A.client.Util.*;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;

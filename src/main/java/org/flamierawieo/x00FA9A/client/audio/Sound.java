@@ -1,6 +1,5 @@
 package org.flamierawieo.x00FA9A.client.audio;
 
-import static org.flamierawieo.x00FA9A.client.Util.*;
 import static org.lwjgl.openal.AL10.*;
 
 public class Sound {
@@ -10,20 +9,21 @@ public class Sound {
 
     public Sound(int buffer) {
         this.buffer = buffer;
-        al(() -> {
-            source = alGenSources();
-            alSourcei(source, AL_BUFFER, buffer);
-        });
+        source = alGenSources();
+        alSourcei(source, AL_BUFFER, buffer);
     }
 
     public void play() {
-        al(() -> alSourcePlay(source));
+        alSourcePlay(source);
     }
 
     public void stop() {
-        al(() -> alSourceStop(source));
+        alSourceStop(source);
     }
 
-    // TODO: finalize
-
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+        alDeleteSources(source);
+    }
 }

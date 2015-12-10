@@ -1,7 +1,6 @@
 package org.flamierawieo.x00FA9A.server.net;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.logging.Level;
@@ -9,16 +8,19 @@ import java.util.logging.Logger;
 
 public class Server extends Thread implements Runnable {
 
+    public interface ConnectionFactory {
+
+        public AbstractConnection newConnection(Socket s) throws IOException;
+
+    }
+
     private ServerSocket serverSocket;
     private boolean closeRequired;
-    private Class<? extends AbstractConnection> abstractConnectionClass;
+    private ConnectionFactory connectionFactory;
 
-    public Server(Class<? extends AbstractConnection> c) throws IOException {
+    public Server(ConnectionFactory f) throws IOException {
         serverSocket = new ServerSocket(64154);
-        if(c.equals(AbstractConnection.class)) {
-            throw new IllegalStateException("u've got to be kiddin' me m8");
-        }
-        abstractConnectionClass = c;
+        connectionFactory = f;
         closeRequired = false;
     }
 
@@ -26,11 +28,9 @@ public class Server extends Thread implements Runnable {
     public void run() {
         while(!closeRequired) {
             try {
-                abstractConnectionClass.getConstructor(Socket.class).newInstance(serverSocket.accept()).start();
+                connectionFactory.newConnection(serverSocket.accept()).start();
             } catch (IOException e) {
                 Logger.getLogger(getClass().getName()).log(Level.WARNING, "", e);
-            } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
-                Logger.getLogger(getClass().getName()).log(Level.SEVERE, "", e);
             }
         }
     }
