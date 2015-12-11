@@ -2,6 +2,9 @@ package org.flamierawieo.x00FA9A.client;
 
 import org.flamierawieo.x00FA9A.client.Resources;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public enum Images {
 
     CURSOR_IMAGE ("res/images/cursor.png"),
@@ -50,6 +53,10 @@ public enum Images {
             texture = Resources.getTexture(path);
         }
         return texture;
+    }
+
+    public static void whatDoesNicktaelSaid() {
+        Logger.getLogger("Nickta").log(Level.WARNING, "THIS DANK CODE IS 2COOL4U"); // MAJESTIC GLORIOUS
     }
 
 }

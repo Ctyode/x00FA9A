@@ -5,9 +5,11 @@ import org.flamierawieo.x00FA9A.client.Sounds;
 import org.flamierawieo.x00FA9A.client.audio.Sound;
 import org.flamierawieo.x00FA9A.client.graphics.Drawable;
 import org.flamierawieo.x00FA9A.client.graphics.Sprite;
+import org.flamierawieo.x00FA9A.client.input.KeyInputListener;
 import org.flamierawieo.x00FA9A.shared.Tickable;
 import org.lwjgl.glfw.*;
 
+import java.util.HashMap;
 import java.util.Stack;
 
 import static org.lwjgl.glfw.GLFW.*;
