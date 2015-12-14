@@ -18,8 +18,8 @@ public class Settings {
         settings.getJson().writeJSONString(new FileWriter(userSettingsJsonPath));
     }
 
-    private static Settings loadUserSettings() {
-        Settings userSettings = new Settings();
+    public static Settings loadUserSettings() {
+        Settings userSettings = new Settings(VideoMode.NORMAL_800x600);
         JSONParser jsonParser = new JSONParser();
         try {
             JSONObject userSettingsJson = (JSONObject) jsonParser.parse(new FileReader(userSettingsJsonPath));
@@ -32,14 +32,6 @@ public class Settings {
             userSettings.save();
         }
         return userSettings;
-    }
-
-    public Settings() {
-
-    }
-
-    public Settings(Settings settings) {
-
     }
 
     public Settings(VideoMode videoMode) {
@@ -60,7 +52,7 @@ public class Settings {
 
     public JSONObject getJson() {
         return new JSONObject() {{
-            put("video_mode", videoMode.getVideoModeId());
+            put("video_mode", videoMode.getId());
         }};
     }
 

@@ -2,36 +2,42 @@ package org.flamierawieo.x00FA9A.client.settings;
 
 public enum VideoMode {
 
-    NORMAL_800x600 (false, 800, 600),
-    NORMAL_1024x768 (false, 1024, 768),
-    NORMAL_1152x864 (false, 1152, 864),
-    NORMAL_1280x960 (false, 1280, 960),
-    NORMAL_1400x1050 (false, 1400, 1050),
-    NORMAL_1600x1200 (false, 1600, 1200),
-    NORMAL_1280x1024 (false, 1280, 1024),
-    WINDSCREEN_1280x720 (true, 1280, 720),
-    WINDSCREEN_1280x768 (true, 1280, 768),
-    WINDSCREEN_1360x768 (true, 1360, 768),
-    WINDSCREEN_1366x768 (true, 1366, 768),
-    WINDSCREEN_1440x900 (true, 1440, 900),
-    WINDSCREEN_1600x900 (true, 1600, 900),
-    WINDSCREEN_1920x1080 (true, 1920, 1080),
-    WINDSCREEN_2048x1152 (true, 2048, 1152),
-    WINDSCREEN_2560x1440 (true, 2560, 1440),
-    WINDSCREEN_1680x1050 (true, 1680, 1050),
-    WINDSCREEN_1280x800 (true, 1280, 800),
-    WINDSCREEN_1920x1200 (true, 1920, 1200),
-    WINDSCREEN_1024x600 (true, 1024, 600),
-    WINDSCREEN_2560x1600 (true, 2560, 1600);
+    NORMAL_800x600 ("normal_800x600", false, 800, 600),
+    NORMAL_1024x768 ("normal_1024x768", false, 1024, 768),
+    NORMAL_1152x864 ("normal_1152x864", false, 1152, 864),
+    NORMAL_1280x960 ("normal_1280x960", false, 1280, 960),
+    NORMAL_1400x1050 ("normal_1400x1050", false, 1400, 1050),
+    NORMAL_1600x1200 ("normal_1600x1200", false, 1600, 1200),
+    NORMAL_1280x1024 ("normal_1280x1024", false, 1280, 1024),
+    WINDSCREEN_1280x720 ("windscreen_1280x720", true, 1280, 720),
+    WINDSCREEN_1280x768 ("windscreen_1280x768", true, 1280, 768),
+    WINDSCREEN_1360x768 ("windscreen_1360x768", true, 1360, 768),
+    WINDSCREEN_1366x768 ("windscreen_1366x768", true, 1366, 768),
+    WINDSCREEN_1440x900 ("windscreen_1440x900", true, 1440, 900),
+    WINDSCREEN_1600x900 ("windscreen_1600x900", true, 1600, 900),
+    WINDSCREEN_1920x1080 ("windscreen_1920x1080", true, 1920, 1080),
+    WINDSCREEN_2048x1152 ("windscreen_2048x1152", true, 2048, 1152),
+    WINDSCREEN_2560x1440 ("windscreen_2560x1440", true, 2560, 1440),
+    WINDSCREEN_1680x1050 ("windscreen_1680x1050", true, 1680, 1050),
+    WINDSCREEN_1280x800 ("windscreen_1280x800", true, 1280, 800),
+    WINDSCREEN_1920x1200 ("windscreen_1920x1200", true, 1920, 1200),
+    WINDSCREEN_1024x600 ("windscreen_1024x600", true, 1024, 600),
+    WINDSCREEN_2560x1600 ("windscreen_2560x1600", true, 2560, 1600);
 
+    private String id;
     private boolean windscreen;
     private int width;
     private int height;
 
-    VideoMode(boolean windscreen, int width, int height) {
+    VideoMode(String id, boolean windscreen, int width, int height) {
+        this.id = id;
         this.windscreen = windscreen;
         this.width = width;
         this.height = height;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public boolean isWindscreen() {

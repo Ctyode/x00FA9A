@@ -2,6 +2,7 @@ package org.flamierawieo.x00FA9A.client;
 
 import org.flamierawieo.x00FA9A.client.audio.Sound;
 import org.flamierawieo.x00FA9A.client.graphics.Drawable;
+import org.flamierawieo.x00FA9A.client.settings.Settings;
 import org.flamierawieo.x00FA9A.client.ui.ViewManager;
 import org.flamierawieo.x00FA9A.client.views.StartMenu;
 import org.flamierawieo.x00FA9A.shared.Tickable;
@@ -21,8 +22,10 @@ public class x00FA9AClient implements Runnable, Tickable, Drawable {
     private long window;
     private ALContext context;
     private ViewManager viewManager;
+    private Settings settings;
 
     public x00FA9AClient() {
+        settings = Settings.loadUserSettings();
         if(glfwInit() != GL_TRUE) {
             throw new IllegalStateException("Unable to initialize GLFW");
         }
@@ -31,8 +34,8 @@ public class x00FA9AClient implements Runnable, Tickable, Drawable {
         glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
         long primaryMonitor = glfwGetPrimaryMonitor();
         GLFWVidMode vidMode = glfwGetVideoMode(primaryMonitor);
-        int initialWindowWidth = vidMode.width();
-        int initialWindowHeight = vidMode.height();
+        int initialWindowWidth = settings.getVideoMode().getWidth();
+        int initialWindowHeight = settings.getVideoMode().getHeight();
         window = glfwCreateWindow(initialWindowWidth, initialWindowHeight, "Beat Party", primaryMonitor, NULL);
 //        window = glfwCreateWindow(initialWindowWidth, initialWindowHeight, "Beat Party", NULL, NULL);
         if(window == NULL) {
