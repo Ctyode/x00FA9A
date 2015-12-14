@@ -15,7 +15,10 @@ public class Settings {
     private VideoMode videoMode;
 
     private static void dumpUserSettings(Settings settings) throws IOException {
-        settings.getJson().writeJSONString(new FileWriter(userSettingsJsonPath));
+        FileWriter fileWriter = new FileWriter(userSettingsJsonPath);
+        fileWriter.write(settings.getJson().toJSONString());
+        fileWriter.flush();
+        fileWriter.close();
     }
 
     public static Settings loadUserSettings(int width, int height) {
