@@ -18,8 +18,8 @@ public class Settings {
         settings.getJson().writeJSONString(new FileWriter(userSettingsJsonPath));
     }
 
-    public static Settings loadUserSettings() {
-        Settings userSettings = new Settings(VideoMode.NORMAL_800x600);
+    public static Settings loadUserSettings(int width, int height) {
+        Settings userSettings = new Settings(VideoMode.getAutoDetectedVideoMode(width, height));
         JSONParser jsonParser = new JSONParser();
         try {
             JSONObject userSettingsJson = (JSONObject) jsonParser.parse(new FileReader(userSettingsJsonPath));

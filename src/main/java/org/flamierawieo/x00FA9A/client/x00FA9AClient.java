@@ -25,7 +25,6 @@ public class x00FA9AClient implements Runnable, Tickable, Drawable {
     private Settings settings;
 
     public x00FA9AClient() {
-        settings = Settings.loadUserSettings();
         if(glfwInit() != GL_TRUE) {
             throw new IllegalStateException("Unable to initialize GLFW");
         }
@@ -34,6 +33,7 @@ public class x00FA9AClient implements Runnable, Tickable, Drawable {
         glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
         long primaryMonitor = glfwGetPrimaryMonitor();
         GLFWVidMode vidMode = glfwGetVideoMode(primaryMonitor);
+        settings = Settings.loadUserSettings(vidMode.width(), vidMode.height());
         int initialWindowWidth = settings.getVideoMode().getWidth();
         int initialWindowHeight = settings.getVideoMode().getHeight();
         window = glfwCreateWindow(initialWindowWidth, initialWindowHeight, "Beat Party", primaryMonitor, NULL);
