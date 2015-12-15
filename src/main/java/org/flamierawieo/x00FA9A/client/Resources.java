@@ -12,10 +12,7 @@ import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.flamierawieo.x00FA9A.client.Util.al;
 import static org.lwjgl.openal.AL10.*;
-import static org.lwjgl.openal.AL10.AL_BUFFER;
-import static org.lwjgl.openal.AL10.alSourcei;
 import static org.lwjgl.opengl.GL11.*;
 
 public class Resources {

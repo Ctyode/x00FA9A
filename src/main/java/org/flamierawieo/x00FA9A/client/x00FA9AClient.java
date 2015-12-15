@@ -1,6 +1,5 @@
 package org.flamierawieo.x00FA9A.client;
 
-import org.flamierawieo.x00FA9A.client.audio.Sound;
 import org.flamierawieo.x00FA9A.client.graphics.Drawable;
 import org.flamierawieo.x00FA9A.client.settings.Settings;
 import org.flamierawieo.x00FA9A.client.ui.ViewManager;
@@ -11,7 +10,6 @@ import org.lwjgl.openal.ALC;
 import org.lwjgl.openal.ALContext;
 import org.lwjgl.opengl.GL;
 
-import static org.flamierawieo.x00FA9A.client.Util.*;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.openal.AL10.*;
@@ -50,10 +48,8 @@ public class x00FA9AClient implements Runnable, Tickable, Drawable {
             throw new IllegalStateException("Failed to create OpenAL context");
         }
         context.makeCurrent();
-        al(() -> {
-            alListener3f(AL_POSITION, 0.0f, 0.0f, 0.0f);
-            alListener3f(AL_VELOCITY, 0.0f, 0.0f, 0.0f);
-        });
+        alListener3f(AL_POSITION, 0.0f, 0.0f, 0.0f);
+        alListener3f(AL_VELOCITY, 0.0f, 0.0f, 0.0f);
         viewManager = new ViewManager(initialWindowWidth, initialWindowHeight, new StartMenu());
         glfwSetWindowSizeCallback(window, viewManager.getGlfwWindowSizeCallback());
         glfwSetKeyCallback(window, viewManager.getGlfwKeyCallback());
