@@ -18,10 +18,12 @@ public enum Images {
     SETTINGS_LINE ("res/images/settingsmenu/settings-line.png"),
 
     // Song menu
-    SONG_LIST_BACKGROUND ("res/images/songmenu/songs-background.png"),
+    SONG_LIST_BACKGROUND ("res/images/songmenu/song-list-background.png"),
     ACTIVE_SONG_BACKGROUND ("res/images/songmenu/active-song-background.png"),
     SEARCH_BACKGROUND ("res/images/songmenu/search-background.png"),
-    SELECT_MODE ("res/images/songmenu/select-mode.png"),
+    SELECT_MODE ("res/images/songmenu/logo-background.png"),
+    BOTTOM_PANEL ("res/images/songmenu/bottom-panel-background.png"),
+    MAP_HEADER ("res/images/songmenu/map-header-background.png"),
     LIST_LINE ("res/images/songmenu/line-song-list.png"),
 
     // Square mode backgrounds
