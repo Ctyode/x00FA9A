@@ -1,4 +1,4 @@
-package org.flamierawieo.x00FA9A.client.ui.widgets;
+package org.flamierawieo.x00FA9A.client.ui.widget;
 
 import org.flamierawieo.x00FA9A.client.graphics.Drawable;
 import org.flamierawieo.x00FA9A.client.graphics.Sprite;

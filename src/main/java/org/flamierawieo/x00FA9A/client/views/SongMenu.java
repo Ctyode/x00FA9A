@@ -1,20 +1,44 @@
 package org.flamierawieo.x00FA9A.client.views;
 
+import org.flamierawieo.x00FA9A.client.Fonts;
 import org.flamierawieo.x00FA9A.client.Images;
-import org.flamierawieo.x00FA9A.client.ui.widgets.Background;
-import org.flamierawieo.x00FA9A.client.ui.widgets.Button;
+import org.flamierawieo.x00FA9A.client.graphics.Text;
 import org.flamierawieo.x00FA9A.client.ui.View;
 import org.flamierawieo.x00FA9A.client.ui.ViewManager;
-import org.flamierawieo.x00FA9A.client.ui.widgets.SongList;
+import org.flamierawieo.x00FA9A.client.ui.widget.Background;
+import org.flamierawieo.x00FA9A.client.ui.widget.Button;
+import org.flamierawieo.x00FA9A.client.ui.widget.List;
 import org.flamierawieo.x00FA9A.client.views.gamemods.SquareMode;
+
+import java.awt.*;
 
 public class SongMenu extends View {
 
-    private SongList songList;
+    private List songList;
     private Button activeSongBackground;
     private Background searchBackground;
     private Button selectModeBackground;
     private Background songListBackground;
+
+    public class Item implements List.ListItem {
+
+        private Text text;
+
+        public Item(String text, Font font) {
+            this.text = new Text(text, font, Color.black);
+        }
+
+        @Override
+        public float getHeight() {
+            return text.getHeight();
+        }
+
+        @Override
+        public void draw(float x, float y) {
+            text.draw(x, y);
+        }
+
+    }
 
     public SongMenu() {
         super();
@@ -30,7 +54,12 @@ public class SongMenu extends View {
                 .setPosition(0.8f, 0.5f)
                 .setSize(0.8f, 0.18f)
                 .setOrigin(0.5f, 0.5f).build();
-        songList = new SongList(0.5f, 0.5f, 0.5f, 0.5f);
+        songList = new List(0.55f, 0.0f, 0.5f, 1.0f);
+        java.util.List<List.ListItem> itemList = songList.getItemList();
+        Font font = Fonts.ROBOTO_LIGHT.getFont().deriveFont(50.0f);
+        for(int i = 0; i < 100; i++) {
+            itemList.add(new Item("Item #" + i, font));
+        }
 
         addWidget(selectModeBackground);
         addWidget(songListBackground);

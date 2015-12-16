@@ -2,7 +2,7 @@ package org.flamierawieo.x00FA9A.client.views;
 
 import org.flamierawieo.x00FA9A.client.Images;
 import org.flamierawieo.x00FA9A.client.ui.View;
-import org.flamierawieo.x00FA9A.client.ui.widgets.Background;
+import org.flamierawieo.x00FA9A.client.ui.widget.Background;
 
 public class SettingsMenu extends View {
 
