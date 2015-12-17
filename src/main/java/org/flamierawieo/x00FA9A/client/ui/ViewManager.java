@@ -43,7 +43,7 @@ public class ViewManager implements Tickable, Drawable {
         cursor = new Cursor();
         gameBackground = new Sprite(Images.BASIC_BACKGROUND.getTexture());
         backgroundMusic = new Sound(Sounds.CANADA.getSound());
-        backgroundMusic.play();
+        // backgroundMusic.play();
         glfwWindowSizeCallback = new GLFWWindowSizeCallback() {
             @Override
             public void invoke(long window, int width, int height) {

@@ -20,25 +20,25 @@ public class StartMenu extends View {
         super();
         singleplayerButton = Button.builder()
                 .setBackgroundTexture(Images.MENU_BUTTON.getTexture())
-                .setText(new Text("Singleplayer", Fonts.ROBOTO_LIGHT.getFont().deriveFont(Font.PLAIN, 60.0f), Color.black))
+                .setText(new Text("Singleplayer", Fonts.ROBOTO_LIGHT.getFont().deriveFont(Font.PLAIN), Color.black, 0.1f))
                 .setPosition(0.8f, 0.75f)
                 .setSize(0.75f, 0.15f)
                 .setOrigin(0.5f, 0.5f).build();
         multiplayerButton = Button.builder()
                 .setBackgroundTexture(Images.MENU_BUTTON.getTexture())
-                .setText(new Text("Multiplayer", Fonts.ROBOTO_LIGHT.getFont().deriveFont(Font.PLAIN, 60.0f), Color.black))
+                .setText(new Text("Multiplayer", Fonts.ROBOTO_LIGHT.getFont().deriveFont(Font.PLAIN), Color.black, 0.1f))
                 .setPosition(0.8f, 0.6f)
                 .setSize(0.75f, 0.15f)
                 .setOrigin(0.5f, 0.5f).build();
         optionsButton = Button.builder()
                 .setBackgroundTexture(Images.MENU_BUTTON.getTexture())
-                .setText(new Text("Settings", Fonts.ROBOTO_LIGHT.getFont().deriveFont(Font.PLAIN, 60.0f), Color.black))
+                .setText(new Text("Settings", Fonts.ROBOTO_LIGHT.getFont().deriveFont(Font.PLAIN), Color.black, 0.1f))
                 .setPosition(0.8f, 0.45f)
                 .setSize(0.75f, 0.15f)
                 .setOrigin(0.5f, 0.5f).build();
         exitButton = Button.builder()
                 .setBackgroundTexture(Images.MENU_BUTTON.getTexture())
-                .setText(new Text("Exit", Fonts.ROBOTO_LIGHT.getFont().deriveFont(Font.PLAIN, 60.0f), Color.black))
+                .setText(new Text("Exit", Fonts.ROBOTO_LIGHT.getFont().deriveFont(Font.PLAIN), Color.black, 0.1f))
                 .setPosition(0.8f, 0.3f)
                 .setSize(0.75f, 0.15f)
                 .setOrigin(0.5f, 0.5f).build();

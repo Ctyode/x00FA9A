@@ -1,5 +1,6 @@
 package org.flamierawieo.x00FA9A.client.graphics;
 
+import org.flamierawieo.x00FA9A.client.x00FA9AClient;
 import org.lwjgl.BufferUtils;
 
 import java.awt.*;
@@ -10,8 +11,6 @@ import static org.lwjgl.opengl.GL11.*;
 
 public class Text extends Sprite {
 
-    public static final float FONT_SCALE = 0.0010f;
-
     private String string;
     private Font font;
     private Color color;
@@ -19,16 +18,13 @@ public class Text extends Sprite {
     private float height;
     private Integer texture;
 
-    public Text(String string, Font font, Color color) {
+    public Text(String string, Font font, Color color, float height) {
         super(null);
         this.string = string;
         this.font = font;
         this.color = color;
+        this.height = height;
         updateTexture();
-    }
-
-    public Text(String string, Font font) {
-        this(string, font, Color.black);
     }
 
     public String getString() {
@@ -69,13 +65,14 @@ public class Text extends Sprite {
     private void updateTexture() {
         BufferedImage bufferedImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
         Graphics2D graphics2D = bufferedImage.createGraphics();
-        graphics2D.setFont(font);
+        Font scaledFont = font.deriveFont(768.0f * this.height); // TODO: redesign project's WHOLE FUCKING ARCHITECTURE
+        graphics2D.setFont(scaledFont); // TODO: relative font size calculation
         FontMetrics fontMetrics = graphics2D.getFontMetrics();
-        int width = fontMetrics.stringWidth(string) + 2;
-        int height = fontMetrics.getHeight() + 2;
+        int textureWidth = fontMetrics.stringWidth(string) + 2; // little hack preventing hard clipping
+        int textureHeight = fontMetrics.getHeight() + 2;        // +1 pixel on each side of texture
         graphics2D.dispose();
 
-        bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        bufferedImage = new BufferedImage(textureWidth, textureHeight, BufferedImage.TYPE_INT_ARGB);
         graphics2D = bufferedImage.createGraphics();
         graphics2D.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
         graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -85,7 +82,7 @@ public class Text extends Sprite {
         graphics2D.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
         graphics2D.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         graphics2D.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
-        graphics2D.setFont(font);
+        graphics2D.setFont(scaledFont);
         fontMetrics = graphics2D.getFontMetrics();
         graphics2D.setColor(Color.BLACK);
         graphics2D.drawString(string, 1, fontMetrics.getAscent() + 1);
@@ -105,6 +102,9 @@ public class Text extends Sprite {
         }
         buffer.flip();
 
+        /*
+         * !!! QUESTIONABLE !!!
+         */
         if(texture == null) {
             texture = glGenTextures();
         }
@@ -113,12 +113,13 @@ public class Text extends Sprite {
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, textureWidth, textureHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
         glDisable(GL_TEXTURE_2D);
-
-        this.width = (float)font.getSize() * FONT_SCALE * ((float)width / (float)height);
-        this.height = (float)font.getSize() * FONT_SCALE;
-        setTexture(texture); // QUESTIONABLE
+        width = height * ((float)textureWidth / (float)textureHeight);
+        setTexture(texture);
+        /*
+         * !!! QUESTIONABLE !!!
+         */
     }
 
     public void draw(float x, float y) {

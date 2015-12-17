@@ -24,9 +24,9 @@ import static org.lwjgl.opengl.GL11.*;
 
 public class SongMenu extends View {
 
-    public static final Font artistFont = Fonts.ROBOTO_LIGHT.getFont().deriveFont(31.0f);
-    public static final Font titleFont = Fonts.ROBOTO_LIGHT.getFont().deriveFont(27.0f);
-    public static final Font levelFont = Fonts.ROBOTO_LIGHT.getFont().deriveFont(30.0f);
+    public static final Font artistFont = Fonts.ROBOTO_LIGHT.getFont();
+    public static final Font titleFont = Fonts.ROBOTO_LIGHT.getFont();
+    public static final Font levelFont = Fonts.ROBOTO_LIGHT.getFont();
 
     private Background bottomPanelBackground;
     private Background mapHeaderBackground;
@@ -43,8 +43,8 @@ public class SongMenu extends View {
         private String levelText;
 
         public Item(String artist, String title, String level) {
-            this.artistText = new Text(artist, artistFont, Colors.MEDIUM_GRAY.getColor());
-            this.titleText = new Text(title, titleFont, Colors.DARK_GRAY.getColor());
+            this.artistText = new Text(artist, artistFont, Colors.MEDIUM_GRAY.getColor(), 0.15f);
+            this.titleText = new Text(title, titleFont, Colors.DARK_GRAY.getColor(), 0.14f);
             this.levelText = level;
         }
 
@@ -95,9 +95,7 @@ public class SongMenu extends View {
                 JSONObject song = (JSONObject) s;
                 itemList.add(new Item((String) song.get("artist"), (String) song.get("title"), (String) song.get("author")));
             });
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
 
