@@ -71,8 +71,8 @@ public class Text extends Sprite {
         Graphics2D graphics2D = bufferedImage.createGraphics();
         graphics2D.setFont(font);
         FontMetrics fontMetrics = graphics2D.getFontMetrics();
-        int width = fontMetrics.stringWidth(string);
-        int height = fontMetrics.getHeight();
+        int width = fontMetrics.stringWidth(string) + 2;
+        int height = fontMetrics.getHeight() + 2;
         graphics2D.dispose();
 
         bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
@@ -88,7 +88,7 @@ public class Text extends Sprite {
         graphics2D.setFont(font);
         fontMetrics = graphics2D.getFontMetrics();
         graphics2D.setColor(Color.BLACK);
-        graphics2D.drawString(string, 0, fontMetrics.getAscent());
+        graphics2D.drawString(string, 1, fontMetrics.getAscent() + 1);
         graphics2D.dispose();
 
         int[] pixels = new int[bufferedImage.getWidth() * bufferedImage.getHeight()];

@@ -10,6 +10,7 @@ import org.flamierawieo.x00FA9A.client.ui.widget.Background;
 import org.flamierawieo.x00FA9A.client.ui.widget.Button;
 import org.flamierawieo.x00FA9A.client.ui.widget.List;
 import org.flamierawieo.x00FA9A.client.views.gamemods.SquareMode;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -19,10 +20,12 @@ import java.awt.*;
 import java.io.FileReader;
 import java.io.IOException;
 
+import static org.lwjgl.opengl.GL11.*;
+
 public class SongMenu extends View {
 
-    public static final Font artistFont = Fonts.ROBOTO_LIGHT.getFont().deriveFont(30.0f);
-    public static final Font titleFont = Fonts.ROBOTO_LIGHT.getFont().deriveFont(30.0f);
+    public static final Font artistFont = Fonts.ROBOTO_LIGHT.getFont().deriveFont(31.0f);
+    public static final Font titleFont = Fonts.ROBOTO_LIGHT.getFont().deriveFont(27.0f);
     public static final Font levelFont = Fonts.ROBOTO_LIGHT.getFont().deriveFont(30.0f);
 
     private Background bottomPanelBackground;
@@ -37,24 +40,29 @@ public class SongMenu extends View {
 
         private Text artistText;
         private Text titleText;
-        private Text levelText;
+        private String levelText;
 
         public Item(String artist, String title, String level) {
             this.artistText = new Text(artist, artistFont, Colors.MEDIUM_GRAY.getColor());
             this.titleText = new Text(title, titleFont, Colors.DARK_GRAY.getColor());
-            this.levelText = new Text(level, levelFont, Colors.GRAY.getColor());
+            this.levelText = level;
         }
 
         @Override
         public float getHeight() {
-            return 0.2f;
+            return 0.09675f;
         }
 
         @Override
         public void draw(float x, float y) {
-            artistText.draw(x, y + 0.1f);
-            titleText.draw(x, y + 0.05f);
-            levelText.draw(x, y);
+            artistText.draw(x + 0.0260416f, y + 0.03515f);
+            titleText.draw(x + 0.0260416f, y);
+            glColor3f(0.93f, 0.93f, 0.93f);
+            glLineWidth(1.0f);
+            glBegin(GL_LINES);
+            glVertex2f(x + 0.004f, y);
+            glVertex2f(x + 0.537760416f, y);
+            glEnd();
         }
 
     }
@@ -76,7 +84,7 @@ public class SongMenu extends View {
                 .setPosition(0.683f, 0.5f)
                 .setSize(0.6796875f, 0.1875f)
                 .setOrigin(0.0f, 0.5f).build();
-        songList = new List(0.8f, 0.0f, 0.5f, 1.0f);
+        songList = new List(0.746f, 0.0f, 0.5f, 1.0f);
         java.util.List<List.ListItem> itemList = songList.getItemList();
         try {
             JSONObject root = (JSONObject) parser.parse(new FileReader("res/json/song_cache.json"));
