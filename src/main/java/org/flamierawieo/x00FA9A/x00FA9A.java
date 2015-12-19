@@ -5,7 +5,7 @@ import org.flamierawieo.x00FA9A.client.x00FA9AClient;
 public class x00FA9A {
 
     public static void main(String[] args) {
-        new x00FA9AClient().run();
+        x00FA9AClient.getInstance().run();
     }
 
 }
