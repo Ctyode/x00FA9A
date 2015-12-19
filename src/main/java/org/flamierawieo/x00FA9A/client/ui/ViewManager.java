@@ -1,48 +1,43 @@
 package org.flamierawieo.x00FA9A.client.ui;
 
 import org.flamierawieo.x00FA9A.client.Images;
-import org.flamierawieo.x00FA9A.client.Sounds;
-import org.flamierawieo.x00FA9A.client.audio.Sound;
 import org.flamierawieo.x00FA9A.client.graphics.Drawable;
 import org.flamierawieo.x00FA9A.client.graphics.Sprite;
-import org.flamierawieo.x00FA9A.client.input.KeyInputListener;
-import org.flamierawieo.x00FA9A.shared.Tickable;
 import org.lwjgl.glfw.*;
 
-import java.util.HashMap;
 import java.util.Stack;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 
-public class ViewManager implements Tickable, Drawable {
+public class ViewManager {
 
-    private float mouseRelativePosX;
-    private float mouseRelativePosY;
-    private Cursor cursor;
-    private int windowWidth, windowHeight;
-    private Stack<View> viewStack;
-    private View currentView;
-    private GLFWWindowSizeCallback glfwWindowSizeCallback;
-    private GLFWKeyCallback glfwKeyCallback;
-    private GLFWCursorPosCallback glfwCursorPosCallback;
-    private GLFWMouseButtonCallback glfwMouseButtonCallback;
-    private GLFWScrollCallback glfwScrollCallback;
-    private float aspect;
-    private Sprite gameBackground;
-    private Sound backgroundMusic;
+    private static float mouseRelativePosX;
+    private static float mouseRelativePosY;
+    private static Cursor cursor;
+    private static int windowWidth, windowHeight;
+    private static Stack<View> viewStack;
+    private static View currentView;
+    private static GLFWWindowSizeCallback glfwWindowSizeCallback;
+    private static GLFWKeyCallback glfwKeyCallback;
+    private static GLFWCursorPosCallback glfwCursorPosCallback;
+    private static GLFWMouseButtonCallback glfwMouseButtonCallback;
+    private static GLFWScrollCallback glfwScrollCallback;
+    private static float aspect;
+    private static Sprite gameBackground;
+    // private Sound backgroundMusic;
 
-    public ViewManager(int initialWindowWidth, int initialWindowHeight, View rootView) {
+    public static void init(int initialWindowWidth, int initialWindowHeight, View rootView) {
         windowWidth = initialWindowWidth;
         windowHeight = initialWindowHeight;
         aspect = (float)windowWidth / (float)windowHeight;
         viewStack = new Stack<>();
         currentView = rootView;
         viewStack.push(rootView);
-        rootView.onViewStarted(this);
+        rootView.onViewStarted();
         cursor = new Cursor();
         gameBackground = new Sprite(Images.BASIC_BACKGROUND.getTexture());
-        backgroundMusic = new Sound(Sounds.CANADA.getSound());
+        // backgroundMusic = new Sound(Sounds.CANADA.getSound());
         // backgroundMusic.play();
         glfwWindowSizeCallback = new GLFWWindowSizeCallback() {
             @Override
@@ -89,27 +84,27 @@ public class ViewManager implements Tickable, Drawable {
         };
     }
 
-    public GLFWWindowSizeCallback getGlfwWindowSizeCallback() {
+    public static GLFWWindowSizeCallback getGlfwWindowSizeCallback() {
         return glfwWindowSizeCallback;
     }
 
-    public GLFWKeyCallback getGlfwKeyCallback() {
+    public static GLFWKeyCallback getGlfwKeyCallback() {
         return glfwKeyCallback;
     }
 
-    public GLFWCursorPosCallback getGlfwCursorPosCallback() {
+    public static GLFWCursorPosCallback getGlfwCursorPosCallback() {
         return glfwCursorPosCallback;
     }
 
-    public GLFWMouseButtonCallback getGlfwMouseButtonCallback() {
+    public static GLFWMouseButtonCallback getGlfwMouseButtonCallback() {
         return glfwMouseButtonCallback;
     }
 
-    public GLFWScrollCallback getGlfwScrollCallback() {
+    public static GLFWScrollCallback getGlfwScrollCallback() {
         return glfwScrollCallback;
     }
 
-    public float getAspect() {
+    public static float getAspect() {
         return aspect;
     }
 
@@ -117,12 +112,12 @@ public class ViewManager implements Tickable, Drawable {
      * Stops view and pops it from stack
      * @return previous current view
      */
-    public View popView() {
+    public static View popView() {
         View prevCurrentView = currentView;
         viewStack.pop();
         currentView = viewStack.peek();
-        prevCurrentView.onViewStopped(this);
-        currentView.onViewStarted(this);
+        prevCurrentView.onViewStopped();
+        currentView.onViewStarted();
         return prevCurrentView;
     }
 
@@ -130,7 +125,7 @@ public class ViewManager implements Tickable, Drawable {
      * Peeks current view
      * @return current view
      */
-    public View peekView() {
+    public static View peekView() {
         return currentView;
     }
 
@@ -140,17 +135,16 @@ public class ViewManager implements Tickable, Drawable {
      * @param view view to push and start
      * @return new current view
      */
-    public View pushView(View view) {
+    public static View pushView(View view) {
         View prevCurrentView = currentView;
         currentView = view;
         viewStack.push(view);
-        prevCurrentView.onViewPaused(this);
-        currentView.onViewStarted(this);
+        prevCurrentView.onViewPaused();
+        currentView.onViewStarted();
         return currentView;
     }
 
-    @Override
-    public void draw() {
+    public static void draw() {
         glLoadIdentity();
         glViewport(0, 0, windowWidth, windowHeight);
         double offset = (aspect - 1.0) / 2.0;
@@ -160,8 +154,7 @@ public class ViewManager implements Tickable, Drawable {
         cursor.draw();
     }
 
-    @Override
-    public void tick(float delta) {
+    public static void tick(float delta) {
         currentView.tick(delta);
     }
 

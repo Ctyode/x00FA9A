@@ -1,28 +1,28 @@
 package org.flamierawieo.x00FA9A.client;
 
-import org.flamierawieo.x00FA9A.client.graphics.Drawable;
 import org.flamierawieo.x00FA9A.client.settings.Settings;
+import org.flamierawieo.x00FA9A.client.settings.VideoMode;
 import org.flamierawieo.x00FA9A.client.ui.ViewManager;
 import org.flamierawieo.x00FA9A.client.views.StartMenu;
-import org.flamierawieo.x00FA9A.shared.Tickable;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.openal.ALC;
 import org.lwjgl.openal.ALContext;
 import org.lwjgl.opengl.GL;
 
 import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.openal.AL10.AL_POSITION;
+import static org.lwjgl.openal.AL10.AL_VELOCITY;
+import static org.lwjgl.openal.AL10.alListener3f;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.openal.AL10.*;
+import static org.lwjgl.opengl.GL11.glClearColor;
 import static org.lwjgl.system.MemoryUtil.*;
 
-public class x00FA9AClient implements Runnable, Tickable, Drawable {
+public class x00FA9AClient {
 
-    private long window;
-    private ALContext context;
-    private ViewManager viewManager;
-    private Settings settings;
+    private static long window;
+    private static ALContext context;
 
-    public x00FA9AClient() {
+    public static void init() {
         if(glfwInit() != GL_TRUE) {
             throw new IllegalStateException("Unable to initialize GLFW");
         }
@@ -30,15 +30,19 @@ public class x00FA9AClient implements Runnable, Tickable, Drawable {
         glfwWindowHint(GLFW_VISIBLE, GL_FALSE);
         glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
         long primaryMonitor = glfwGetPrimaryMonitor();
-        GLFWVidMode vidMode = glfwGetVideoMode(primaryMonitor);
-        settings = Settings.loadUserSettings(vidMode.width(), vidMode.height());
-        int initialWindowWidth = settings.getVideoMode().getWidth();
-        int initialWindowHeight = settings.getVideoMode().getHeight();
-        window = glfwCreateWindow(initialWindowWidth, initialWindowHeight, "Beat Party", primaryMonitor, NULL);
-//        window = glfwCreateWindow(initialWindowWidth, initialWindowHeight, "Beat Party", NULL, NULL);
-        if(window == NULL) {
-            throw new IllegalStateException("Failed to create the GLFW window");
+        VideoMode videoMode = Settings.getInstance().getVideoMode();
+        int initialWindowWidth;
+        int initialWindowHeight;
+        if(videoMode == null) {
+            GLFWVidMode vidMode = glfwGetVideoMode(primaryMonitor);
+            videoMode = VideoMode.getAutoDetectedVideoMode(vidMode.width(), vidMode.height());
+            initialWindowWidth = videoMode.getWidth();
+            initialWindowHeight = videoMode.getHeight();
+        } else {
+            initialWindowWidth = videoMode.getWidth();
+            initialWindowHeight = videoMode.getHeight();
         }
+        window = glfwCreateWindow(initialWindowWidth, initialWindowHeight, "Beat Party", primaryMonitor, NULL);
         glfwMakeContextCurrent(window);
         glfwSwapInterval(0);
         glfwShowWindow(window);
@@ -50,16 +54,15 @@ public class x00FA9AClient implements Runnable, Tickable, Drawable {
         context.makeCurrent();
         alListener3f(AL_POSITION, 0.0f, 0.0f, 0.0f);
         alListener3f(AL_VELOCITY, 0.0f, 0.0f, 0.0f);
-        viewManager = new ViewManager(initialWindowWidth, initialWindowHeight, new StartMenu());
-        glfwSetWindowSizeCallback(window, viewManager.getGlfwWindowSizeCallback());
-        glfwSetKeyCallback(window, viewManager.getGlfwKeyCallback());
-        glfwSetCursorPosCallback(window, viewManager.getGlfwCursorPosCallback());
-        glfwSetMouseButtonCallback(window, viewManager.getGlfwMouseButtonCallback());
-        glfwSetScrollCallback(window, viewManager.getGlfwScrollCallback());
+        ViewManager.init(initialWindowWidth, initialWindowHeight, new StartMenu());
+        glfwSetWindowSizeCallback(window, ViewManager.getGlfwWindowSizeCallback());
+        glfwSetKeyCallback(window, ViewManager.getGlfwKeyCallback());
+        glfwSetCursorPosCallback(window, ViewManager.getGlfwCursorPosCallback());
+        glfwSetMouseButtonCallback(window, ViewManager.getGlfwMouseButtonCallback());
+        glfwSetScrollCallback(window, ViewManager.getGlfwScrollCallback());
     }
 
-    @Override
-    public void run() {
+    public static void run() {
         float lastUpdateTime = (float)glfwGetTime();
         while(glfwWindowShouldClose(window) == GL_FALSE) {
             tick((float)glfwGetTime() - lastUpdateTime);
@@ -72,18 +75,15 @@ public class x00FA9AClient implements Runnable, Tickable, Drawable {
         ALC.destroy();
     }
 
-    @Override
-    public void tick(float delta) {
+    public static void tick(float delta) {
         glfwPollEvents();
-        viewManager.tick(delta);
+        ViewManager.tick(delta);
     }
 
-    @Override
-    public void draw() {
+    public static void draw() {
         glClear(GL_COLOR_BUFFER_BIT);
         glClearColor(0.0f, 0.98f, 0.60f, 0.0f);
-//      glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-        viewManager.draw();
+        ViewManager.draw();
         glfwSwapBuffers(window);
     }
 

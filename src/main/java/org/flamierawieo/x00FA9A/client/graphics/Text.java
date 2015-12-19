@@ -1,6 +1,6 @@
 package org.flamierawieo.x00FA9A.client.graphics;
 
-import org.flamierawieo.x00FA9A.client.x00FA9AClient;
+import org.flamierawieo.x00FA9A.client.settings.Settings;
 import org.lwjgl.BufferUtils;
 
 import java.awt.*;
@@ -65,7 +65,7 @@ public class Text extends Sprite {
     private void updateTexture() {
         BufferedImage bufferedImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
         Graphics2D graphics2D = bufferedImage.createGraphics();
-        Font scaledFont = font.deriveFont(768.0f * this.height); // TODO: redesign project's WHOLE FUCKING ARCHITECTURE
+        Font scaledFont = font.deriveFont(Settings.getInstance().getVideoMode().getHeight() * this.height); // TODO: redesign project's WHOLE FUCKING ARCHITECTURE
         graphics2D.setFont(scaledFont); // TODO: relative font size calculation
         FontMetrics fontMetrics = graphics2D.getFontMetrics();
         int textureWidth = fontMetrics.stringWidth(string) + 2; // little hack preventing hard clipping

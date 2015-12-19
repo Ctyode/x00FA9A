@@ -45,25 +45,22 @@ public class View implements Tickable, Drawable, KeyInputListener, MouseInputLis
 
     /**
      * Invokes when View Manager starts this view
-     * @param viewManager view manager this view has started on
      */
-    public void onViewStarted(ViewManager viewManager) {
+    public void onViewStarted() {
 
     }
 
     /**
      * Invokes when View Manager pauses this view
-     * @param viewManager view manager this view has paused on
      */
-    public void onViewPaused(ViewManager viewManager) {
+    public void onViewPaused() {
 
     }
 
     /**
      * Invokes when View Manager stops this view
-     * @param viewManager view manager this view has stopped on
      */
-    public void onViewStopped(ViewManager viewManager) {
+    public void onViewStopped() {
 
     }
 

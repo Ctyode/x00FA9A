@@ -43,8 +43,8 @@ public class SongMenu extends View {
         private String levelText;
 
         public Item(String artist, String title, String level) {
-            this.artistText = new Text(artist, artistFont, Colors.MEDIUM_GRAY.getColor(), 0.15f);
-            this.titleText = new Text(title, titleFont, Colors.DARK_GRAY.getColor(), 0.14f);
+            this.artistText = new Text(artist, artistFont, Colors.MEDIUM_GRAY.getColor(), 0.04f);
+            this.titleText = new Text(title, titleFont, Colors.DARK_GRAY.getColor(), 0.03f);
             this.levelText = level;
         }
 
@@ -55,8 +55,8 @@ public class SongMenu extends View {
 
         @Override
         public void draw(float x, float y) {
-            artistText.draw(x + 0.0260416f, y + 0.03515f);
-            titleText.draw(x + 0.0260416f, y);
+            artistText.draw(x + 0.0260416f, y + 0.04515f);
+            titleText.draw(x + 0.0260416f, y + 0.01f);
             glColor3f(0.93f, 0.93f, 0.93f);
             glLineWidth(1.0f);
             glBegin(GL_LINES);
@@ -109,9 +109,9 @@ public class SongMenu extends View {
     }
 
     @Override
-    public void onViewStarted(ViewManager viewManager) {
-        activeSongBackground.setOnClickRunnable(() -> viewManager.pushView(new SquareMode()));
-        selectModeBackground.setOnClickRunnable(viewManager::popView);
+    public void onViewStarted() {
+        activeSongBackground.setOnClickRunnable(() -> ViewManager.pushView(new SquareMode()));
+        selectModeBackground.setOnClickRunnable(ViewManager::popView);
     }
 
 }
