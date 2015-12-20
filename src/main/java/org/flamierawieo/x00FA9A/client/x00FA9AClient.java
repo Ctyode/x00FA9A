@@ -55,7 +55,7 @@ public class x00FA9AClient {
         alListener3f(AL_POSITION, 0.0f, 0.0f, 0.0f);
         alListener3f(AL_VELOCITY, 0.0f, 0.0f, 0.0f);
         ViewManager.init(initialWindowWidth, initialWindowHeight, new StartMenu());
-        glfwSetWindowSizeCallback(window, ViewManager.getGlfwWindowSizeCallback());
+//        glfwSetWindowSizeCallback(window, ViewManager.getGlfwWindowSizeCallback());
         glfwSetKeyCallback(window, ViewManager.getGlfwKeyCallback());
         glfwSetCursorPosCallback(window, ViewManager.getGlfwCursorPosCallback());
         glfwSetMouseButtonCallback(window, ViewManager.getGlfwMouseButtonCallback());

@@ -44,5 +44,6 @@ public class ActiveSong extends Widget {
     public void draw() {
         artistText.draw(getAbsolutePositionX() + 0.0260416f, getAbsolutePositionY() + 0.04515f);
         titleText.draw(getAbsolutePositionX() + 0.0260416f, getAbsolutePositionY() + 0.01f);
+        levelText.draw(getAbsolutePositionX() + 0.0260416f, getAbsolutePositionY() - 0.025f);
     }
 }

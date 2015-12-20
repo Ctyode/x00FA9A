@@ -21,6 +21,10 @@ public class Sound {
         alSourceStop(source);
     }
 
+    public int getSource() {
+        return source;
+    }
+
     @Override
     protected void finalize() throws Throwable {
         super.finalize();

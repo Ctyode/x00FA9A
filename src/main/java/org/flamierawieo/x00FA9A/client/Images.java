@@ -10,8 +10,10 @@ public enum Images {
     CURSOR_IMAGE ("res/images/cursor.png"),
     BASIC_BACKGROUND ("res/images/background.png"),
 
-    // Start menu
+    // Start menu and player widget
     MENU_BUTTON ("res/images/startmenu/menu-buttons.png"),
+    PLAY ("res/images/playerwidget/play.png"),
+    PAUSE ("res/images/playerwidget/pause.png"),
 
     //Settings menu
     SETTINGS_BACKGROUND ("res/images/settingsmenu/settings-background.png"),
