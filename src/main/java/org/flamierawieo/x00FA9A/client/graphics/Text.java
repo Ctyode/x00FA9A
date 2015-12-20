@@ -66,7 +66,7 @@ public class Text extends Sprite {
         BufferedImage bufferedImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
         Graphics2D graphics2D = bufferedImage.createGraphics();
         Font scaledFont = font.deriveFont(Settings.getInstance().getVideoMode().getHeight() * this.height); // TODO: redesign project's WHOLE FUCKING ARCHITECTURE
-        graphics2D.setFont(scaledFont); // TODO: relative font size calculation
+        graphics2D.setFont(scaledFont);
         FontMetrics fontMetrics = graphics2D.getFontMetrics();
         int textureWidth = fontMetrics.stringWidth(string) + 2; // little hack preventing hard clipping
         int textureHeight = fontMetrics.getHeight() + 2;        // +1 pixel on each side of texture

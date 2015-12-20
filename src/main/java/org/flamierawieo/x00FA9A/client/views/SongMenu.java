@@ -6,7 +6,7 @@ import org.flamierawieo.x00FA9A.client.Images;
 import org.flamierawieo.x00FA9A.client.graphics.Text;
 import org.flamierawieo.x00FA9A.client.ui.View;
 import org.flamierawieo.x00FA9A.client.ui.ViewManager;
-import org.flamierawieo.x00FA9A.client.ui.widget.Background;
+import org.flamierawieo.x00FA9A.client.ui.widget.*;
 import org.flamierawieo.x00FA9A.client.ui.widget.Button;
 import org.flamierawieo.x00FA9A.client.ui.widget.List;
 import org.flamierawieo.x00FA9A.client.views.gamemods.SquareMode;
@@ -15,6 +15,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import rx.functions.Action1;
+import rx.subjects.PublishSubject;
 
 import java.awt.*;
 import java.io.FileReader;
@@ -27,6 +29,7 @@ public class SongMenu extends View {
     public static final Font artistFont = Fonts.ROBOTO_LIGHT.getFont();
     public static final Font titleFont = Fonts.ROBOTO_LIGHT.getFont();
     public static final Font levelFont = Fonts.ROBOTO_LIGHT.getFont();
+    private ActiveSong activeSong;
 
     private Background bottomPanelBackground;
     private Background mapHeaderBackground;
@@ -35,22 +38,33 @@ public class SongMenu extends View {
     private Background searchBackground;
     private Button selectModeBackground;
     private Background songListBackground;
+    private PublishSubject selectedTrack;
 
-    public static class Item implements List.ListItem {
+    public class Item implements ListItem {
 
+        private String artist;
+        private String title;
+        private String level;
         private Text artistText;
         private Text titleText;
-        private String levelText;
 
         public Item(String artist, String title, String level) {
+            this.artist = artist;
+            this.title = title;
+            this.level = level;
             this.artistText = new Text(artist, artistFont, Colors.MEDIUM_GRAY.getColor(), 0.04f);
             this.titleText = new Text(title, titleFont, Colors.DARK_GRAY.getColor(), 0.03f);
-            this.levelText = level;
         }
 
         @Override
         public float getHeight() {
-            return 0.09675f;
+            return 0.0975f;
+        }
+
+        @Override
+        public void onChosen() {
+            System.out.println(artist + " -- " + title);
+            selectedTrack.onNext(this);
         }
 
         @Override
@@ -85,7 +99,7 @@ public class SongMenu extends View {
                 .setSize(0.6796875f, 0.1875f)
                 .setOrigin(0.0f, 0.5f).build();
         songList = new List(0.746f, 0.0f, 0.5f, 1.0f);
-        java.util.List<List.ListItem> itemList = songList.getItemList();
+        java.util.List<ListItem> itemList = songList.getItemList();
         try {
             JSONObject root = (JSONObject) parser.parse(new FileReader("res/json/song_cache.json"));
             String uuid = (String) root.get("cache_uuid");
@@ -98,6 +112,14 @@ public class SongMenu extends View {
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
+        activeSong = new ActiveSong(0.683f, 0.5f, 0.6796875f, 0.1875f);
+        selectedTrack = PublishSubject.create();
+        selectedTrack.subscribe(o -> {
+            Item item = (Item) o;
+            activeSong.setArtist(item.artist);
+            activeSong.setTitle(item.title);
+            activeSong.setLevel(item.level);
+        });
 
         addWidget(bottomPanelBackground);
         addWidget(selectModeBackground);
@@ -106,6 +128,7 @@ public class SongMenu extends View {
         addWidget(searchBackground);
         addWidget(mapHeaderBackground);
         addWidget(activeSongBackground);
+        addWidget(activeSong);
     }
 
     @Override
@@ -113,5 +136,4 @@ public class SongMenu extends View {
         activeSongBackground.setOnClickRunnable(() -> ViewManager.pushView(new SquareMode()));
         selectModeBackground.setOnClickRunnable(ViewManager::popView);
     }
-
 }
