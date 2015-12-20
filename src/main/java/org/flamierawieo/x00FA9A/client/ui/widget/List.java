@@ -36,7 +36,6 @@ public class List extends Widget {
         for(ListItem item : itemList) {
             itemHeight = item.getHeight();
             if(offset > -itemHeight && offset < getHeight() && relativeCursorPositionY > offset && relativeCursorPositionY < offset + itemHeight) {
-                System.out.println(relativeCursorPositionX + " " + relativeCursorPositionY);
                 item.onChosen();
             }
             offset += itemHeight;

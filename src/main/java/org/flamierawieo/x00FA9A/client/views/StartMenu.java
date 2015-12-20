@@ -20,7 +20,6 @@ public class StartMenu extends View {
 
     public StartMenu() {
         super();
-        System.out.println(ViewManager.getAspect());
         player = new Player(1.2f, 0.92f, 0.2f, 0.2f);
         singleplayerButton = Button.builder()
                 .setBackgroundTexture(Images.MENU_BUTTON.getTexture())
