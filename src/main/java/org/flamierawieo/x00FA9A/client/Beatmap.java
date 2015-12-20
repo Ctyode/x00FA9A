@@ -14,26 +14,13 @@ public class Beatmap {
     private static List<Beatmap> beatmapCache = new ArrayList<>();
 
     static {
-        try {
-            JSONObject root = (JSONObject) new JSONParser().parse(new FileReader("custom/song_cache.json"));
-            int fileListHash = 0;
-            for(File f : new File("custom/beatmaps").listFiles()) {
-                fileListHash ^= f.hashCode();
+        for(File f : new File("custom/beatmaps").listFiles()) {
+            try {
+                Beatmap beatmap = Beatmap.loadFromFile(f);
+                beatmapCache.add(beatmap);
+            } catch (ParseException | IOException e) {
+                e.printStackTrace();
             }
-            if(((Long) root.get("file_list_hash")).intValue() == fileListHash) {
-                JSONArray cache = (JSONArray) root.get("cache");
-                for (Object o : cache) {
-                    JSONObject cacheItem = (JSONObject) o;
-                    beatmapCache.add(new Beatmap((String) cacheItem.get("artist"), (String) cacheItem.get("title"), (String) cacheItem.get("mapper"), (byte) 0b00000000, null, null));
-                }
-            } else {
-                updateBeatmapCache();
-            }
-        } catch(FileNotFoundException e) {
-            updateBeatmapCache();
-        } catch(IOException | ParseException e) {
-            e.printStackTrace();
-            updateBeatmapCache();
         }
     }
 
@@ -41,35 +28,8 @@ public class Beatmap {
         return beatmapCache;
     }
 
-    public static void updateBeatmapCache() {
-        JSONObject root = new JSONObject();
-        int fileListHash = 0;
-        File[] fileList = new File("custom/beatmaps").listFiles();
-        for(File f : fileList) {
-            fileListHash ^= f.hashCode();
-        }
-        root.put("file_list_hash", fileListHash);
-        JSONArray cache = new JSONArray();
-        for(File f : fileList) {
-            try {
-                cache.add(Beatmap.loadFromFile(f).toCacheJSONObject());
-            } catch (ParseException | IOException e) {
-                e.printStackTrace();
-            }
-        }
-        root.put("cache", cache);
-        try {
-            Writer fileWriter = new FileWriter("custom/song_cache.json");
-            root.writeJSONString(fileWriter);
-            fileWriter.flush();
-            fileWriter.close();
-        } catch(IOException ioException) {
-            throw new RuntimeException(ioException);
-        }
-    }
-
     public static Beatmap loadFromFile(File file) throws IOException, ParseException {
-        File infoFile = file.listFiles(pathname -> "info.json".equals(pathname.getName()))[0];
+        File infoFile = new File(file, "info.json");
         JSONObject root = (JSONObject) new JSONParser().parse(new FileReader(infoFile));
         String artist = (String) root.get("artist");
         String title = (String) root.get("title");
@@ -86,8 +46,23 @@ public class Beatmap {
                 case(7): availableDifficulties |= 0b01000000; break;
             }
         }
-        File ogg = new File((String) root.get("ogg"));
-        File background = new File((String) root.get("background"));
+        File ogg = new File(file, (String) root.get("ogg"));
+        File background = new File(file, (String) root.get("background"));
+        if(artist == null) {
+            throw new IOException("artist is not specified");
+        }
+        if(title == null) {
+            throw new IOException("title is not specified");
+        }
+        if(mapper == null) {
+            throw new IOException("mapper is not specified");
+        }
+        if(!ogg.exists()) {
+            throw new FileNotFoundException(ogg.getPath());
+        }
+        if(!background.exists()) {
+            throw new FileNotFoundException(background.getPath());
+        }
         return new Beatmap(artist, title, mapper, availableDifficulties, ogg, background);
     }
 
@@ -105,37 +80,6 @@ public class Beatmap {
         this.availableDifficulties = availableDifficulties;
         this.ogg = ogg;
         this.background = background;
-    }
-
-    public JSONObject toCacheJSONObject() {
-        return new JSONObject() {{
-            put("artist", artist);
-            put("title", title);
-            put("mapper", mapper);
-            put("availableDifficulties", new JSONArray() {{
-                if((availableDifficulties & 0b00000001) != 0) {
-                    add(1);
-                }
-                if((availableDifficulties & 0b00000010) != 0) {
-                    add(2);
-                }
-                if((availableDifficulties & 0b00000100) != 0) {
-                    add(3);
-                }
-                if((availableDifficulties & 0b00001000) != 0) {
-                    add(4);
-                }
-                if((availableDifficulties & 0b00010000) != 0) {
-                    add(5);
-                }
-                if((availableDifficulties & 0b00100000) != 0) {
-                    add(6);
-                }
-                if((availableDifficulties & 0b01000000) != 0) {
-                    add(7);
-                }
-            }});
-        }};
     }
 
     public String getArtist() {

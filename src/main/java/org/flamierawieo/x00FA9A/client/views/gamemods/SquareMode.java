@@ -1,6 +1,11 @@
 package org.flamierawieo.x00FA9A.client.views.gamemods;
 
+import org.flamierawieo.x00FA9A.client.Beatmap;
+import org.flamierawieo.x00FA9A.client.Resources;
+import org.flamierawieo.x00FA9A.client.audio.Sound;
 import org.flamierawieo.x00FA9A.client.ui.View;
+
+import java.io.IOException;
 
 public class SquareMode extends View {
 
@@ -34,8 +39,13 @@ public class SquareMode extends View {
 
     private int Score = 0;
 
-    public SquareMode() {
+    public SquareMode(Beatmap b) {
         super();
+        try {
+            Sound.loadFromOggFile(b.getOgg()).play();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

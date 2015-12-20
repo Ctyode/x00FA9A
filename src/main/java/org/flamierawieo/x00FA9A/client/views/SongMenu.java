@@ -23,12 +23,12 @@ public class SongMenu extends View {
     public static final Font artistFont = Fonts.ROBOTO_LIGHT.getFont();
     public static final Font titleFont = Fonts.ROBOTO_LIGHT.getFont();
     public static final Font levelFont = Fonts.ROBOTO_LIGHT.getFont();
-    private ActiveSong activeSong;
+    private SelectedBeatmap selectedBeatmap;
 
     private Background bottomPanelBackground;
     private Background mapHeaderBackground;
     private List songList;
-    private Button activeSongBackground;
+    private Background activeSongBackground;
     private Background searchBackground;
     private Button selectModeBackground;
     private Background songListBackground;
@@ -36,18 +36,18 @@ public class SongMenu extends View {
 
     public class Item implements ListItem {
 
-        private String artist;
-        private String title;
-        private String level;
+        private Beatmap beatmap;
         private Text artistText;
         private Text titleText;
 
-        public Item(String artist, String title, String level) {
-            this.artist = artist;
-            this.title = title;
-            this.level = level;
-            this.artistText = new Text(artist, artistFont, Colors.MEDIUM_GRAY.getColor(), 0.04f);
-            this.titleText = new Text(title, titleFont, Colors.DARK_GRAY.getColor(), 0.03f);
+        public Item(Beatmap b) {
+            this.beatmap = b;
+            this.artistText = new Text(beatmap.getArtist(), artistFont, Colors.MEDIUM_GRAY.getColor(), 0.04f);
+            this.titleText = new Text(beatmap.getTitle(), titleFont, Colors.DARK_GRAY.getColor(), 0.03f);
+        }
+
+        public Beatmap getBeatmap() {
+            return beatmap;
         }
 
         @Override
@@ -85,22 +85,13 @@ public class SongMenu extends View {
         songListBackground = new Background(Images.SONG_LIST_BACKGROUND.getTexture(), 0.746f, -0.5f, 0.542f, 2.0f);
         searchBackground = new Background(Images.SEARCH_BACKGROUND.getTexture(), 0.98307f, 0.8958333f, 0.342447916f, 0.0833333f);
         mapHeaderBackground = new Background(Images.MAP_HEADER.getTexture(), -0.389f, 0.888f, 0.62239583f, 0.1171875f);
-        activeSongBackground = Button.builder()
-                .setBackgroundTexture(Images.ACTIVE_SONG_BACKGROUND.getTexture())
-                .setPosition(0.683f, 0.5f)
-                .setSize(0.6796875f, 0.1875f)
-                .setOrigin(0.0f, 0.5f).build();
+        activeSongBackground = new Background(Images.ACTIVE_SONG_BACKGROUND.getTexture(), 0.683f, 0.5f, 0.6796875f, 0.1875f, 0.0f, 0.5f);
         songList = new List(0.746f, 0.0f, 0.5f, 1.0f);
         java.util.List<ListItem> itemList = songList.getItemList();
-        Beatmap.getBeatmapCache().forEach(i -> itemList.add(new Item(i.getArtist(), i.getTitle(), i.getMapper())));
-        activeSong = new ActiveSong(0.683f, 0.5f, 0.6796875f, 0.1875f);
+        Beatmap.getBeatmapCache().forEach(b -> itemList.add(new Item(b)));
+        selectedBeatmap = new SelectedBeatmap(0.683f, 0.5f, 0.6796875f, 0.1875f, 0.0f, 0.5f);
         selectedTrack = PublishSubject.create();
-        selectedTrack.subscribe(o -> {
-            Item item = (Item) o;
-            activeSong.setArtist(item.artist);
-            activeSong.setTitle(item.title);
-            activeSong.setLevel(item.level);
-        });
+        selectedTrack.subscribe(o -> selectedBeatmap.setSelectedBeatmap(((Item) o).getBeatmap()));
 
         addWidget(bottomPanelBackground);
         addWidget(selectModeBackground);
@@ -109,12 +100,12 @@ public class SongMenu extends View {
         addWidget(searchBackground);
         addWidget(mapHeaderBackground);
         addWidget(activeSongBackground);
-        addWidget(activeSong);
+        addWidget(selectedBeatmap);
     }
 
     @Override
     public void onViewStarted() {
-        activeSongBackground.setOnClickRunnable(() -> ViewManager.pushView(new SquareMode()));
+        selectedBeatmap.setOnClickRunnable(() -> ViewManager.pushView(new SquareMode(selectedBeatmap.getSelectedBeatmap())));
         selectModeBackground.setOnClickRunnable(ViewManager::popView);
     }
 
