@@ -2,9 +2,7 @@ package org.flamierawieo.x00FA9A.client.views;
 
 import org.flamierawieo.x00FA9A.client.Images;
 import org.flamierawieo.x00FA9A.client.Fonts;
-import org.flamierawieo.x00FA9A.client.audio.Sound;
 import org.flamierawieo.x00FA9A.client.graphics.Text;
-import org.flamierawieo.x00FA9A.client.settings.Settings;
 import org.flamierawieo.x00FA9A.client.ui.widget.Button;
 import org.flamierawieo.x00FA9A.client.ui.View;
 import org.flamierawieo.x00FA9A.client.ui.ViewManager;
@@ -15,7 +13,6 @@ import java.awt.*;
 public class StartMenu extends View {
 
     private Player player;
-    private Button pauseButton;
     private Button singleplayerButton;
     private Button multiplayerButton;
     private Button optionsButton;

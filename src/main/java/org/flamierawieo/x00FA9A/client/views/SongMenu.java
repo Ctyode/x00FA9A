@@ -101,9 +101,7 @@ public class SongMenu extends View {
         songList = new List(0.746f, 0.0f, 0.5f, 1.0f);
         java.util.List<ListItem> itemList = songList.getItemList();
         try {
-            JSONObject root = (JSONObject) parser.parse(new FileReader("res/json/song_cache.json"));
-            String uuid = (String) root.get("cache_uuid");
-            System.out.println(uuid);
+            JSONObject root = (JSONObject) parser.parse(new FileReader("custom/song_cache.json"));
             JSONArray songs = (JSONArray) root.get("songs");
             songs.forEach(s -> {
                 JSONObject song = (JSONObject) s;

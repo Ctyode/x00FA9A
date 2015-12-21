@@ -16,7 +16,7 @@ public class Settings {
         return instance;
     }
 
-    public static final String userSettingsJsonPath = "res/user_settings.json";
+    public static final String userSettingsJsonPath = "custom/user_settings.json";
 
     private VideoMode videoMode;
 
