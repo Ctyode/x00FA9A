@@ -73,7 +73,11 @@ public class SquareMode extends View {
 //        System.out.printf("%d %f\n", key, glfwGetTime() - startedTime);
         while((delta = nearestBeatTime - currentTime) < 0 && deque.size() > 0) {
             deque.removeFirst();
-            nearestBeatTime = deque.getFirst();
+            if(deque.size() > 0) {
+                nearestBeatTime = deque.getFirst();
+            } else {
+                nearestBeatTime = 0.0;
+            }
         }
         System.out.printf("%f %f %f %d\n", delta, currentTime, nearestBeatTime, calculateScore(nearestBeatTime, currentTime));
     }
