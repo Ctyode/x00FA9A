@@ -6,6 +6,11 @@ import org.flamierawieo.x00FA9A.client.audio.Sound;
 import org.flamierawieo.x00FA9A.client.ui.View;
 
 import java.io.IOException;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.stream.Collectors;
+
+import static org.lwjgl.glfw.GLFW.*;
 
 public class SquareMode extends View {
 
@@ -16,8 +21,8 @@ public class SquareMode extends View {
         HIT_300 (300, 0.1);
 
         private int score;
-        private double accuracy;
 
+        private double accuracy;
         /**
          * @param score znachit chto ty dolboeb
          * @param accuracy znachit chto ty kosoi dolboeb
@@ -35,17 +40,42 @@ public class SquareMode extends View {
         public double getAccuracy() {
             return accuracy;
         }
+
     }
 
     private int Score = 0;
+    private double startedTime;
+    private Deque<Double> deque;
 
     public SquareMode(Beatmap b) {
         super();
+        deque = new ArrayDeque<>(b.getSquareModeTiming().stream().sorted(Double::compare).collect(Collectors.toList()));
         try {
             Sound.loadFromOggFile(b.getOgg()).play();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onViewStarted() {
+        startedTime = glfwGetTime();
+    }
+
+    @Override
+    public void onKeyDown(int key, int scancode, int mods) {
+        double currentTime = glfwGetTime() - startedTime;
+        double nearestBeatTime = 0.0;
+        double delta = 0.0;
+        if(deque.size() > 0) {
+            nearestBeatTime = deque.getFirst();
+        }
+//        System.out.printf("%d %f\n", key, glfwGetTime() - startedTime);
+        while((delta = nearestBeatTime - currentTime) < 0 && deque.size() > 0) {
+            deque.removeFirst();
+            nearestBeatTime = deque.getFirst();
+        }
+        System.out.printf("%f %f %f %d\n", delta, currentTime, nearestBeatTime, calculateScore(nearestBeatTime, currentTime));
     }
 
     @Override
@@ -55,7 +85,6 @@ public class SquareMode extends View {
 
     @Override
     public void tick(float delta) {
-        double currentTime = System.currentTimeMillis() / 1000;
     }
 
     public int calculateScore(double beatTime, double keyPressedTime) {
