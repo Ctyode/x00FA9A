@@ -1,9 +1,11 @@
 package org.flamierawieo.x00FA9A.client.views.gamemods;
 
 import org.flamierawieo.x00FA9A.client.Beatmap;
+import org.flamierawieo.x00FA9A.client.Images;
 import org.flamierawieo.x00FA9A.client.Resources;
 import org.flamierawieo.x00FA9A.client.audio.Sound;
 import org.flamierawieo.x00FA9A.client.ui.View;
+import org.flamierawieo.x00FA9A.client.ui.widget.Background;
 
 import java.io.IOException;
 import java.util.ArrayDeque;
@@ -13,6 +15,11 @@ import java.util.stream.Collectors;
 import static org.lwjgl.glfw.GLFW.*;
 
 public class SquareMode extends View {
+
+    private Background comboBackground;
+    private Background statsBackground;
+    private Background[] greenButton;
+    private Background buttonsBackground;
 
     private enum HitAccuracy {
 
@@ -49,12 +56,17 @@ public class SquareMode extends View {
 
     public SquareMode(Beatmap b) {
         super();
+        buttonsBackground = new Background(Images.BUTTONS_BACKGROUND.getTexture(), 0.0f, 0.0f, 0.0f, 0.0f);
+        statsBackground = new Background(Images.BUTTONS_BACKGROUND.getTexture(), 0.0f, 0.0f, 0.0f, 0.0f);
+        comboBackground = new Background(Images.BUTTONS_BACKGROUND.getTexture(), 0.0f, 0.0f, 0.0f, 0.0f);
         deque = new ArrayDeque<>(b.getSquareModeTiming().stream().sorted(Double::compare).collect(Collectors.toList()));
         try {
             Sound.loadFromOggFile(b.getOgg()).play();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        addWidget(buttonsBackground);
     }
 
     @Override
@@ -70,7 +82,6 @@ public class SquareMode extends View {
         if(deque.size() > 0) {
             nearestBeatTime = deque.getFirst();
         }
-//        System.out.printf("%d %f\n", key, glfwGetTime() - startedTime);
         while((delta = nearestBeatTime - currentTime) < 0 && deque.size() > 0) {
             deque.removeFirst();
             if(deque.size() > 0) {
@@ -80,6 +91,7 @@ public class SquareMode extends View {
             }
         }
         System.out.printf("%f %f %f %d\n", delta, currentTime, nearestBeatTime, calculateScore(nearestBeatTime, currentTime));
+//        System.out.printf("%d %f\n", key, glfwGetTime() - startedTime);
     }
 
     @Override
@@ -105,7 +117,15 @@ public class SquareMode extends View {
                 return 0;
             }
         } else {
-            return 0;
+            if(-delta < HitAccuracy.HIT_300.getAccuracy()) {
+                return HitAccuracy.HIT_300.getScore();
+            } else if (-delta < HitAccuracy.HIT_200.getAccuracy()) {
+                return HitAccuracy.HIT_200.getScore();
+            } else if (-delta < HitAccuracy.HIT_100.getAccuracy()) {
+                return HitAccuracy.HIT_100.getScore();
+            } else {
+                return 0;
+            }
         }
     }
 
