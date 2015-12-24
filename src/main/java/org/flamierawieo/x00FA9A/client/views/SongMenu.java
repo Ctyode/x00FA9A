@@ -85,11 +85,11 @@ public class SongMenu extends View {
         songListBackground = new Background(Images.SONG_LIST_BACKGROUND.getTexture(), 0.746f, -0.5f, 0.542f, 2.0f);
         searchBackground = new Background(Images.SEARCH_BACKGROUND.getTexture(), 0.98307f, 0.8958333f, 0.342447916f, 0.0833333f);
         mapHeaderBackground = new Background(Images.MAP_HEADER.getTexture(), -0.389f, 0.888f, 0.62239583f, 0.1171875f);
-        activeSongBackground = new Background(Images.ACTIVE_SONG_BACKGROUND.getTexture(), 0.683f, 0.5f, 0.6796875f, 0.1875f, 0.0f, 0.5f);
+        activeSongBackground = new Background(Images.ACTIVE_SONG_BACKGROUND.getTexture(), 0.67648958f, 0.48567708f, 0.6796875f, 0.1875f, 0.0f, 0.5f);
         songList = new List(0.746f, 0.0f, 0.5f, 1.0f);
         java.util.List<ListItem> itemList = songList.getItemList();
         Beatmap.getBeatmapCache().forEach(b -> itemList.add(new Item(b)));
-        selectedBeatmap = new SelectedBeatmap(0.683f, 0.5f, 0.6796875f, 0.1875f, 0.0f, 0.5f);
+        selectedBeatmap = new SelectedBeatmap(0.68619791666f, 0.411458333f, 0.65755208333f, 0.16276041666f);
         selectedTrack = PublishSubject.create();
         selectedTrack.subscribe(o -> selectedBeatmap.setSelectedBeatmap(((Item) o).getBeatmap()));
 

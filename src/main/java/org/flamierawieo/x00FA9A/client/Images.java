@@ -26,7 +26,10 @@ public enum Images {
     SELECT_MODE ("res/images/songmenu/logo-background.png"),
     BOTTOM_PANEL ("res/images/songmenu/bottom-panel-background.png"),
     MAP_HEADER ("res/images/songmenu/map-header-background.png"),
-    LIST_LINE ("res/images/songmenu/line-song-list.png"),
+    // circles
+    SELECTED_DIFFICULTY ("res/images/songmenu/selected-difficulty-mark.png"),
+    AVAILABLE_DIFFICULTY ("res/images/songmenu/available-difficulty-mark.png"),
+    UNAVAILABLE_DIFFICULTY ("res/images/songmenu/unavailable-difficulty-mark.png"),
 
     // Square mode backgrounds
     BUTTONS_BACKGROUND ("res/images/squaremode/buttons-background.png"),
