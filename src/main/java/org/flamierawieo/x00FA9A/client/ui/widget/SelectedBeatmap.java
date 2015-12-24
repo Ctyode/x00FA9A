@@ -21,6 +21,8 @@ public class SelectedBeatmap extends Widget {
     private Sprite unavailableDifficulty;
     private int difficulty;
     private Runnable onClickRunnable;
+    private float relativeMousePositionY;
+    private float relativeMousePositionX;
 
     public SelectedBeatmap(float x, float y, float width, float height, float originX, float originY) {
         super(x, y, width, height, originX, originY);
@@ -41,6 +43,7 @@ public class SelectedBeatmap extends Widget {
     }
 
     public void setSelectedBeatmap(Beatmap beatmap) {
+        difficulty = 0;
         selectedBeatmap = beatmap;
         artistText.setString(selectedBeatmap.getArtist());
         titleText.setString(selectedBeatmap.getTitle());
@@ -52,9 +55,65 @@ public class SelectedBeatmap extends Widget {
 
     @Override
     public void onMouseButtonDown(int button, int mods) {
-        if(onClickRunnable != null) {
+        byte availableDifficulties = selectedBeatmap.getAvailableDifficulties();
+        if (relativeMousePositionX > getAbsolutePositionX() + 0.26f
+                && relativeMousePositionY > getAbsolutePositionY() + 0.12f
+                && relativeMousePositionX < getAbsolutePositionX() + 0.26f + 0.030924479166f
+                && relativeMousePositionY < getAbsolutePositionY() + 0.12f + 0.030598958333f) {
+            if ((availableDifficulties & 0b00000001) != 0) {
+                difficulty = 1;
+            }
+        } else if (relativeMousePositionX > getAbsolutePositionX() + 0.3f
+                && relativeMousePositionY > getAbsolutePositionY() + 0.12f
+                && relativeMousePositionX < getAbsolutePositionX() + 0.3f + 0.030924479166f
+                && relativeMousePositionY < getAbsolutePositionY() + 0.12f + 0.030598958333f) {
+            if ((availableDifficulties & 0b00000010) != 0) {
+                difficulty = 2;
+            }
+        } else if (relativeMousePositionX > getAbsolutePositionX() + 0.34f
+                && relativeMousePositionY > getAbsolutePositionY() + 0.12f
+                && relativeMousePositionX < getAbsolutePositionX() + 0.34f + 0.030924479166f
+                && relativeMousePositionY < getAbsolutePositionY() + 0.12f + 0.030598958333f) {
+            if ((availableDifficulties & 0b00000100) != 0) {
+                difficulty = 3;
+            }
+        } else if (relativeMousePositionX > getAbsolutePositionX() + 0.38f
+                && relativeMousePositionY > getAbsolutePositionY() + 0.12f
+                && relativeMousePositionX < getAbsolutePositionX() + 0.38f + 0.030924479166f
+                && relativeMousePositionY < getAbsolutePositionY() + 0.12f + 0.030598958333f) {
+            if ((availableDifficulties & 0b00001000) != 0) {
+                difficulty = 4;
+            }
+        } else if (relativeMousePositionX > getAbsolutePositionX() + 0.42f
+                && relativeMousePositionY > getAbsolutePositionY() + 0.12f
+                && relativeMousePositionX < getAbsolutePositionX() + 0.42f + 0.030924479166f
+                && relativeMousePositionY < getAbsolutePositionY() + 0.12f + 0.030598958333f) {
+            if ((availableDifficulties & 0b00010000) != 0) {
+                difficulty = 5;
+            }
+        } else if (relativeMousePositionX > getAbsolutePositionX() + 0.46f
+                && relativeMousePositionY > getAbsolutePositionY() + 0.12f
+                && relativeMousePositionX < getAbsolutePositionX() + 0.46f + 0.030924479166f
+                && relativeMousePositionY < getAbsolutePositionY() + 0.12f + 0.030598958333f) {
+            if ((availableDifficulties & 0b00100000) != 0) {
+                difficulty = 6;
+            }
+        } else if (relativeMousePositionX > getAbsolutePositionX() + 0.5f
+                && relativeMousePositionY > getAbsolutePositionY() + 0.12f
+                && relativeMousePositionX < getAbsolutePositionX() + 0.5f + 0.030924479166f
+                && relativeMousePositionY < getAbsolutePositionY() + 0.12f + 0.030598958333f) {
+            if ((availableDifficulties & 0b01000000) != 0) {
+                difficulty = 7;
+            }
+        } else if (onClickRunnable != null) {
             onClickRunnable.run();
         }
+    }
+
+    @Override
+    public void onMouseMove(float x, float y) {
+        relativeMousePositionX = getAbsolutePositionX() - x;
+        relativeMousePositionY = getAbsolutePositionY() - y;
     }
 
     @Override
@@ -62,8 +121,7 @@ public class SelectedBeatmap extends Widget {
         if (selectedBeatmap != null) {
             byte availableDifficulties = selectedBeatmap.getAvailableDifficulties();
             if ((availableDifficulties & 0b00000001) != 0) {
-                availableDifficulty.draw(getAbsolutePositionX() + 0.26f, getAbsolutePositionY() + 0.12f, 0.030924479166f, 0.030598958333f);
-                if (difficulty == 0) {
+                if (difficulty == 1) {
                     selectedDifficulty.draw(getAbsolutePositionX() + 0.26f, getAbsolutePositionY() + 0.12f, 0.030924479166f, 0.030598958333f);
                 } else {
                     availableDifficulty.draw(getAbsolutePositionX() + 0.26f, getAbsolutePositionY() + 0.12f, 0.030924479166f, 0.030598958333f);
@@ -72,8 +130,7 @@ public class SelectedBeatmap extends Widget {
                 unavailableDifficulty.draw(getAbsolutePositionX() + 0.26f, getAbsolutePositionY() + 0.12f, 0.030924479166f, 0.030598958333f);
             }
             if ((availableDifficulties & 0b00000010) != 0) {
-                availableDifficulty.draw(getAbsolutePositionX() + 0.3f, getAbsolutePositionY() + 0.12f, 0.030924479166f, 0.030598958333f);
-                if (difficulty == 0) {
+                if (difficulty == 2) {
                     selectedDifficulty.draw(getAbsolutePositionX() + 0.3f, getAbsolutePositionY() + 0.12f, 0.030924479166f, 0.030598958333f);
                 } else {
                     availableDifficulty.draw(getAbsolutePositionX() + 0.3f, getAbsolutePositionY() + 0.12f, 0.030924479166f, 0.030598958333f);
@@ -82,8 +139,7 @@ public class SelectedBeatmap extends Widget {
                 unavailableDifficulty.draw(getAbsolutePositionX() + 0.3f, getAbsolutePositionY() + 0.12f, 0.030924479166f, 0.030598958333f);
             }
             if ((availableDifficulties & 0b00000100) != 0) {
-                availableDifficulty.draw(getAbsolutePositionX() + 0.34f, getAbsolutePositionY() + 0.12f, 0.030924479166f, 0.030598958333f);
-                if (difficulty == 0) {
+                if (difficulty == 3) {
                     selectedDifficulty.draw(getAbsolutePositionX() + 0.34f, getAbsolutePositionY() + 0.12f, 0.030924479166f, 0.030598958333f);
                 } else {
                     availableDifficulty.draw(getAbsolutePositionX() + 0.34f, getAbsolutePositionY() + 0.12f, 0.030924479166f, 0.030598958333f);
@@ -92,8 +148,7 @@ public class SelectedBeatmap extends Widget {
                 unavailableDifficulty.draw(getAbsolutePositionX() + 0.34f, getAbsolutePositionY() + 0.12f, 0.030924479166f, 0.030598958333f);
             }
             if ((availableDifficulties & 0b00001000) != 0) {
-                availableDifficulty.draw(getAbsolutePositionX() + 0.38f, getAbsolutePositionY() + 0.12f, 0.030924479166f, 0.030598958333f);
-                if (difficulty == 0) {
+                if (difficulty == 4) {
                     selectedDifficulty.draw(getAbsolutePositionX() + 0.38f, getAbsolutePositionY() + 0.12f, 0.030924479166f, 0.030598958333f);
                 } else {
                     availableDifficulty.draw(getAbsolutePositionX() + 0.38f, getAbsolutePositionY() + 0.12f, 0.030924479166f, 0.030598958333f);
@@ -102,8 +157,7 @@ public class SelectedBeatmap extends Widget {
                 unavailableDifficulty.draw(getAbsolutePositionX() + 0.38f, getAbsolutePositionY() + 0.12f, 0.030924479166f, 0.030598958333f);
             }
             if ((availableDifficulties & 0b00010000) != 0) {
-                availableDifficulty.draw(getAbsolutePositionX() + 0.42f, getAbsolutePositionY() + 0.12f, 0.030924479166f, 0.030598958333f);
-                if (difficulty == 0) {
+                if (difficulty == 5) {
                     selectedDifficulty.draw(getAbsolutePositionX() + 0.42f, getAbsolutePositionY() + 0.12f, 0.030924479166f, 0.030598958333f);
                 } else {
                     availableDifficulty.draw(getAbsolutePositionX() + 0.42f, getAbsolutePositionY() + 0.12f, 0.030924479166f, 0.030598958333f);
@@ -112,8 +166,7 @@ public class SelectedBeatmap extends Widget {
                 unavailableDifficulty.draw(getAbsolutePositionX() + 0.42f, getAbsolutePositionY() + 0.12f, 0.030924479166f, 0.030598958333f);
             }
             if ((availableDifficulties & 0b00100000) != 0) {
-                availableDifficulty.draw(getAbsolutePositionX() + 0.46f, getAbsolutePositionY() + 0.12f, 0.030924479166f, 0.030598958333f);
-                if (difficulty == 0) {
+                if (difficulty == 6) {
                     selectedDifficulty.draw(getAbsolutePositionX() + 0.46f, getAbsolutePositionY() + 0.12f, 0.030924479166f, 0.030598958333f);
                 } else {
                     availableDifficulty.draw(getAbsolutePositionX() + 0.46f, getAbsolutePositionY() + 0.12f, 0.030924479166f, 0.030598958333f);
@@ -122,8 +175,7 @@ public class SelectedBeatmap extends Widget {
                 unavailableDifficulty.draw(getAbsolutePositionX() + 0.46f, getAbsolutePositionY() + 0.12f, 0.030924479166f, 0.030598958333f);
             }
             if ((availableDifficulties & 0b01000000) != 0) {
-                availableDifficulty.draw(getAbsolutePositionX() + 0.5f, getAbsolutePositionY() + 0.12f, 0.030924479166f, 0.030598958333f);
-                if (difficulty == 0) {
+                if (difficulty == 7) {
                     selectedDifficulty.draw(getAbsolutePositionX() + 0.5f, getAbsolutePositionY() + 0.12f, 0.030924479166f, 0.030598958333f);
                 } else {
                     availableDifficulty.draw(getAbsolutePositionX() + 0.5f, getAbsolutePositionY() + 0.12f, 0.030924479166f, 0.030598958333f);

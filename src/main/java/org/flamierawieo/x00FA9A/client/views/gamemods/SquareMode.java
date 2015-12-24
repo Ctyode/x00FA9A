@@ -1,9 +1,8 @@
 package org.flamierawieo.x00FA9A.client.views.gamemods;
 
-import org.flamierawieo.x00FA9A.client.Beatmap;
-import org.flamierawieo.x00FA9A.client.Images;
-import org.flamierawieo.x00FA9A.client.Resources;
+import org.flamierawieo.x00FA9A.client.*;
 import org.flamierawieo.x00FA9A.client.audio.Sound;
+import org.flamierawieo.x00FA9A.client.graphics.Text;
 import org.flamierawieo.x00FA9A.client.ui.View;
 import org.flamierawieo.x00FA9A.client.ui.widget.Background;
 
@@ -16,10 +15,12 @@ import static org.lwjgl.glfw.GLFW.*;
 
 public class SquareMode extends View {
 
+    private Text scoreText;
     private Background comboBackground;
     private Background statsBackground;
     private Background[] greenButton;
     private Background buttonsBackground;
+    private Sound song;
 
     private enum HitAccuracy {
 
@@ -50,7 +51,7 @@ public class SquareMode extends View {
 
     }
 
-    private int Score = 0;
+    private int score = 0;
     private double startedTime;
     private Deque<Double> deque;
 
@@ -59,19 +60,22 @@ public class SquareMode extends View {
         buttonsBackground = new Background(Images.BUTTONS_BACKGROUND.getTexture(), 0.0f, 0.0f, 0.0f, 0.0f);
         statsBackground = new Background(Images.BUTTONS_BACKGROUND.getTexture(), 0.0f, 0.0f, 0.0f, 0.0f);
         comboBackground = new Background(Images.BUTTONS_BACKGROUND.getTexture(), 0.0f, 0.0f, 0.0f, 0.0f);
+        scoreText = new Text(Integer.toString(score), Fonts.ROBOTO_LIGHT.getFont(), Colors.GRAY.getColor(), 0.1f);
         deque = new ArrayDeque<>(b.getSquareModeTiming().stream().sorted(Double::compare).collect(Collectors.toList()));
         try {
-            Sound.loadFromOggFile(b.getOgg()).play();
+            song = Sound.loadFromOggFile(b.getOgg());
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         addWidget(buttonsBackground);
     }
 
     @Override
     public void onViewStarted() {
         startedTime = glfwGetTime();
+        if (song != null) {
+            song.play();
+        }
     }
 
     @Override
@@ -90,13 +94,18 @@ public class SquareMode extends View {
                 nearestBeatTime = 0.0;
             }
         }
-        System.out.printf("%f %f %f %d\n", delta, currentTime, nearestBeatTime, calculateScore(nearestBeatTime, currentTime));
+        int i = calculateScore(nearestBeatTime, currentTime);
+        if (i > 0) {
+            score += i;
+            scoreText.setString(Integer.toString(score));
+        }
+//        System.out.printf("%f %f %f %d\n", delta, currentTime, nearestBeatTime, calculateScore(nearestBeatTime, currentTime));
 //        System.out.printf("%d %f\n", key, glfwGetTime() - startedTime);
     }
 
     @Override
     public void draw() {
-
+        scoreText.draw(0.1f, 0.1f);
     }
 
     @Override

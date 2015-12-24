@@ -88,6 +88,7 @@ public class Text extends Sprite {
         graphics2D.drawString(string, 1, fontMetrics.getAscent() + 1);
         graphics2D.dispose();
 
+        System.out.println(bufferedImage.getWidth() + " " + bufferedImage.getHeight());
         int[] pixels = new int[bufferedImage.getWidth() * bufferedImage.getHeight()];
         bufferedImage.getRGB(0, 0, bufferedImage.getWidth(), bufferedImage.getHeight(), pixels, 0, bufferedImage.getWidth());
         ByteBuffer buffer = BufferUtils.createByteBuffer(bufferedImage.getWidth() * bufferedImage.getHeight() * 4);
@@ -105,9 +106,7 @@ public class Text extends Sprite {
         /*
          * !!! QUESTIONABLE !!!
          */
-        if(texture == null) {
-            texture = glGenTextures();
-        }
+        texture = glGenTextures();
         glBindTexture(GL_TEXTURE_2D, texture);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);

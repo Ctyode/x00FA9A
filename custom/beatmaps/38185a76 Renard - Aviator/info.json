@@ -4,7 +4,7 @@
   "artist": "Renard",
   "title": "Aviator",
   "mapper": "Ctyode",
-  "available_difficulties": [1],
+  "available_difficulties": [1, 2, 4],
   "mapping": {
     "square_mode": [
       3.297976,
