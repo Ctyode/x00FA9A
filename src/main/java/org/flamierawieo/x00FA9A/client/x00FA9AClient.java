@@ -31,17 +31,10 @@ public class x00FA9AClient {
         glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
         long primaryMonitor = glfwGetPrimaryMonitor();
         VideoMode videoMode = Settings.getInstance().getVideoMode();
-        int initialWindowWidth;
-        int initialWindowHeight;
-        if(videoMode == null) {
-            GLFWVidMode vidMode = glfwGetVideoMode(primaryMonitor);
-            videoMode = VideoMode.getAutoDetectedVideoMode(vidMode.width(), vidMode.height());
-            initialWindowWidth = videoMode.getWidth();
-            initialWindowHeight = videoMode.getHeight();
-        } else {
-            initialWindowWidth = videoMode.getWidth();
-            initialWindowHeight = videoMode.getHeight();
-        }
+
+        int initialWindowWidth = videoMode.getWidth();
+        int initialWindowHeight = videoMode.getHeight();
+
         window = glfwCreateWindow(initialWindowWidth, initialWindowHeight, "Beat Party", primaryMonitor, NULL);
         glfwMakeContextCurrent(window);
         glfwSwapInterval(0);
