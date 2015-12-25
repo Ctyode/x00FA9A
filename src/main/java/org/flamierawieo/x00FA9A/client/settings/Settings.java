@@ -40,6 +40,10 @@ public class Settings {
         return videoMode;
     }
 
+    public void setVideoMode(VideoMode videoMode) {
+        this.videoMode = videoMode;
+    }
+
     public void save() {
         try {
             FileWriter fileWriter = new FileWriter(userSettingsJsonPath);

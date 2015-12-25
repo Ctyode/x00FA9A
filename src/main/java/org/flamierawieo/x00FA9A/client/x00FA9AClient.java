@@ -30,13 +30,16 @@ public class x00FA9AClient {
         glfwWindowHint(GLFW_VISIBLE, GL_FALSE);
         glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
         long primaryMonitor = glfwGetPrimaryMonitor();
-        VideoMode videoMode = Settings.getInstance().getVideoMode();
+        Settings settings = Settings.getInstance();
+        VideoMode videoMode = settings.getVideoMode();
         int initialWindowWidth;
         int initialWindowHeight;
         if(videoMode == null) {
             int scale = "true".equals(System.getProperty("retina")) ? 2 : 1;
             GLFWVidMode vidMode = glfwGetVideoMode(primaryMonitor);
             videoMode = VideoMode.getAutoDetectedVideoMode(vidMode.width() * scale, vidMode.height() * scale);
+            settings.setVideoMode(videoMode);
+            settings.save();
             initialWindowWidth = videoMode.getWidth();
             initialWindowHeight = videoMode.getHeight();
         } else {
