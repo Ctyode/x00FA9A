@@ -3,10 +3,14 @@ package org.flamierawieo.x00FA9A.client.settings;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.lwjgl.glfw.GLFWVidMode;
 
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+
+import static org.lwjgl.glfw.GLFW.glfwGetPrimaryMonitor;
+import static org.lwjgl.glfw.GLFW.glfwGetVideoMode;
 
 public class Settings {
 
@@ -26,6 +30,15 @@ public class Settings {
             JSONObject userSettingsJson = (JSONObject) jsonParser.parse(new FileReader(userSettingsJsonPath));
             if(userSettingsJson.containsKey("video_mode")) {
                 videoMode = VideoMode.getVideoModeById((String) userSettingsJson.get("video_mode"));
+            } else {
+                // @TODO возможно подход не вписывается в обшую целостность, но по крайней мере работает
+                long primaryMonitor = glfwGetPrimaryMonitor();
+                GLFWVidMode vidMode = glfwGetVideoMode(primaryMonitor);
+                // тут был код детекта ретины, работает только на apple java, поэтому идет нахрен
+                String retina = System.getProperty("retina");
+                int scale = retina.equals("true") ? 2 : 1;
+                videoMode = VideoMode.getAutoDetectedVideoMode(vidMode.width() * scale, vidMode.height() * scale);
+                save();
             }
         } catch (IOException | ParseException e) {
             // file does not exists or is invalid
