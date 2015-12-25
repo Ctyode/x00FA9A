@@ -31,10 +31,18 @@ public class x00FA9AClient {
         glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
         long primaryMonitor = glfwGetPrimaryMonitor();
         VideoMode videoMode = Settings.getInstance().getVideoMode();
-
-        int initialWindowWidth = videoMode.getWidth();
-        int initialWindowHeight = videoMode.getHeight();
-
+        int initialWindowWidth;
+        int initialWindowHeight;
+        if(videoMode == null) {
+            int scale = "true".equals(System.getProperty("retina")) ? 2 : 1;
+            GLFWVidMode vidMode = glfwGetVideoMode(primaryMonitor);
+            videoMode = VideoMode.getAutoDetectedVideoMode(vidMode.width() * scale, vidMode.height() * scale);
+            initialWindowWidth = videoMode.getWidth();
+            initialWindowHeight = videoMode.getHeight();
+        } else {
+            initialWindowWidth = videoMode.getWidth();
+            initialWindowHeight = videoMode.getHeight();
+        }
         window = glfwCreateWindow(initialWindowWidth, initialWindowHeight, "Beat Party", primaryMonitor, NULL);
         glfwMakeContextCurrent(window);
         glfwSwapInterval(0);
@@ -48,7 +56,6 @@ public class x00FA9AClient {
         alListener3f(AL_POSITION, 0.0f, 0.0f, 0.0f);
         alListener3f(AL_VELOCITY, 0.0f, 0.0f, 0.0f);
         ViewManager.init(initialWindowWidth, initialWindowHeight, new StartMenu());
-//        glfwSetWindowSizeCallback(window, ViewManager.getGlfwWindowSizeCallback());
         glfwSetKeyCallback(window, ViewManager.getGlfwKeyCallback());
         glfwSetCursorPosCallback(window, ViewManager.getGlfwCursorPosCallback());
         glfwSetMouseButtonCallback(window, ViewManager.getGlfwMouseButtonCallback());

@@ -28,18 +28,7 @@ public class Settings {
         JSONParser jsonParser = new JSONParser();
         try {
             JSONObject userSettingsJson = (JSONObject) jsonParser.parse(new FileReader(userSettingsJsonPath));
-            if(userSettingsJson.containsKey("video_mode")) {
-                videoMode = VideoMode.getVideoModeById((String) userSettingsJson.get("video_mode"));
-            } else {
-                // @TODO возможно подход не вписывается в обшую целостность, но по крайней мере работает
-                long primaryMonitor = glfwGetPrimaryMonitor();
-                GLFWVidMode vidMode = glfwGetVideoMode(primaryMonitor);
-                // тут был код детекта ретины, работает только на apple java, поэтому идет нахрен
-                String retina = System.getProperty("retina");
-                int scale = retina.equals("true") ? 2 : 1;
-                videoMode = VideoMode.getAutoDetectedVideoMode(vidMode.width() * scale, vidMode.height() * scale);
-                save();
-            }
+            videoMode = VideoMode.getVideoModeById((String) userSettingsJson.get("video_mode"));
         } catch (IOException | ParseException e) {
             // file does not exists or is invalid
             // generatin' new one, m8
