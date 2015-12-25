@@ -38,7 +38,8 @@ public enum Images {
     STATS_BACKGROUND ("res/images/squaremode/stats-background.png"),
 
     // Square mode buttons
-    GREEN_BUTTON ("res/images/squaremode/green-button.png");
+    GREEN_BUTTON ("res/images/squaremode/green-button.png"),
+    PINK_BUTTON ("res/images/squaremode/pink-button.png");
 
     private String path;
     private Integer texture;

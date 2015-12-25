@@ -4,7 +4,9 @@ import org.flamierawieo.x00FA9A.client.*;
 import org.flamierawieo.x00FA9A.client.audio.Sound;
 import org.flamierawieo.x00FA9A.client.graphics.Text;
 import org.flamierawieo.x00FA9A.client.ui.View;
+import org.flamierawieo.x00FA9A.client.ui.Widget;
 import org.flamierawieo.x00FA9A.client.ui.widget.Background;
+import org.flamierawieo.x00FA9A.client.ui.widget.Squares;
 
 import java.io.IOException;
 import java.util.ArrayDeque;
@@ -21,6 +23,7 @@ public class SquareMode extends View {
     private Background[] greenButton;
     private Background buttonsBackground;
     private Sound song;
+    private Squares squares;
 
     private enum HitAccuracy {
 
@@ -57,17 +60,18 @@ public class SquareMode extends View {
 
     public SquareMode(Beatmap b) {
         super();
-        buttonsBackground = new Background(Images.BUTTONS_BACKGROUND.getTexture(), 0.0f, 0.0f, 0.0f, 0.0f);
-        statsBackground = new Background(Images.BUTTONS_BACKGROUND.getTexture(), 0.0f, 0.0f, 0.0f, 0.0f);
-        comboBackground = new Background(Images.BUTTONS_BACKGROUND.getTexture(), 0.0f, 0.0f, 0.0f, 0.0f);
+//        statsBackground = new Background(Images.BUTTONS_BACKGROUND.getTexture(), 0.0f, 0.0f, 0.0f, 0.0f);
+//        comboBackground = new Background(Images.BUTTONS_BACKGROUND.getTexture(), 0.0f, 0.0f, 0.0f, 0.0f);
+        squares = new Squares(0.1f, 0.1f, 1.0f, 1.0f);
         scoreText = new Text(Integer.toString(score), Fonts.ROBOTO_LIGHT.getFont(), Colors.GRAY.getColor(), 0.1f);
         deque = new ArrayDeque<>(b.getSquareModeTiming().stream().sorted(Double::compare).collect(Collectors.toList()));
+
+        addWidget(squares);
         try {
             song = Sound.loadFromOggFile(b.getOgg());
         } catch (IOException e) {
             e.printStackTrace();
         }
-        addWidget(buttonsBackground);
     }
 
     @Override
@@ -105,6 +109,7 @@ public class SquareMode extends View {
 
     @Override
     public void draw() {
+        super.draw();
         scoreText.draw(0.1f, 0.1f);
     }
 
