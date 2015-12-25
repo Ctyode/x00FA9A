@@ -1,11 +1,8 @@
 package org.flamierawieo.x00FA9A.client.views;
 
-import org.flamierawieo.x00FA9A.client.Images;
-import org.flamierawieo.x00FA9A.client.Fonts;
-import org.flamierawieo.x00FA9A.client.graphics.Text;
-import org.flamierawieo.x00FA9A.client.ui.widget.Button;
+import org.flamierawieo.x00FA9A.client.graphics.Circle;
+import org.flamierawieo.x00FA9A.client.graphics.Surface;
 import org.flamierawieo.x00FA9A.client.ui.View;
-import org.flamierawieo.x00FA9A.client.ui.ViewManager;
 import org.flamierawieo.x00FA9A.client.ui.widget.Player;
 
 import java.awt.*;
@@ -13,52 +10,23 @@ import java.awt.*;
 public class StartMenu extends View {
 
     private Player player;
-    private Button singleplayerButton;
-    private Button multiplayerButton;
-    private Button optionsButton;
-    private Button exitButton;
+    private Surface singleplayerButton;
+    private Circle circle;
 
     public StartMenu() {
         super();
         player = new Player(1.2f, 0.92f, 0.2f, 0.2f);
-        singleplayerButton = Button.builder()
-                .setBackgroundTexture(Images.MENU_BUTTON.getTexture())
-                .setText(new Text("Singleplayer", Fonts.ROBOTO_LIGHT.getFont().deriveFont(Font.PLAIN), Color.black, 0.07f))
-                .setPosition(0.8f, 0.75f)
-                .setSize(0.75f, 0.15f)
-                .setOrigin(0.5f, 0.5f).build();
-        multiplayerButton = Button.builder()
-                .setBackgroundTexture(Images.MENU_BUTTON.getTexture())
-                .setText(new Text("Multiplayer", Fonts.ROBOTO_LIGHT.getFont().deriveFont(Font.PLAIN), Color.black, 0.07f))
-                .setPosition(0.8f, 0.6f)
-                .setSize(0.75f, 0.15f)
-                .setOrigin(0.5f, 0.5f).build();
-        optionsButton = Button.builder()
-                .setBackgroundTexture(Images.MENU_BUTTON.getTexture())
-                .setText(new Text("Settings", Fonts.ROBOTO_LIGHT.getFont().deriveFont(Font.PLAIN), Color.black, 0.07f))
-                .setPosition(0.8f, 0.45f)
-                .setSize(0.75f, 0.15f)
-                .setOrigin(0.5f, 0.5f).build();
-        exitButton = Button.builder()
-                .setBackgroundTexture(Images.MENU_BUTTON.getTexture())
-                .setText(new Text("Exit", Fonts.ROBOTO_LIGHT.getFont().deriveFont(Font.PLAIN), Color.black, 0.07f))
-                .setPosition(0.8f, 0.3f)
-                .setSize(0.75f, 0.15f)
-                .setOrigin(0.5f, 0.5f).build();
-
+        circle = new Circle(new Color(0.0f, 1.0f, 0.0f, 0.5f), new Color(1.0f, 0.0f, 0.0f, 0.5f), 20.0f);
+        singleplayerButton = new Surface(new Color(0.0f, 1.0f, 0.0f, 0.5f), new Color(1.0f, 0.0f, 0.0f, 0.5f), 20.0f, 0.1f);
         addWidget(player.getPlayButton());
         addWidget(player.getPauseButton());
-        addWidget(singleplayerButton);
-        addWidget(multiplayerButton);
-        addWidget(optionsButton);
-        addWidget(exitButton);
     }
 
     @Override
-    public void onViewStarted() {
-        singleplayerButton.setOnClickRunnable(() -> ViewManager.pushView(new SongMenu()));
-        optionsButton.setOnClickRunnable(() -> ViewManager.pushView(new SettingsMenu()));
-        exitButton.setOnClickRunnable(() -> System.exit(0)); // TODO: Replace with requiring exit
+    public void draw() {
+        super.draw();
+        singleplayerButton.draw(0.1f, 0.1f, 0.5f, 0.5f);
+        circle.draw(0.5f, 0.5f, 0.2f, 0.0f, 0.5f, 64);
     }
 
 }
