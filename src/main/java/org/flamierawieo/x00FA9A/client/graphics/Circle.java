@@ -32,17 +32,25 @@ public class Circle {
         float segmentX = x + (float) sin(segmentStart * tau);
         float segmentY = y + (float) cos(segmentStart * tau);
         glEnable(GL_BLEND);
+        glEnable(GL_LINE_SMOOTH);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glColor4f(borderColor[0], borderColor[1], borderColor[2], borderColor[3]);
         glLineWidth(borderThickness);
         glBegin(GL_LINE_LOOP);
-        for (float segment = segmentStart + segmentSize; segment <= segmentEnd; segment += segmentSize) {
+        float segment;
+        for (segment = segmentStart; segment < segmentEnd; segment += segmentSize) {
             glVertex2f(segmentX * radius, segmentY * radius);
             segmentX = x + (float) sin(segment * tau);
             segmentY = y + (float) cos(segment * tau);
             glVertex2f(segmentX * radius, segmentY * radius);
         }
+        segment = segmentEnd;
+        glVertex2f(segmentX * radius, segmentY * radius);
+        segmentX = x + (float) sin(segment * tau);
+        segmentY = y + (float) cos(segment * tau);
+        glVertex2f(segmentX * radius, segmentY * radius);
         glEnd();
+        glDisable(GL_LINE_SMOOTH);
         glDisable(GL_BLEND);
     }
 

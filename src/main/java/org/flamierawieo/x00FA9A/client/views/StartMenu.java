@@ -25,8 +25,8 @@ public class StartMenu extends View {
     @Override
     public void draw() {
         super.draw();
-        singleplayerButton.draw(0.1f, 0.1f, 0.5f, 0.5f);
-        circle.draw(0.5f, 0.5f, 0.2f, 0.0f, 0.5f, 64);
+//        singleplayerButton.draw(0.1f, 0.1f, 0.5f, 0.5f);
+        circle.draw(1.5f, 1.5f, 0.2f, 0.0f, 1.0f, 64);
     }
 
 }
