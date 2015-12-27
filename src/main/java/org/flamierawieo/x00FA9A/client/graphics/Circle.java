@@ -28,30 +28,52 @@ public class Circle {
     }
 
     public void draw(float x, float y, float radius, float segmentStart, float segmentEnd, int detalization) {
+        float segment;
+        float segmentX;
+        float segmentY;
         float segmentSize = 1.0f / (float) detalization;
-        float segmentX = x + (float) sin(segmentStart * tau);
-        float segmentY = y + (float) cos(segmentStart * tau);
         glEnable(GL_BLEND);
-        glEnable(GL_LINE_SMOOTH);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glBegin(GL_POLYGON);
+        glColor4f(backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
+        if(segmentStart != 0.0f || segmentEnd != 1.0f) {
+            glVertex2f(x, y);
+        }
+        segmentX = x + (float) cos(segmentStart * tau) * radius;
+        segmentY = y + (float) sin(segmentStart * tau) * radius;
+        for (segment = segmentStart + segmentSize; segment < segmentEnd; segment += segmentSize) {
+            glVertex2f(segmentX, segmentY);
+            segmentX = x + (float) cos(segment * tau) * radius;
+            segmentY = y + (float) sin(segment * tau) * radius;
+            glVertex2f(segmentX, segmentY);
+        }
+        glVertex2f(segmentX, segmentY);
+        segmentX = x + (float) cos(segmentEnd * tau) * radius;
+        segmentY = y + (float) sin(segmentEnd * tau) * radius;
+        glVertex2f(segmentX, segmentY);
+        glEnd();
+        glEnable(GL_LINE_SMOOTH);
         glColor4f(borderColor[0], borderColor[1], borderColor[2], borderColor[3]);
         glLineWidth(borderThickness);
-        glBegin(GL_LINE_LOOP);
-        float segment;
-        for (segment = segmentStart; segment < segmentEnd; segment += segmentSize) {
-            glVertex2f(segmentX * radius, segmentY * radius);
-            segmentX = x + (float) sin(segment * tau);
-            segmentY = y + (float) cos(segment * tau);
-            glVertex2f(segmentX * radius, segmentY * radius);
+        segmentX = x + (float) cos(segmentStart * tau) * radius;
+        segmentY = y + (float) sin(segmentStart * tau) * radius;
+        for (segment = segmentStart + segmentSize; segment < segmentEnd; segment += segmentSize) {
+            glBegin(GL_LINES);
+            glVertex2f(segmentX, segmentY);
+            segmentX = x + (float) cos(segment * tau) * radius;
+            segmentY = y + (float) sin(segment * tau) * radius;
+            glVertex2f(segmentX, segmentY);
+            glEnd();
         }
-        segment = segmentEnd;
-        glVertex2f(segmentX * radius, segmentY * radius);
-        segmentX = x + (float) sin(segment * tau);
-        segmentY = y + (float) cos(segment * tau);
-        glVertex2f(segmentX * radius, segmentY * radius);
+        glBegin(GL_LINES);
+        glVertex2f(segmentX, segmentY);
+        segmentX = x + (float) cos(segmentEnd * tau) * radius;
+        segmentY = y + (float) sin(segmentEnd * tau) * radius;
+        glVertex2f(segmentX, segmentY);
         glEnd();
         glDisable(GL_LINE_SMOOTH);
         glDisable(GL_BLEND);
     }
 
 }
+
