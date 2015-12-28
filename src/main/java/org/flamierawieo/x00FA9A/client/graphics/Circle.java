@@ -5,26 +5,12 @@ import java.awt.*;
 import static java.lang.Math.*;
 import static org.lwjgl.opengl.GL11.*;
 
-public class Circle {
+public class Circle extends AbstractShape {
 
     private static float tau = (float) PI * 2.0f;
 
-    private float[] backgroundColor;
-    private float[] borderColor;
-    private float borderThickness;
-
     public Circle(Color backgroundColor, Color borderColor, float borderThickness) {
-        this.backgroundColor = new float[4];
-        this.backgroundColor[0] = (float) backgroundColor.getRed() / 255.0f;
-        this.backgroundColor[1] = (float) backgroundColor.getGreen() / 255.0f;
-        this.backgroundColor[2] = (float) backgroundColor.getBlue() / 255.0f;
-        this.backgroundColor[3] = (float) backgroundColor.getAlpha() / 255.0f;
-        this.borderColor = new float[4];
-        this.borderColor[0] = (float) borderColor.getRed() / 255.0f;
-        this.borderColor[1] = (float) borderColor.getGreen() / 255.0f;
-        this.borderColor[2] = (float) borderColor.getBlue() / 255.0f;
-        this.borderColor[3] = (float) borderColor.getAlpha() / 255.0f;
-        this.borderThickness = borderThickness;
+        super(backgroundColor, borderColor, borderThickness);
     }
 
     public void draw(float x, float y, float radius, float segmentStart, float segmentEnd, int detalization) {
@@ -35,7 +21,10 @@ public class Circle {
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glBegin(GL_POLYGON);
-        glColor4f(backgroundColor[0], backgroundColor[1], backgroundColor[2], backgroundColor[3]);
+        glColor4f(backgroundColor.getRed() / 255.0f,
+                  backgroundColor.getGreen() / 255.0f,
+                  backgroundColor.getBlue() / 255.0f,
+                  backgroundColor.getAlpha() / 255.0f);
         if(segmentStart != 0.0f || segmentEnd != 1.0f) {
             glVertex2f(x, y);
         }
@@ -53,7 +42,10 @@ public class Circle {
         glVertex2f(segmentX, segmentY);
         glEnd();
         glEnable(GL_LINE_SMOOTH);
-        glColor4f(borderColor[0], borderColor[1], borderColor[2], borderColor[3]);
+        glColor4f(borderColor.getRed() / 255.0f,
+                  borderColor.getGreen() / 255.0f,
+                  borderColor.getBlue() / 255.0f,
+                  borderColor.getAlpha() / 255.0f);
         glLineWidth(borderThickness);
         segmentX = x + (float) cos(segmentStart * tau) * radius;
         segmentY = y + (float) sin(segmentStart * tau) * radius;
