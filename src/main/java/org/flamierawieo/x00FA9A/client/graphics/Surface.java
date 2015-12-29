@@ -2,16 +2,22 @@ package org.flamierawieo.x00FA9A.client.graphics;
 
 import java.awt.*;
 
+import static org.flamierawieo.x00FA9A.client.graphics.Circle.*;
 import static org.lwjgl.opengl.GL11.*;
 
-public class Surface extends AbstractShape {
+public class Surface {
+
+    private Color backgroundColor;
+    private Color borderColor;
+    private float borderThickness;
 
     public Surface(Color backgroundColor, Color borderColor, float borderThickness) {
-        super(backgroundColor, borderColor, borderThickness);
+        this.backgroundColor = backgroundColor;
+        this.borderColor = borderColor;
+        this.borderThickness = borderThickness;
     }
 
     public void draw(float x, float y, float width, float height, float radius) {
-        Circle circle = new Circle(backgroundColor, borderColor, borderThickness);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glColor4f(backgroundColor.getRed() / 255.0f,
@@ -49,10 +55,10 @@ public class Surface extends AbstractShape {
             glVertex2f(x + radius, y + height - radius);
             glVertex2f(x, y + height - radius);
             glEnd();
-            circle.draw(x + radius, y + radius, radius, 0.5f, 0.75f, 16);
-            circle.draw(x + width - radius, y + radius, radius, 0.75f, 1.0f, 16);
-            circle.draw(x + radius, y + height - radius, radius, 0.25f, 0.5f, 16);
-            circle.draw(x + width - radius, y + height - radius, radius, 0.0f, 0.25f, 16);
+            fillCircle(x + radius, y + radius, radius, 0.5f, 0.75f, 32, backgroundColor);
+            fillCircle(x + width - radius, y + radius, radius, 0.75f, 1.0f, 32, backgroundColor);
+            fillCircle(x + radius, y + height - radius, radius, 0.25f, 0.5f, 32, backgroundColor);
+            fillCircle(x + width - radius, y + height - radius, radius, 0.0f, 0.25f, 32, backgroundColor);
         }
         if (borderThickness > 0.0f) {
             glColor4f(borderColor.getRed() / 255.0f,
@@ -76,6 +82,12 @@ public class Surface extends AbstractShape {
             glVertex2f(x, y + radius);
             glVertex2f(x, y + height - radius);
             glEnd();
+        }
+        if(radius > 0.0f && borderThickness > 0.0f) {
+            strokeCircle(x + radius, y + radius, radius, 0.5f, 0.75f, 32, borderColor, borderThickness);
+            strokeCircle(x + width - radius, y + radius, radius, 0.75f, 1.0f, 32, borderColor, borderThickness);
+            strokeCircle(x + radius, y + height - radius, radius, 0.25f, 0.5f, 32, borderColor, borderThickness);
+            strokeCircle(x + width - radius, y + height - radius, radius, 0.0f, 0.25f, 32, borderColor, borderThickness);
         }
         glDisable(GL_BLEND);
     }
