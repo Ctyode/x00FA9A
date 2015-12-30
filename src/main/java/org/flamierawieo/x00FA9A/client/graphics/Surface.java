@@ -2,7 +2,7 @@ package org.flamierawieo.x00FA9A.client.graphics;
 
 import java.awt.*;
 
-import static org.flamierawieo.x00FA9A.client.graphics.Circle.*;
+import static org.flamierawieo.x00FA9A.client.graphics.Graphics.*;
 import static org.lwjgl.opengl.GL11.*;
 
 public class Surface {
@@ -18,8 +18,6 @@ public class Surface {
     }
 
     public void draw(float x, float y, float width, float height, float radius) {
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glColor4f(backgroundColor.getRed() / 255.0f,
                   backgroundColor.getGreen() / 255.0f,
                   backgroundColor.getBlue() / 255.0f,
@@ -83,7 +81,6 @@ public class Surface {
             glVertex2f(x, y + radius);
             glVertex2f(x, y + height - radius);
             glEnd();
-            glDisable(GL_BLEND);
         }
         if(radius > 0.0f && borderThickness > 0.0f) {
             strokeCircle(x + radius, y + radius, radius, 0.5f, 0.75f, 32, borderColor, borderThickness);
@@ -91,7 +88,6 @@ public class Surface {
             strokeCircle(x + radius, y + height - radius, radius, 0.25f, 0.5f, 32, borderColor, borderThickness);
             strokeCircle(x + width - radius, y + height - radius, radius, 0.0f, 0.25f, 32, borderColor, borderThickness);
         }
-        glDisable(GL_BLEND);
     }
 
 }

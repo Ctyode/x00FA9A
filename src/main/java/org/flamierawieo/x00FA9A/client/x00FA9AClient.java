@@ -66,12 +66,20 @@ public class x00FA9AClient {
     }
 
     public static void run() {
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glEnable(GL_POLYGON_SMOOTH);
+        glEnable(GL_LINE_SMOOTH);
+        glClearColor(0.0f, 0.98f, 0.60f, 0.0f);
         float lastUpdateTime = (float)glfwGetTime();
         while(glfwWindowShouldClose(window) == GL_FALSE) {
             tick((float)glfwGetTime() - lastUpdateTime);
             draw();
             lastUpdateTime = (float)glfwGetTime();
         }
+        glDisable(GL_BLEND);
+        glDisable(GL_POLYGON_SMOOTH);
+        glDisable(GL_LINE_SMOOTH);
         glfwDestroyWindow(window);
         glfwTerminate();
         context.destroy();
@@ -85,7 +93,6 @@ public class x00FA9AClient {
 
     public static void draw() {
         glClear(GL_COLOR_BUFFER_BIT);
-        glClearColor(0.0f, 0.98f, 0.60f, 0.0f);
         ViewManager.draw();
         glfwSwapBuffers(window);
     }
