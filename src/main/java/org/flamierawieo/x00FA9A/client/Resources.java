@@ -1,7 +1,6 @@
 package org.flamierawieo.x00FA9A.client;
 
 import de.matthiasmann.twl.utils.PNGDecoder;
-import org.flamierawieo.x00FA9A.client.audio.Sound;
 import org.newdawn.slick.openal.OggData;
 import org.newdawn.slick.openal.OggDecoder;
 

@@ -5,7 +5,6 @@ import org.newdawn.slick.openal.OggDecoder;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import static org.lwjgl.openal.AL10.*;

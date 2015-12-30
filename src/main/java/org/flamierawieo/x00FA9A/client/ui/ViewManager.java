@@ -27,7 +27,6 @@ public class ViewManager {
     private static GLFWScrollCallback glfwScrollCallback;
     private static float aspect;
     private static Sprite gameBackground;
-//    private static Sound backgroundMusic;
 
     public static void init(int initialWindowWidth, int initialWindowHeight, View rootView) {
         windowWidth = initialWindowWidth;
@@ -39,8 +38,6 @@ public class ViewManager {
         rootView.onViewStarted();
         cursor = new Cursor();
         gameBackground = new Sprite(Images.BASIC_BACKGROUND.getTexture());
-//        backgroundMusic = new Sound(Sounds.CANADA.getSound());
-//        backgroundMusic.play();
         glfwWindowSizeCallback = new GLFWWindowSizeCallback() {
             @Override
             public void invoke(long window, int width, int height) {

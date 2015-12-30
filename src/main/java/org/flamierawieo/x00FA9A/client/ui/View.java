@@ -6,20 +6,15 @@ import org.flamierawieo.x00FA9A.client.input.MouseInputListener;
 import org.flamierawieo.x00FA9A.shared.Tickable;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class View implements Tickable, Drawable, KeyInputListener, MouseInputListener {
-
-    private Map<Integer, String> actionMap;
 
     protected List<Widget> widgets;
     protected float xMousePosition;
     protected float yMousePosition;
 
     public View() {
-        actionMap = new HashMap<>();
         widgets = new ArrayList<>();
     }
 
@@ -71,10 +66,6 @@ public class View implements Tickable, Drawable, KeyInputListener, MouseInputLis
         if(hoveredWidget != null) {
             hoveredWidget.onKeyDown(key, scancode, mods);
         }
-        String action = actionMap.get(key);
-        if(action != null) {
-            onAction(action);
-        }
     }
 
     @Override
@@ -117,14 +108,6 @@ public class View implements Tickable, Drawable, KeyInputListener, MouseInputLis
         if(hoveredWidget != null) {
             hoveredWidget.onScroll(x, y);
         }
-    }
-
-    public void bindOnKeyDownAction(int key, String action) {
-        actionMap.put(key, action);
-    }
-
-    public void onAction(String action) {
-
     }
 
     @Override

@@ -61,6 +61,7 @@ public class Surface {
             fillCircle(x + width - radius, y + height - radius, radius, 0.0f, 0.25f, 32, backgroundColor);
         }
         if (borderThickness > 0.0f) {
+            glEnable(GL_BLEND);
             glColor4f(borderColor.getRed() / 255.0f,
                       borderColor.getGreen() / 255.0f,
                       borderColor.getBlue() / 255.0f,
@@ -82,6 +83,7 @@ public class Surface {
             glVertex2f(x, y + radius);
             glVertex2f(x, y + height - radius);
             glEnd();
+            glDisable(GL_BLEND);
         }
         if(radius > 0.0f && borderThickness > 0.0f) {
             strokeCircle(x + radius, y + radius, radius, 0.5f, 0.75f, 32, borderColor, borderThickness);

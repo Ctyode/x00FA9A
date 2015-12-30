@@ -3,14 +3,10 @@ package org.flamierawieo.x00FA9A.client.settings;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.lwjgl.glfw.GLFWVidMode;
 
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-
-import static org.lwjgl.glfw.GLFW.glfwGetPrimaryMonitor;
-import static org.lwjgl.glfw.GLFW.glfwGetVideoMode;
 
 public class Settings {
 

@@ -1,10 +1,9 @@
 package org.flamierawieo.x00FA9A.client.views;
 
+import org.flamierawieo.x00FA9A.client.Colors;
 import org.flamierawieo.x00FA9A.client.graphics.Surface;
 import org.flamierawieo.x00FA9A.client.ui.View;
 import org.flamierawieo.x00FA9A.client.ui.widget.Player;
-
-import java.awt.*;
 
 public class StartMenu extends View {
 
@@ -14,7 +13,7 @@ public class StartMenu extends View {
     public StartMenu() {
         super();
         player = new Player(1.2f, 0.92f, 0.2f, 0.2f);
-        singleplayerButton = new Surface(new Color(1.0f, 1.0f, 1.0f, 1.0f), new Color(0.0f, 0.0f, 0.0f, 1.0f), 6.0f);
+        singleplayerButton = new Surface(Colors.WHITE.getColor(), Colors.WHITE.getColor(), 6.0f);
         addWidget(player.getPlayButton());
         addWidget(player.getPauseButton());
     }

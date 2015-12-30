@@ -10,7 +10,7 @@ public class Server extends Thread implements Runnable {
 
     public interface ConnectionFactory {
 
-        public AbstractConnection newConnection(Socket s) throws IOException;
+        AbstractConnection newConnection(Socket s) throws IOException;
 
     }
 

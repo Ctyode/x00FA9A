@@ -1,7 +1,5 @@
 package org.flamierawieo.x00FA9A.client;
 
-import org.flamierawieo.x00FA9A.client.Resources;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
