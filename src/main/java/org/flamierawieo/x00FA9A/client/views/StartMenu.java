@@ -13,7 +13,7 @@ public class StartMenu extends View {
     public StartMenu() {
         super();
         player = new Player(1.2f, 0.92f, 0.2f, 0.2f);
-        singleplayerButton = new Surface(Colors.WHITE.getColor(), Colors.WHITE.getColor(), 0.0f);
+        singleplayerButton = new Surface(Colors.WHITE.getColor(), Colors.WHITE.getColor(), 1.0f);
         addWidget(player.getPlayButton());
         addWidget(player.getPauseButton());
     }

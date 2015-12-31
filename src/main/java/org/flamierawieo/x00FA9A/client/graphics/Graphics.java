@@ -9,7 +9,7 @@ public class Graphics {
 
     private static float tau = (float) PI * 2.0f;
 
-    public void strokeLine(float x0, float y0, float x1, float y1, float strokeWidth, Color strokeColor) {
+    public static void strokeLine(float x0, float y0, float x1, float y1, float strokeWidth, Color strokeColor) {
         glPushMatrix();
         glColor4f(strokeColor.getRed() / 255.0f,
                   strokeColor.getGreen() / 255.0f,
@@ -23,7 +23,7 @@ public class Graphics {
         glPopMatrix();
     }
 
-    public void fillRect(float x, float y, float width, float height, Color fillColor) {
+    public static void fillRect(float x, float y, float width, float height, Color fillColor) {
         glPushMatrix();
         glTranslatef(x, y, 0.0f);
         glColor4f(fillColor.getRed() / 255.0f,
@@ -39,14 +39,14 @@ public class Graphics {
         glPopMatrix();
     }
 
-    public void strokeRect(float x, float y, float width, float height, float strokeWidth, Color strokeColor) {
+    public static void strokeRect(float x, float y, float width, float height, float strokeWidth, Color strokeColor) {
         strokeLine(x, y, x + width, y, strokeWidth, strokeColor);
         strokeLine(x + width, y, x + width, y + height, strokeWidth, strokeColor);
         strokeLine(x + width, y + height, x, y + height, strokeWidth, strokeColor);
-        strokeLine(x, y, x + width, y, strokeWidth, strokeColor);
+        strokeLine(x, y, x, y + height, strokeWidth, strokeColor);
     }
 
-    public void fillShape(float x, float y, Vertex[] shape, Color fillColor) {
+    public static void fillShape(float x, float y, Vertex[] shape, Color fillColor) {
         glPushMatrix();
         glTranslatef(x, y, 0.0f);
         glColor4f(fillColor.getRed() / 255.0f,
@@ -61,7 +61,7 @@ public class Graphics {
         glPopMatrix();
     }
 
-    public void strokeShape(float x, float y, Vertex[] shape, float strokeWidth, Color strokeColor) {
+    public static void strokeShape(float x, float y, Vertex[] shape, float strokeWidth, Color strokeColor) {
         glPushMatrix();
         glTranslatef(x, y, 0.0f);
         glColor4f(strokeColor.getRed() / 255.0f,
