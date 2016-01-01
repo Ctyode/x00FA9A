@@ -77,11 +77,11 @@ public class SongMenu extends View {
     public SongMenu() {
         super();
         bottomPanelBackground = new Background(Images.BOTTOM_PANEL.getTexture(), -0.389f, 0.0f, 0.701822916f, 0.069010416f);
-        selectModeBackground = Button.builder()
-                .setBackgroundTexture(Images.SELECT_MODE.getTexture())
-                .setPosition(-0.389f, 0.0f)
-                .setSize(0.13671875f, 0.130208f)
-                .setOrigin(0.0f, 0.0f).build();
+//        selectModeBackground = Button.builder()
+//                .setBackgroundTexture(Images.SELECT_MODE.getTexture())
+//                .setPosition(-0.389f, 0.0f)
+//                .setSize(0.13671875f, 0.130208f)
+//                .setOrigin(0.0f, 0.0f).build();
         songListBackground = new Background(Images.SONG_LIST_BACKGROUND.getTexture(), 0.746f, -0.5f, 0.542f, 2.0f);
         searchBackground = new Background(Images.SEARCH_BACKGROUND.getTexture(), 0.98307f, 0.8958333f, 0.342447916f, 0.0833333f);
         mapHeaderBackground = new Background(Images.MAP_HEADER.getTexture(), -0.389f, 0.888f, 0.62239583f, 0.1171875f);
@@ -94,7 +94,7 @@ public class SongMenu extends View {
         selectedTrack.subscribe(o -> selectedBeatmap.setSelectedBeatmap(((Item) o).getBeatmap()));
 
         addWidget(bottomPanelBackground);
-        addWidget(selectModeBackground);
+//        addWidget(selectModeBackground);
         addWidget(songListBackground);
         addWidget(songList);
         addWidget(searchBackground);
@@ -106,7 +106,7 @@ public class SongMenu extends View {
     @Override
     public void onViewStarted() {
         selectedBeatmap.setOnClickRunnable(() -> ViewManager.pushView(new SquareMode(selectedBeatmap.getSelectedBeatmap())));
-        selectModeBackground.setOnClickRunnable(ViewManager::popView);
+//        selectModeBackground.setOnClickRunnable(ViewManager::popView);
     }
 
 }
