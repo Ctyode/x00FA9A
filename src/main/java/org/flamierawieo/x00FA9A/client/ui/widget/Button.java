@@ -6,7 +6,7 @@ import org.flamierawieo.x00FA9A.client.input.MouseInputListener;
 import org.flamierawieo.x00FA9A.client.ui.Widget;
 import org.flamierawieo.x00FA9A.shared.Tickable;
 
-public class Button extends Widget implements Tickable, Drawable, MouseInputListener, ButtonDrawable {
+public class Button extends Widget implements Tickable, Drawable, MouseInputListener {
 
     public static class Builder {
 
@@ -125,15 +125,11 @@ public class Button extends Widget implements Tickable, Drawable, MouseInputList
 
     @Override
     public void draw() {
+        buttonDrawable.draw(getAbsolutePositionX(), getAbsolutePositionY(), getWidth(), getHeight());
         if(text != null) {
-            text.draw(calculateAbsolutePosition(getX(), text.getWidth(), 0.5f),
-                      calculateAbsolutePosition(getY(), text.getHeight(), 0.5f));
+            text.draw(calculateAbsolutePosition(getAbsolutePositionX() + (getWidth() * 0.5f), text.getWidth(), 0.5f),
+                      calculateAbsolutePosition(getAbsolutePositionY() + (getHeight() * 0.5f), text.getHeight(), 0.5f));
         }
-    }
-
-    @Override
-    public void draw(float x, float y, float width, float height) {
-        buttonDrawable.draw(x, y, width, height);
     }
 
 }

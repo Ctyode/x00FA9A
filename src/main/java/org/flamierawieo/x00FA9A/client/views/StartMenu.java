@@ -18,8 +18,9 @@ public class StartMenu extends View {
     public StartMenu() {
         super();
 //        player = new Player(1.2f, 0.92f, 0.2f, 0.2f);
-        singleplayerButtonSurface = new Surface(Colors.WHITE.getColor(), Colors.WHITE.getColor(), 1.0f);
-        singleplayerButton = new Button(new Text("Singleplayer", Fonts.ROBOTO_LIGHT.getFont(), Colors.BLACK.getColor(), 0.05f), null, 0.5f, 0.5f, 0.5f, 0.1f, 0.0f, 0.0f, singleplayerButton);
+        singleplayerButtonSurface = new Surface(Colors.WHITE.getColor(), Colors.WHITE.getColor(), 1.0f, 0.025f);
+        singleplayerButton = new Button(new Text("nickta zloi", Fonts.ROBOTO_LIGHT.getFont(), Colors.BLACK.getColor(), 0.05f),
+                                        null, 0.5f, 0.5f, 0.5f, 0.1f, 0.0f, 0.0f, singleplayerButtonSurface);
 
         addWidget(singleplayerButton);
 //        addWidget(player.getPlayButton());
@@ -29,7 +30,7 @@ public class StartMenu extends View {
     @Override
     public void draw() {
         super.draw();
-        singleplayerButtonSurface.draw(0.5f, 0.5f, 0.5f, 0.1f, 0.025f);
+//        singleplayerButtonSurface.draw(0.5f, 0.5f, 0.5f, 0.1f, 0.025f);
     }
 
     @Override
