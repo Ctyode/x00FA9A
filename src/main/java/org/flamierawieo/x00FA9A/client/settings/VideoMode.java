@@ -22,7 +22,8 @@ public enum VideoMode {
     WINDSCREEN_1920x1200 ("windscreen_1920x1200", true, 1920, 1200),
     WINDSCREEN_2048x1152 ("windscreen_2048x1152", true, 2048, 1152),
     WINDSCREEN_2560x1440 ("windscreen_2560x1440", true, 2560, 1440),
-    WINDSCREEN_2560x1600 ("windscreen_2560x1600", true, 2560, 1600);
+    WINDSCREEN_2560x1600 ("windscreen_2560x1600", true, 2560, 1600),
+    WINDSCREEN_2880x1800 ("windscreen_2880x1800", true, 2880, 1800);
 
     private String id;
     private boolean windscreen;
@@ -54,54 +55,56 @@ public enum VideoMode {
     }
 
     public static VideoMode getAutoDetectedVideoMode(int width, int height) {
-        if(width <= 800 && width < 1024) {
+        if(width < 1024) {
             return NORMAL_800x600;
-        } else if(width <= 1024 && width < 1152) {
-            if(height <= 600 && height < 768) {
+        } else if(width < 1152) {
+            if(height < 768) {
                 return WINDSCREEN_1024x600;
-            } else if(height <= 768) {
+            } else if(height == 768) {
                 return NORMAL_1024x768;
             }
-        } else if(width <= 1152 && width < 1280) {
+        } else if(width < 1280) {
             return NORMAL_1152x864;
-        } else if(width <= 1280 && width < 1360) {
-            if(height <= 720 && height < 768) {
+        } else if(width < 1360) {
+            if(height < 768) {
                 return WINDSCREEN_1280x720;
-            } else if(height <= 768 && height < 800) {
+            } else if(height >= 768 && height < 800) {
                 return WINDSCREEN_1280x768;
-            } else if(height <= 800) {
+            } else if(height == 800) {
                 return WINDSCREEN_1280x800;
             }
-        } else if(width <= 1360 && width < 1366) {
+        } else if(width < 1366) {
             return WINDSCREEN_1360x768;
-        } else if(width <= 1366 && width < 1400) {
+        } else if(width < 1400) {
             return WINDSCREEN_1366x768;
-        } else if(width <= 1400 && width < 1440) {
+        } else if(width < 1440) {
             return NORMAL_1400x1050;
-        } else if(width <= 1440 && width < 1600) {
+        } else if(width < 1600) {
             return WINDSCREEN_1440x900;
-        } else if(width <= 1600 && width < 1680) {
-            if(height <= 900 && height < 1200) {
+        } else if(width < 1680) {
+            if(height < 1200) {
                 return WINDSCREEN_1600x900;
-            } else if(height <= 1200) {
+            } else if(height == 1200) {
                 return NORMAL_1600x1200;
             }
-        } else if(width <= 1680 && width < 1920) {
+        } else if(width < 1920) {
             return WINDSCREEN_1680x1050;
-        } else if(width <= 1920 && width < 2048) {
-            if(height <= 1080 && height < 1200) {
+        } else if(width < 2048) {
+            if(height < 1200) {
                 return WINDSCREEN_1920x1080;
-            } else if(height <= 1200) {
+            } else if(height == 1200) {
                 return WINDSCREEN_1920x1200;
             }
-        } else if(width <= 2048 && width < 2560) {
+        } else if(width < 2560) {
             return WINDSCREEN_2048x1152;
-        } else if(width <= 2560) {
-            if(height <= 1440 && height < 1600) {
+        } else if(width < 2880) {
+            if(height < 1600) {
                 return WINDSCREEN_2560x1440;
-            } else if(height < 1600) {
+            } else if(height == 1600) {
                 return WINDSCREEN_2560x1600;
             }
+        } else if(width == 2880) {
+            return WINDSCREEN_2880x1800;
         } else {
             return NORMAL_800x600;
         }
@@ -111,7 +114,6 @@ public enum VideoMode {
     }
 
     public static VideoMode getVideoModeById(String id) {
-
         switch (id) {
             case "normal_800x600":       return NORMAL_800x600;
             case "normal_1024x768":      return NORMAL_1024x768;
@@ -134,6 +136,7 @@ public enum VideoMode {
             case "windscreen_2048x1152": return WINDSCREEN_2048x1152;
             case "windscreen_2560x1440": return WINDSCREEN_2560x1440;
             case "windscreen_2560x1600": return WINDSCREEN_2560x1600;
+            case "windscreen_2880x1800": return WINDSCREEN_2880x1800;
             default: return NORMAL_800x600;
         }
 

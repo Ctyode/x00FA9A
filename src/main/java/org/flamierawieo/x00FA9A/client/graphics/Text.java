@@ -1,6 +1,6 @@
 package org.flamierawieo.x00FA9A.client.graphics;
 
-import org.flamierawieo.x00FA9A.client.x00FA9AClient;
+import org.flamierawieo.x00FA9A.client.settings.Settings;
 import org.lwjgl.BufferUtils;
 
 import java.awt.*;
@@ -65,8 +65,8 @@ public class Text extends Sprite {
     private void updateTexture() {
         BufferedImage bufferedImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
         Graphics2D graphics2D = bufferedImage.createGraphics();
-        Font scaledFont = font.deriveFont(768.0f * this.height); // TODO: redesign project's WHOLE FUCKING ARCHITECTURE
-        graphics2D.setFont(scaledFont); // TODO: relative font size calculation
+        Font scaledFont = font.deriveFont(Settings.getInstance().getVideoMode().getHeight() * this.height); // TODO: redesign project's WHOLE FUCKING ARCHITECTURE
+        graphics2D.setFont(scaledFont);
         FontMetrics fontMetrics = graphics2D.getFontMetrics();
         int textureWidth = fontMetrics.stringWidth(string) + 2; // little hack preventing hard clipping
         int textureHeight = fontMetrics.getHeight() + 2;        // +1 pixel on each side of texture
@@ -88,6 +88,7 @@ public class Text extends Sprite {
         graphics2D.drawString(string, 1, fontMetrics.getAscent() + 1);
         graphics2D.dispose();
 
+        System.out.println(bufferedImage.getWidth() + " " + bufferedImage.getHeight());
         int[] pixels = new int[bufferedImage.getWidth() * bufferedImage.getHeight()];
         bufferedImage.getRGB(0, 0, bufferedImage.getWidth(), bufferedImage.getHeight(), pixels, 0, bufferedImage.getWidth());
         ByteBuffer buffer = BufferUtils.createByteBuffer(bufferedImage.getWidth() * bufferedImage.getHeight() * 4);
@@ -105,9 +106,7 @@ public class Text extends Sprite {
         /*
          * !!! QUESTIONABLE !!!
          */
-        if(texture == null) {
-            texture = glGenTextures();
-        }
+        texture = glGenTextures();
         glBindTexture(GL_TEXTURE_2D, texture);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);

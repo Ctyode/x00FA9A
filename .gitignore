@@ -2,4 +2,4 @@
 .gradle
 build
 *.iml
-res/user_settings.json
+custom/user_settings.json

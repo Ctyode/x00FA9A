@@ -1,0 +1,13 @@
+{
+  "ogg": "Truxton - Panic Protocol - 01 Alexandrian Ricochet Sphere.ogg",
+  "background": "background.png",
+  "artist": "Truxton",
+  "title": "Alexandrian Ricochet Sphere",
+  "mapper": "Ctyode",
+  "available_difficulties": [1],
+  "mapping": {
+    "square_mode": [
+
+    ]
+  }
+}

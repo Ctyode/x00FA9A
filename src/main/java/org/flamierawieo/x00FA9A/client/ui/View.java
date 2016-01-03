@@ -6,20 +6,15 @@ import org.flamierawieo.x00FA9A.client.input.MouseInputListener;
 import org.flamierawieo.x00FA9A.shared.Tickable;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class View implements Tickable, Drawable, KeyInputListener, MouseInputListener {
-
-    private Map<Integer, String> actionMap;
 
     protected List<Widget> widgets;
     protected float xMousePosition;
     protected float yMousePosition;
 
     public View() {
-        actionMap = new HashMap<>();
         widgets = new ArrayList<>();
     }
 
@@ -45,25 +40,22 @@ public class View implements Tickable, Drawable, KeyInputListener, MouseInputLis
 
     /**
      * Invokes when View Manager starts this view
-     * @param viewManager view manager this view has started on
      */
-    public void onViewStarted(ViewManager viewManager) {
+    public void onViewStarted() {
 
     }
 
     /**
      * Invokes when View Manager pauses this view
-     * @param viewManager view manager this view has paused on
      */
-    public void onViewPaused(ViewManager viewManager) {
+    public void onViewPaused() {
 
     }
 
     /**
      * Invokes when View Manager stops this view
-     * @param viewManager view manager this view has stopped on
      */
-    public void onViewStopped(ViewManager viewManager) {
+    public void onViewStopped() {
 
     }
 
@@ -73,10 +65,6 @@ public class View implements Tickable, Drawable, KeyInputListener, MouseInputLis
         // коммент для тупых дебилов, чтобы даже тупой down понял
         if(hoveredWidget != null) {
             hoveredWidget.onKeyDown(key, scancode, mods);
-        }
-        String action = actionMap.get(key);
-        if(action != null) {
-            onAction(action);
         }
     }
 
@@ -120,14 +108,6 @@ public class View implements Tickable, Drawable, KeyInputListener, MouseInputLis
         if(hoveredWidget != null) {
             hoveredWidget.onScroll(x, y);
         }
-    }
-
-    public void bindOnKeyDownAction(int key, String action) {
-        actionMap.put(key, action);
-    }
-
-    public void onAction(String action) {
-
     }
 
     @Override

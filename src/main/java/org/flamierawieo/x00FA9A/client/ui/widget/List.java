@@ -5,13 +5,10 @@ import java.util.ArrayList;
 
 public class List extends Widget {
 
-    public interface ListItem {
-        float getHeight();
-        void draw(float x, float y);
-    }
-
     private java.util.List<ListItem> itemList;
     private float scroll;
+    private float relativeCursorPositionX;
+    private float relativeCursorPositionY;
 
     public List(float x, float y, float width, float height, float originX, float originY) {
         super(x, y, width, height, originX, originY);
@@ -24,6 +21,25 @@ public class List extends Widget {
 
     public java.util.List<ListItem> getItemList() {
         return itemList;
+    }
+
+    @Override
+    public void onMouseMove(float x, float y) {
+        relativeCursorPositionX = x - getAbsolutePositionX();
+        relativeCursorPositionY = y - getAbsolutePositionY();
+    }
+
+    @Override
+    public void onMouseButtonDown(int button, int mods) {
+        float offset = scroll;
+        float itemHeight;
+        for(ListItem item : itemList) {
+            itemHeight = item.getHeight();
+            if(offset > -itemHeight && offset < getHeight() && relativeCursorPositionY > offset && relativeCursorPositionY < offset + itemHeight) {
+                item.onChosen();
+            }
+            offset += itemHeight;
+        }
     }
 
     @Override

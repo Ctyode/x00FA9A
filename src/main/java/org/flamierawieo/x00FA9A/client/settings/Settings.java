@@ -16,7 +16,7 @@ public class Settings {
         return instance;
     }
 
-    public static final String userSettingsJsonPath = "res/user_settings.json";
+    public static final String userSettingsJsonPath = "custom/user_settings.json";
 
     private VideoMode videoMode;
 
@@ -24,9 +24,7 @@ public class Settings {
         JSONParser jsonParser = new JSONParser();
         try {
             JSONObject userSettingsJson = (JSONObject) jsonParser.parse(new FileReader(userSettingsJsonPath));
-            if(userSettingsJson.containsKey("video_mode")) {
-                videoMode = VideoMode.getVideoModeById((String) userSettingsJson.get("video_mode"));
-            }
+            videoMode = VideoMode.getVideoModeById((String) userSettingsJson.get("video_mode"));
         } catch (IOException | ParseException e) {
             // file does not exists or is invalid
             // generatin' new one, m8
@@ -36,6 +34,10 @@ public class Settings {
 
     public VideoMode getVideoMode() {
         return videoMode;
+    }
+
+    public void setVideoMode(VideoMode videoMode) {
+        this.videoMode = videoMode;
     }
 
     public void save() {
@@ -50,9 +52,11 @@ public class Settings {
     }
 
     public JSONObject getJson() {
-        return new JSONObject() {{
-            put("video_mode", videoMode.getId());
-        }};
+        JSONObject jsonObject = new JSONObject();
+        if(videoMode != null) {
+            jsonObject.put("video_mode", videoMode.getId());
+        }
+        return jsonObject;
     }
 
 }

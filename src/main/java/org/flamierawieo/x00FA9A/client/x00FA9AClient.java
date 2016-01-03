@@ -1,36 +1,28 @@
 package org.flamierawieo.x00FA9A.client;
 
-import org.flamierawieo.x00FA9A.client.graphics.Drawable;
 import org.flamierawieo.x00FA9A.client.settings.Settings;
 import org.flamierawieo.x00FA9A.client.settings.VideoMode;
 import org.flamierawieo.x00FA9A.client.ui.ViewManager;
 import org.flamierawieo.x00FA9A.client.views.StartMenu;
-import org.flamierawieo.x00FA9A.shared.Tickable;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.openal.ALC;
 import org.lwjgl.openal.ALContext;
 import org.lwjgl.opengl.GL;
 
 import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.openal.AL10.AL_POSITION;
+import static org.lwjgl.openal.AL10.AL_VELOCITY;
+import static org.lwjgl.openal.AL10.alListener3f;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.openal.AL10.*;
+import static org.lwjgl.opengl.GL11.glClearColor;
 import static org.lwjgl.system.MemoryUtil.*;
 
-public class x00FA9AClient implements Runnable, Tickable, Drawable {
+public class x00FA9AClient {
 
-    private static x00FA9AClient instance = new x00FA9AClient();
+    private static long window;
+    private static ALContext context;
 
-    public static x00FA9AClient getInstance() {
-        return instance;
-    }
-
-    private ALContext context;
-    private long window;
-    private ViewManager viewManager;
-    private Settings settings;
-
-    public x00FA9AClient() {
-        settings = Settings.getInstance();
+    public static void init() {
         if(glfwInit() != GL_TRUE) {
             throw new IllegalStateException("Unable to initialize GLFW");
         }
@@ -38,12 +30,16 @@ public class x00FA9AClient implements Runnable, Tickable, Drawable {
         glfwWindowHint(GLFW_VISIBLE, GL_FALSE);
         glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
         long primaryMonitor = glfwGetPrimaryMonitor();
+        Settings settings = Settings.getInstance();
         VideoMode videoMode = settings.getVideoMode();
         int initialWindowWidth;
         int initialWindowHeight;
         if(videoMode == null) {
+            int scale = "true".equals(System.getProperty("retina")) ? 2 : 1;
             GLFWVidMode vidMode = glfwGetVideoMode(primaryMonitor);
-            videoMode = VideoMode.getAutoDetectedVideoMode(vidMode.width(), vidMode.height());
+            videoMode = VideoMode.getAutoDetectedVideoMode(vidMode.width() * scale, vidMode.height() * scale);
+            settings.setVideoMode(videoMode);
+            settings.save();
             initialWindowWidth = videoMode.getWidth();
             initialWindowHeight = videoMode.getHeight();
         } else {
@@ -62,55 +58,42 @@ public class x00FA9AClient implements Runnable, Tickable, Drawable {
         context.makeCurrent();
         alListener3f(AL_POSITION, 0.0f, 0.0f, 0.0f);
         alListener3f(AL_VELOCITY, 0.0f, 0.0f, 0.0f);
-        viewManager = new ViewManager(initialWindowWidth, initialWindowHeight, new StartMenu());
-        glfwSetWindowSizeCallback(window, viewManager.getGlfwWindowSizeCallback());
-        glfwSetKeyCallback(window, viewManager.getGlfwKeyCallback());
-        glfwSetCursorPosCallback(window, viewManager.getGlfwCursorPosCallback());
-        glfwSetMouseButtonCallback(window, viewManager.getGlfwMouseButtonCallback());
-        glfwSetScrollCallback(window, viewManager.getGlfwScrollCallback());
+        ViewManager.init(initialWindowWidth, initialWindowHeight, new StartMenu());
+        glfwSetKeyCallback(window, ViewManager.getGlfwKeyCallback());
+        glfwSetCursorPosCallback(window, ViewManager.getGlfwCursorPosCallback());
+        glfwSetMouseButtonCallback(window, ViewManager.getGlfwMouseButtonCallback());
+        glfwSetScrollCallback(window, ViewManager.getGlfwScrollCallback());
     }
 
-    public ALContext getContext() {
-        return context;
-    }
-
-    public long getWindow() {
-        return window;
-    }
-
-    public ViewManager getViewManager() {
-        return viewManager;
-    }
-
-    public Settings getSettings() {
-        return settings;
-    }
-
-    @Override
-    public void run() {
+    public static void run() {
+        glEnable(GL_BLEND);
+        glEnable(GL_POLYGON_SMOOTH);
+        glEnable(GL_LINE_SMOOTH);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glClearColor(0.0f, 0.98f, 0.60f, 0.0f);
         float lastUpdateTime = (float)glfwGetTime();
         while(glfwWindowShouldClose(window) == GL_FALSE) {
             tick((float)glfwGetTime() - lastUpdateTime);
             draw();
             lastUpdateTime = (float)glfwGetTime();
         }
+        glDisable(GL_LINE_SMOOTH);
+        glDisable(GL_POLYGON_SMOOTH);
+        glDisable(GL_BLEND);
         glfwDestroyWindow(window);
         glfwTerminate();
         context.destroy();
         ALC.destroy();
     }
 
-    @Override
-    public void tick(float delta) {
+    public static void tick(float delta) {
         glfwPollEvents();
-        viewManager.tick(delta);
+        ViewManager.tick(delta);
     }
 
-    @Override
-    public void draw() {
+    public static void draw() {
         glClear(GL_COLOR_BUFFER_BIT);
-        glClearColor(0.0f, 0.98f, 0.60f, 0.0f);
-        viewManager.draw();
+        ViewManager.draw();
         glfwSwapBuffers(window);
     }
 

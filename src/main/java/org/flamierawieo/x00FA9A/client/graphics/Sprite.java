@@ -22,10 +22,8 @@ public class Sprite {
         if(texture != null) {
             glPushMatrix();
             glTranslatef(x, y, 0.0f);
-            glEnable(GL_TEXTURE_2D);
             glColor3f(1.0f, 1.0f, 1.0f);
-            glEnable(GL_BLEND);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            glEnable(GL_TEXTURE_2D);
             glBindTexture(GL_TEXTURE_2D, texture);
             glBegin(GL_QUADS);
             glTexCoord2f(0.0f, 0.0f);
@@ -37,7 +35,6 @@ public class Sprite {
             glTexCoord2f(0.0f, 1.0f);
             glVertex3f(0.0f, 0.0f, 0.0f);
             glEnd();
-            glDisable(GL_BLEND);
             glDisable(GL_TEXTURE_2D);
             glPopMatrix();
         }

@@ -1,7 +1,6 @@
 package org.flamierawieo.x00FA9A.client.ui.widget;
 
 import org.flamierawieo.x00FA9A.client.graphics.Drawable;
-import org.flamierawieo.x00FA9A.client.graphics.Sprite;
 import org.flamierawieo.x00FA9A.client.graphics.Text;
 import org.flamierawieo.x00FA9A.client.input.MouseInputListener;
 import org.flamierawieo.x00FA9A.client.ui.Widget;
@@ -12,7 +11,6 @@ public class Button extends Widget implements Tickable, Drawable, MouseInputList
     public static class Builder {
 
         private Text text;
-        private int backgroundTexture;
         private Runnable onClickRunnable;
         private float x;
         private float y;
@@ -20,9 +18,10 @@ public class Button extends Widget implements Tickable, Drawable, MouseInputList
         private float height;
         private float originX;
         private float originY;
+        private ButtonDrawable buttonDrawable;
 
         public Button build() {
-            return new Button(text, backgroundTexture, onClickRunnable, x, y, width, height, originX, originY);
+            return new Button(text, onClickRunnable, x, y, width, height, originX, originY, buttonDrawable);
         }
 
         public Builder setPosition(float x, float y) {
@@ -48,13 +47,13 @@ public class Button extends Widget implements Tickable, Drawable, MouseInputList
             return this;
         }
 
-        public Builder setBackgroundTexture(int backgroundTexture) {
-            this.backgroundTexture = backgroundTexture;
+        public Builder setOnClickRunnable(Runnable onClickRunnable) {
+            this.onClickRunnable = onClickRunnable;
             return this;
         }
 
-        public Builder setOnClickRunnable(Runnable onClickRunnable) {
-            this.onClickRunnable = onClickRunnable;
+        public Builder setButtonDrawable(ButtonDrawable buttonDrawable) {
+            this.buttonDrawable = buttonDrawable;
             return this;
         }
 
@@ -91,18 +90,18 @@ public class Button extends Widget implements Tickable, Drawable, MouseInputList
     }
 
     private Runnable onClickRunnable;
-    private Sprite background;
     private Text text;
+    private ButtonDrawable buttonDrawable;
 
     public static Builder builder() {
         return new Builder();
     }
 
-    public Button(Text text, int backgroundTexture, Runnable onClickRunnable, float x, float y, float width, float height, float originX, float originY) {
+    public Button(Text text, Runnable onClickRunnable, float x, float y, float width, float height, float originX, float originY, ButtonDrawable buttonDrawable) {
         super(x, y, width, height, originX, originY);
-        this.background = new Sprite(backgroundTexture);
         this.text = text;
         this.onClickRunnable = onClickRunnable;
+        this.buttonDrawable = buttonDrawable;
     }
 
     public void setText(Text text) {
@@ -111,6 +110,10 @@ public class Button extends Widget implements Tickable, Drawable, MouseInputList
 
     public void setOnClickRunnable(Runnable onClickRunnable) {
         this.onClickRunnable = onClickRunnable;
+    }
+
+    public void setButtonDrawable(ButtonDrawable buttonDrawable) {
+        this.buttonDrawable = buttonDrawable;
     }
 
     @Override
@@ -122,12 +125,10 @@ public class Button extends Widget implements Tickable, Drawable, MouseInputList
 
     @Override
     public void draw() {
-        if(background != null) {
-            background.draw(getAbsolutePositionX(), getAbsolutePositionY(), getWidth(), getHeight());
-        }
+        buttonDrawable.draw(getAbsolutePositionX(), getAbsolutePositionY(), getWidth(), getHeight());
         if(text != null) {
-            text.draw(calculateAbsolutePosition(getX(), text.getWidth(), 0.5f),
-                      calculateAbsolutePosition(getY(), text.getHeight(), 0.5f));
+            text.draw(calculateAbsolutePosition(getAbsolutePositionX() + (getWidth() * 0.5f), text.getWidth(), 0.5f),
+                      calculateAbsolutePosition(getAbsolutePositionY() + (getHeight() * 0.5f), text.getHeight(), 0.5f));
         }
     }
 
