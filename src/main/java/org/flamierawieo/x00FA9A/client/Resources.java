@@ -4,21 +4,21 @@ import de.matthiasmann.twl.utils.PNGDecoder;
 import org.newdawn.slick.openal.OggData;
 import org.newdawn.slick.openal.OggDecoder;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.lwjgl.openal.AL10.*;
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL20.*;
 
 public class Resources {
 
     private static Map<String, Integer> textures = new HashMap<>();
     private static Integer missingTextureTextureID;
     private static Map<String, Integer> sounds = new HashMap<>();
+    private static Map<String, Integer> shaders = new HashMap<>();
 
     private static int loadTextureFromPNG(String path) throws IOException {
         InputStream inputStream = new FileInputStream(path);
@@ -43,6 +43,20 @@ public class Resources {
         int buffer = alGenBuffers();
         alBufferData(buffer, oggData.channels == 1 ? AL_FORMAT_MONO16 : AL_FORMAT_STEREO16, oggData.data, oggData.rate);
         return buffer;
+    }
+
+    private static Integer loadShader(String path, int shaderType) throws IOException {
+        int shader = glCreateShader(shaderType);
+
+        BufferedReader shaderSourceBufferReader = new BufferedReader(new FileReader(path));
+        String shaderSource = "";
+        String line;
+        while ((line=shaderSourceBufferReader.readLine()) != null) {
+            shaderSource += line + "\n";
+        }
+        glShaderSource(shader, shaderSource);
+        glCompileShader(shader);
+        return shader;
     }
 
     public static int getTexture(String path) {
@@ -78,6 +92,18 @@ public class Resources {
             }
         }
         return sound;
+    }
+
+    public static Integer getShader(String path, int shaderType) {
+        Integer shader = shaders.get(path);
+        if(shader == null) {
+            try {
+                shaders.put(path, shader = loadShader(path, shaderType));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return shader;
     }
 
 }
