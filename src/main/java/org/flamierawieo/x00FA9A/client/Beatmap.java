@@ -63,11 +63,19 @@ public class Beatmap {
         if(!background.exists()) {
             throw new FileNotFoundException(background.getPath());
         }
-        List<Double> squareModeTiming = new ArrayList<>();
+        List<List<Double>> squareModeTiming = new ArrayList<>();
         JSONArray array = (JSONArray) ((JSONObject) root.get("mapping")).get("square_mode");
         if(array != null) {
-            for (Object o : array) {
-                squareModeTiming.add((Double) o);
+            for(Object o1 : array) {
+                if(o1 != null) {
+                    List<Double> timing = new ArrayList<>();
+                    for (Object o2 : (JSONArray) o1) {
+                        if(o2 != null) {
+                            timing.add((Double) o2);
+                        }
+                    }
+                    squareModeTiming.add(timing);
+                }
             }
         }
         return new Beatmap(artist, title, mapper, availableDifficulties, ogg, background, squareModeTiming);
@@ -79,9 +87,9 @@ public class Beatmap {
     private byte availableDifficulties;
     private File ogg;
     private File background;
-    private List<Double> squareModeTiming;
+    private List<List<Double>> squareModeTiming;
 
-    private Beatmap(String artist, String title, String mapper, byte availableDifficulties, File ogg, File background, List<Double> squareModeTiming) {
+    private Beatmap(String artist, String title, String mapper, byte availableDifficulties, File ogg, File background, List<List<Double>> squareModeTiming) {
         this.artist = artist;
         this.title = title;
         this.mapper = mapper;
@@ -115,7 +123,7 @@ public class Beatmap {
         return background;
     }
 
-    public List<Double> getSquareModeTiming() {
+    public List<List<Double>> getSquareModeTiming() {
         return squareModeTiming;
     }
 

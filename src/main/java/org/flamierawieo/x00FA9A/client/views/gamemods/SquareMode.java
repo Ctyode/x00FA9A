@@ -12,7 +12,9 @@ import org.flamierawieo.x00FA9A.client.ui.widget.Squares;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -60,7 +62,7 @@ public class SquareMode extends View {
 
     private int score = 0;
     private double startedTime;
-    private Deque<Double> deque;
+    private List<Deque<Double>> deque;
 
     public SquareMode(Beatmap b) {
         super();
@@ -68,9 +70,10 @@ public class SquareMode extends View {
 //        comboBackground = new Background(Images.BUTTONS_BACKGROUND.getTexture(), 0.0f, 0.0f, 0.0f, 0.0f);
 //        squares = new Squares(0.1f, 0.1f, 1.0f, 1.0f);
         scoreText = new Text(Integer.toString(score), Fonts.ROBOTO_LIGHT.getFont(), Colors.GRAY.getColor(), 0.1f);
-        deque = new ArrayDeque<>(b.getSquareModeTiming().stream().sorted(Double::compare).collect(Collectors.toList()));
         greenButton = new Surface(Color.WHITE, Color.GREEN, 6.0f, 0.025f);
         pinkButton = new Surface(Color.WHITE, Color.PINK, 6.0f, 0.025f);
+        deque = new ArrayList<>();
+        b.getSquareModeTiming().forEach(t -> deque.add(new ArrayDeque<>(t.stream().sorted(Double::compare).collect(Collectors.toList()))));
 
 //        addWidget(squares);
         try {
@@ -95,12 +98,12 @@ public class SquareMode extends View {
         double nearestBeatTime = 0.0;
         double delta = 0.0;
         if(deque.size() > 0) {
-            nearestBeatTime = deque.getFirst();
+            nearestBeatTime = deque.get(0).getFirst();
         }
         while((delta = nearestBeatTime - currentTime) < 0 && deque.size() > 0) {
-            deque.removeFirst();
-            if(deque.size() > 0) {
-                nearestBeatTime = deque.getFirst();
+            deque.get(0).removeFirst();
+            if(deque.get(0).size() > 0) {
+                nearestBeatTime = deque.get(0).getFirst();
             } else {
                 nearestBeatTime = 0.0;
             }
