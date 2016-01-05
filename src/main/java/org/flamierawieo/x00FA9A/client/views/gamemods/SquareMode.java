@@ -2,12 +2,14 @@ package org.flamierawieo.x00FA9A.client.views.gamemods;
 
 import org.flamierawieo.x00FA9A.client.*;
 import org.flamierawieo.x00FA9A.client.audio.Sound;
+import org.flamierawieo.x00FA9A.client.graphics.Surface;
 import org.flamierawieo.x00FA9A.client.graphics.Text;
 import org.flamierawieo.x00FA9A.client.ui.View;
 import org.flamierawieo.x00FA9A.client.ui.Widget;
 import org.flamierawieo.x00FA9A.client.ui.widget.Background;
 import org.flamierawieo.x00FA9A.client.ui.widget.Squares;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -17,13 +19,15 @@ import static org.lwjgl.glfw.GLFW.*;
 
 public class SquareMode extends View {
 
+    private Surface pinkButton;
     private Text scoreText;
     private Background comboBackground;
     private Background statsBackground;
-    private Background[] greenButton;
+    private Surface greenButton;
     private Background buttonsBackground;
     private Sound song;
-    private Squares squares;
+    private boolean keyState;
+//    private Squares squares;
 
     private enum HitAccuracy {
 
@@ -62,11 +66,13 @@ public class SquareMode extends View {
         super();
 //        statsBackground = new Background(Images.BUTTONS_BACKGROUND.getTexture(), 0.0f, 0.0f, 0.0f, 0.0f);
 //        comboBackground = new Background(Images.BUTTONS_BACKGROUND.getTexture(), 0.0f, 0.0f, 0.0f, 0.0f);
-        squares = new Squares(0.1f, 0.1f, 1.0f, 1.0f);
+//        squares = new Squares(0.1f, 0.1f, 1.0f, 1.0f);
         scoreText = new Text(Integer.toString(score), Fonts.ROBOTO_LIGHT.getFont(), Colors.GRAY.getColor(), 0.1f);
         deque = new ArrayDeque<>(b.getSquareModeTiming().stream().sorted(Double::compare).collect(Collectors.toList()));
+        greenButton = new Surface(Color.WHITE, Color.GREEN, 6.0f, 0.025f);
+        pinkButton = new Surface(Color.WHITE, Color.PINK, 6.0f, 0.025f);
 
-        addWidget(squares);
+//        addWidget(squares);
         try {
             song = Sound.loadFromOggFile(b.getOgg());
         } catch (IOException e) {
@@ -84,6 +90,7 @@ public class SquareMode extends View {
 
     @Override
     public void onKeyDown(int key, int scancode, int mods) {
+        keyState = true;
         double currentTime = glfwGetTime() - startedTime;
         double nearestBeatTime = 0.0;
         double delta = 0.0;
@@ -108,9 +115,20 @@ public class SquareMode extends View {
     }
 
     @Override
+    public void onKeyUp(int key, int scancode, int mods) {
+        super.onKeyUp(key, scancode, mods);
+        keyState = false;
+    }
+
+    @Override
     public void draw() {
         super.draw();
         scoreText.draw(0.1f, 0.1f);
+        if(keyState) {
+            pinkButton.draw(0.5f, 0.5f, 0.1f, 0.1f);
+        } else {
+            greenButton.draw(0.5f, 0.5f, 0.1f, 0.1f);
+        }
     }
 
     @Override

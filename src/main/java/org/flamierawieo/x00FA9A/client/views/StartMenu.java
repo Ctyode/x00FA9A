@@ -2,12 +2,16 @@ package org.flamierawieo.x00FA9A.client.views;
 
 import org.flamierawieo.x00FA9A.client.Colors;
 import org.flamierawieo.x00FA9A.client.Fonts;
+import org.flamierawieo.x00FA9A.client.graphics.Shadow;
 import org.flamierawieo.x00FA9A.client.graphics.Surface;
 import org.flamierawieo.x00FA9A.client.graphics.Text;
+import org.flamierawieo.x00FA9A.client.graphics.Vertex;
 import org.flamierawieo.x00FA9A.client.ui.View;
 import org.flamierawieo.x00FA9A.client.ui.ViewManager;
 import org.flamierawieo.x00FA9A.client.ui.widget.Button;
 import org.flamierawieo.x00FA9A.client.ui.widget.Player;
+
+import java.awt.*;
 
 public class StartMenu extends View {
 
@@ -31,6 +35,11 @@ public class StartMenu extends View {
     public void draw() {
         super.draw();
 //        singleplayerButtonSurface.draw(0.5f, 0.5f, 0.5f, 0.1f, 0.025f);
+//        Shadow.drawShadow(0.2f, 0.3f, new Vertex[] {
+//                new Vertex(0.0f, 0.0f),
+//                new Vertex(0.1f, 0.0f),
+//                new Vertex(0.0f, 0.1f)
+//        }, 0.1f, Color.RED);
     }
 
     @Override

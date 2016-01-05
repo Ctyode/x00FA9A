@@ -1,12 +1,7 @@
-#version 420
+#version 110
 
-uniform Transformation {
-    mat4 projection_matrix;
-    mat4 modelview_matrix;
-};
+ attribute vec2 vertex;
 
-in vec3 vertex;
-
-void main() {
-    gl_Position = projection_matrix * modelview_matrix * vec4(vertex, 1.0);
-}
+ void main() {
+     gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
+ }
