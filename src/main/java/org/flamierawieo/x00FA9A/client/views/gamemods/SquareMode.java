@@ -21,15 +21,12 @@ import static org.lwjgl.glfw.GLFW.*;
 
 public class SquareMode extends View {
 
-    private Surface pinkButton;
     private Text scoreText;
     private Background comboBackground;
     private Background statsBackground;
-    private Surface greenButton;
     private Background buttonsBackground;
     private Sound song;
-    private boolean keyState;
-//    private Squares squares;
+    private Squares squares;
 
     private enum HitAccuracy {
 
@@ -68,14 +65,12 @@ public class SquareMode extends View {
         super();
 //        statsBackground = new Background(Images.BUTTONS_BACKGROUND.getTexture(), 0.0f, 0.0f, 0.0f, 0.0f);
 //        comboBackground = new Background(Images.BUTTONS_BACKGROUND.getTexture(), 0.0f, 0.0f, 0.0f, 0.0f);
-//        squares = new Squares(0.1f, 0.1f, 1.0f, 1.0f);
+        squares = new Squares(0.1f, 0.1f, 1.0f, 1.0f);
         scoreText = new Text(Integer.toString(score), Fonts.ROBOTO_LIGHT.getFont(), Colors.GRAY.getColor(), 0.1f);
-        greenButton = new Surface(Color.WHITE, Color.GREEN, 6.0f, 0.025f);
-        pinkButton = new Surface(Color.WHITE, Color.PINK, 6.0f, 0.025f);
         deque = new ArrayList<>();
         b.getSquareModeTiming().forEach(t -> deque.add(new ArrayDeque<>(t.stream().sorted(Double::compare).collect(Collectors.toList()))));
 
-//        addWidget(squares);
+        addWidget(squares);
         try {
             song = Sound.loadFromOggFile(b.getOgg());
         } catch (IOException e) {
@@ -93,10 +88,38 @@ public class SquareMode extends View {
 
     @Override
     public void onKeyDown(int key, int scancode, int mods) {
-        keyState = true;
         double currentTime = glfwGetTime() - startedTime;
         double nearestBeatTime = 0.0;
         double delta = 0.0;
+        switch (key) {
+            case GLFW_KEY_1:
+                squares.setButtonState(0, true);
+                break;
+            case GLFW_KEY_2:
+                squares.setButtonState(1, true);
+                break;
+            case GLFW_KEY_3:
+                squares.setButtonState(2, true);
+                break;
+            case GLFW_KEY_4:
+                squares.setButtonState(3, true);
+                break;
+            case GLFW_KEY_5:
+                squares.setButtonState(4, true);
+                break;
+            case GLFW_KEY_6:
+                squares.setButtonState(5, true);
+                break;
+            case GLFW_KEY_7:
+                squares.setButtonState(6, true);
+                break;
+            case GLFW_KEY_8:
+                squares.setButtonState(7, true);
+                break;
+            case GLFW_KEY_9:
+                squares.setButtonState(8, true);
+                break;
+        }
         if(deque.size() > 0) {
             nearestBeatTime = deque.get(0).getFirst();
         }
@@ -120,18 +143,41 @@ public class SquareMode extends View {
     @Override
     public void onKeyUp(int key, int scancode, int mods) {
         super.onKeyUp(key, scancode, mods);
-        keyState = false;
+        switch (key) {
+            case GLFW_KEY_1:
+                squares.setButtonState(0, false);
+                break;
+            case GLFW_KEY_2:
+                squares.setButtonState(1, false);
+                break;
+            case GLFW_KEY_3:
+                squares.setButtonState(2, false);
+                break;
+            case GLFW_KEY_4:
+                squares.setButtonState(3, false);
+                break;
+            case GLFW_KEY_5:
+                squares.setButtonState(4, false);
+                break;
+            case GLFW_KEY_6:
+                squares.setButtonState(5, false);
+                break;
+            case GLFW_KEY_7:
+                squares.setButtonState(6, false);
+                break;
+            case GLFW_KEY_8:
+                squares.setButtonState(7, false);
+                break;
+            case GLFW_KEY_9:
+                squares.setButtonState(8, false);
+                break;
+        }
     }
 
     @Override
     public void draw() {
         super.draw();
-        scoreText.draw(0.1f, 0.1f);
-        if(keyState) {
-            pinkButton.draw(0.5f, 0.5f, 0.1f, 0.1f);
-        } else {
-            greenButton.draw(0.5f, 0.5f, 0.1f, 0.1f);
-        }
+        scoreText.draw(-0.05f, 0.1f);
     }
 
     @Override
