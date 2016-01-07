@@ -22,9 +22,9 @@ import static org.lwjgl.glfw.GLFW.*;
 public class SquareMode extends View {
 
     private Text scoreText;
-    private Background comboBackground;
-    private Background statsBackground;
-    private Background buttonsBackground;
+//    private Background comboBackground;
+//    private Background statsBackground;
+//    private Background buttonsBackground;
     private Sound song;
     private Squares squares;
 
@@ -182,6 +182,14 @@ public class SquareMode extends View {
 
     @Override
     public void tick(float delta) {
+        double currentTime = glfwGetTime() - startedTime;
+        for(Deque<Double> d : deque) {
+            for(double t : d) {
+                if(currentTime + 0.5 > t) {
+                    squares.addHint(0, 0.5f);
+                }
+            }
+        }
     }
 
     public int calculateScore(double beatTime, double keyPressedTime) {
