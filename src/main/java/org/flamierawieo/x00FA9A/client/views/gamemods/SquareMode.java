@@ -21,13 +21,6 @@ import static org.lwjgl.glfw.GLFW.*;
 
 public class SquareMode extends View {
 
-    private Text scoreText;
-//    private Background comboBackground;
-//    private Background statsBackground;
-//    private Background buttonsBackground;
-    private Sound song;
-    private Squares squares;
-
     private enum HitAccuracy {
 
         HIT_100 (100, 0.4),
@@ -57,9 +50,16 @@ public class SquareMode extends View {
 
     }
 
+    private Text scoreText;
+    private Squares squares;
     private int score = 0;
     private double startedTime;
     private List<Deque<Double>> deque;
+    private List<Deque<Double>> hints;
+    private Sound song;
+//    private Background comboBackground;
+//    private Background statsBackground;
+//    private Background buttonsBackground;
 
     public SquareMode(Beatmap b) {
         super();
@@ -69,6 +69,8 @@ public class SquareMode extends View {
         scoreText = new Text(Integer.toString(score), Fonts.ROBOTO_LIGHT.getFont(), Colors.GRAY.getColor(), 0.1f);
         deque = new ArrayList<>();
         b.getSquareModeTiming().forEach(t -> deque.add(new ArrayDeque<>(t.stream().sorted(Double::compare).collect(Collectors.toList()))));
+        hints = new ArrayList<>();
+        hints.add(new ArrayDeque<>(deque.get(0)));
 
         addWidget(squares);
         try {
@@ -182,13 +184,24 @@ public class SquareMode extends View {
 
     @Override
     public void tick(float delta) {
+        super.tick(delta);
         double currentTime = glfwGetTime() - startedTime;
-        for(Deque<Double> d : deque) {
-            for(double t : d) {
-                if(currentTime + 0.5 > t) {
-                    squares.addHint(0, 0.5f);
-                }
+        double nearestBeatTime = 0.0;
+        double d = 0.0;
+        if(hints.size() > 0) {
+            nearestBeatTime = hints.get(0).getFirst();
+        }
+        while((d = nearestBeatTime - currentTime) < 0 && hints.size() > 0) {
+            hints.get(0).removeFirst();
+            if(hints.get(0).size() > 0) {
+                nearestBeatTime = hints.get(0).getFirst();
+            } else {
+                nearestBeatTime = 0.0;
             }
+        }
+        if(d < 0.5) {
+            hints.get(0).removeFirst();
+            squares.addHint(0, (float) d);
         }
     }
 

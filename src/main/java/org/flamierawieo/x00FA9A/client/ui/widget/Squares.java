@@ -67,8 +67,9 @@ public class Squares extends Widget {
 
     @Override
     public void tick(float delta) {
-//        hints.forEach(h -> h.time -= delta);
-//        hints = hints.stream().filter(h -> h.time > 0.0f).collect(Collectors.toList());
+        hints.forEach(h -> h.time -= delta * 1000.0f);
+        hints = hints.stream().filter(h -> h.time > 0.0f).collect(Collectors.toList());
+//        System.out.println(delta);
 //        for(Hint h : hints) {
 //            h.time -= delta;
 //            if(h.time < 0.0f) {
