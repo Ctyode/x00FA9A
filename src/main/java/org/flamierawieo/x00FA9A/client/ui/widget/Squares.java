@@ -20,6 +20,7 @@ public class Squares extends Widget {
     private Surface greenButton;
     private Surface hint;
     private List<Hint> hints;
+    private float hintFadeTime = 1.0f;
 
     public Squares(float x, float y, float width, float height, float originX, float originY) {
         super(x, y, width, height, originX, originY);
@@ -61,13 +62,13 @@ public class Squares extends Widget {
         for(Hint h : hints) {
             int x = h.button % 3;
             int y = h.button / 3;
-            hint.draw(0.1f + 0.15f * x, 0.1f + 0.15f * y, 0.1f * (1.0f + h.time), 0.1f * (1.0f + h.time));
+            hint.draw(0.1f + 0.15f * x, 0.1f + 0.15f * y, 0.1f * (1.0f + 0.7f * h.time / hintFadeTime), 0.1f * (1.0f + 0.7f * h.time / hintFadeTime));
         }
     }
 
     @Override
     public void tick(float delta) {
-        hints.forEach(h -> h.time -= delta * 1000.0f);
+        hints.forEach(h -> h.time -= delta * 800.0f);
         hints = hints.stream().filter(h -> h.time > 0.0f).collect(Collectors.toList());
 //        System.out.println(delta);
 //        for(Hint h : hints) {

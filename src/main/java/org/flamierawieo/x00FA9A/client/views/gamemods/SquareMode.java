@@ -199,7 +199,7 @@ public class SquareMode extends View {
                 nearestBeatTime = 0.0;
             }
         }
-        if(d < 0.5) {
+        if(d < 1.1) {
             hints.get(0).removeFirst();
             squares.addHint(0, (float) d);
         }
