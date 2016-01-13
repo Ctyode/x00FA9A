@@ -206,7 +206,7 @@ public class SquareMode extends View {
     }
 
     public int calculateScore(double beatTime, double keyPressedTime) {
-        double delta = beatTime - keyPressedTime;
+        double delta = Math.abs(beatTime - keyPressedTime);
 
         if(delta > 0) {
             if(delta < HitAccuracy.HIT_300.getAccuracy()) {
