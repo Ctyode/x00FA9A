@@ -57,20 +57,18 @@ public class SquareMode extends View {
     private List<Deque<Double>> deque;
     private List<Deque<Double>> hints;
     private Sound song;
-//    private Background comboBackground;
-//    private Background statsBackground;
-//    private Background buttonsBackground;
+    private int buttons = 8;
 
     public SquareMode(Beatmap b) {
         super();
-//        statsBackground = new Background(Images.BUTTONS_BACKGROUND.getTexture(), 0.0f, 0.0f, 0.0f, 0.0f);
-//        comboBackground = new Background(Images.BUTTONS_BACKGROUND.getTexture(), 0.0f, 0.0f, 0.0f, 0.0f);
         squares = new Squares(0.1f, 0.1f, 1.0f, 1.0f);
         scoreText = new Text(Integer.toString(score), Fonts.ROBOTO_LIGHT.getFont(), Colors.GRAY.getColor(), 0.1f);
         deque = new ArrayList<>();
         b.getSquareModeTiming().forEach(t -> deque.add(new ArrayDeque<>(t.stream().sorted(Double::compare).collect(Collectors.toList()))));
         hints = new ArrayList<>();
-        hints.add(new ArrayDeque<>(deque.get(0)));
+        for(int i = 0; i <= 8; i++) {
+            hints.add(new ArrayDeque<>(deque.get(i)));
+        }
 
         addWidget(squares);
         try {
@@ -122,21 +120,23 @@ public class SquareMode extends View {
                 squares.setButtonState(8, true);
                 break;
         }
-        if(deque.size() > 0 && deque.get(0).size() > 0) {
-            nearestBeatTime = deque.get(0).getFirst();
-        }
-        while((delta = nearestBeatTime - currentTime) < 0 && deque.size() > 0 && deque.get(0).size() > 0) {
-            deque.get(0).removeFirst();
-            if(deque.get(0).size() > 0) {
-                nearestBeatTime = deque.get(0).getFirst();
-            } else {
-                nearestBeatTime = 0.0;
+        for(int j = 0; j <= 8; j++) {
+            if (deque.size() > 0 && deque.get(j).size() > 0) {
+                nearestBeatTime = deque.get(j).getFirst();
             }
-        }
-        int i = calculateScore(nearestBeatTime, currentTime);
-        if (i > 0) {
-            score += i;
-            scoreText.setString(Integer.toString(score));
+            while ((delta = nearestBeatTime - currentTime) < 0 && deque.size() > 0 && deque.get(j).size() > 0) {
+                deque.get(j).removeFirst();
+                if (deque.get(j).size() > 0) {
+                    nearestBeatTime = deque.get(j).getFirst();
+                } else {
+                    nearestBeatTime = 0.0;
+                }
+            }
+            int i = calculateScore(nearestBeatTime, currentTime);
+            if (i > 0) {
+                score += i;
+                scoreText.setString(Integer.toString(score));
+            }
         }
 //        System.out.printf("%f %f %f %d\n", delta, currentTime, nearestBeatTime, calculateScore(nearestBeatTime, currentTime));
 //        System.out.printf("%d %f\n", key, glfwGetTime() - startedTime);
@@ -188,24 +188,30 @@ public class SquareMode extends View {
         double currentTime = glfwGetTime() - startedTime;
         double nearestBeatTime = 0.0;
         double d = 0.0;
-        if(hints.get(0).size() > 0) {
-            nearestBeatTime = hints.get(0).getFirst();
+        for(int i = 0; i <= 8; i++) {
+        if(hints.get(i).size() > 0) {
+            nearestBeatTime = hints.get(i).getFirst();
         }
-        while((d = nearestBeatTime - currentTime) < 0 && hints.get(0).size() > 0) {
-            hints.get(0).removeFirst();
-            if(hints.get(0).size() > 0) {
-                nearestBeatTime = hints.get(0).getFirst();
+        while((d = nearestBeatTime - currentTime) < 0 && hints.get(i).size() > 0) {
+            hints.get(i).removeFirst();
+            if(hints.get(i).size() > 0) {
+                nearestBeatTime = hints.get(i).getFirst();
             } else {
                 nearestBeatTime = 0.0;
             }
         }
+
         if(d < 1.1) {
-            if(hints.get(0).size() > 0) {
-                hints.get(0).removeFirst();
-                squares.addHint(0, (float) d);
+            if (hints.get(i).size() > 0) {
+                hints.get(i).removeFirst();
+//                for (i = 0; i <= 8; i++) {
+                    squares.addHint(i, (float) d);
+//                }
             }
         }
+        }
     }
+
 
     public int calculateScore(double beatTime, double keyPressedTime) {
         double delta = Math.abs(beatTime - keyPressedTime);
