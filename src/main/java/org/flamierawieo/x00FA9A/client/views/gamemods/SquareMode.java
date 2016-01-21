@@ -122,10 +122,10 @@ public class SquareMode extends View {
                 squares.setButtonState(8, true);
                 break;
         }
-        if(deque.size() > 0) {
+        if(deque.size() > 0 && deque.get(0).size() > 0) {
             nearestBeatTime = deque.get(0).getFirst();
         }
-        while((delta = nearestBeatTime - currentTime) < 0 && deque.size() > 0) {
+        while((delta = nearestBeatTime - currentTime) < 0 && deque.size() > 0 && deque.get(0).size() > 0) {
             deque.get(0).removeFirst();
             if(deque.get(0).size() > 0) {
                 nearestBeatTime = deque.get(0).getFirst();
@@ -188,10 +188,10 @@ public class SquareMode extends View {
         double currentTime = glfwGetTime() - startedTime;
         double nearestBeatTime = 0.0;
         double d = 0.0;
-        if(hints.size() > 0) {
+        if(hints.get(0).size() > 0) {
             nearestBeatTime = hints.get(0).getFirst();
         }
-        while((d = nearestBeatTime - currentTime) < 0 && hints.size() > 0) {
+        while((d = nearestBeatTime - currentTime) < 0 && hints.get(0).size() > 0) {
             hints.get(0).removeFirst();
             if(hints.get(0).size() > 0) {
                 nearestBeatTime = hints.get(0).getFirst();
@@ -200,8 +200,10 @@ public class SquareMode extends View {
             }
         }
         if(d < 1.1) {
-            hints.get(0).removeFirst();
-            squares.addHint(0, (float) d);
+            if(hints.get(0).size() > 0) {
+                hints.get(0).removeFirst();
+                squares.addHint(0, (float) d);
+            }
         }
     }
 

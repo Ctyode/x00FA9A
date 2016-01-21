@@ -88,7 +88,6 @@ public class Text extends Sprite {
         graphics2D.drawString(string, 1, fontMetrics.getAscent() + 1);
         graphics2D.dispose();
 
-        System.out.println(bufferedImage.getWidth() + " " + bufferedImage.getHeight());
         int[] pixels = new int[bufferedImage.getWidth() * bufferedImage.getHeight()];
         bufferedImage.getRGB(0, 0, bufferedImage.getWidth(), bufferedImage.getHeight(), pixels, 0, bufferedImage.getWidth());
         ByteBuffer buffer = BufferUtils.createByteBuffer(bufferedImage.getWidth() * bufferedImage.getHeight() * 4);

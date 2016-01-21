@@ -63,7 +63,7 @@ public class Squares extends Widget {
         for(Hint h : hints) {
             int x = h.button % 3;
             int y = h.button / 3;
-            float size =  0.1f * (1.0f + 0.7f * h.time / hintFadeTime);
+            float size = 0.1f * (1.0f + 0.7f * h.time / hintFadeTime);
             float offset = (size - 0.1f) * 0.5f;
             hint.draw(0.1f + 0.15f * x - offset, 0.1f + 0.15f * y - offset, size, size);
         }
