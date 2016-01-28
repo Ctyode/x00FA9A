@@ -1,20 +1,16 @@
 package org.flamierawieo.x00FA9A.client.views.gamemods;
 
+import javafx.application.Platform;
 import org.flamierawieo.x00FA9A.client.*;
 import org.flamierawieo.x00FA9A.client.audio.Sound;
-import org.flamierawieo.x00FA9A.client.graphics.Surface;
 import org.flamierawieo.x00FA9A.client.graphics.Text;
 import org.flamierawieo.x00FA9A.client.ui.View;
-import org.flamierawieo.x00FA9A.client.ui.Widget;
-import org.flamierawieo.x00FA9A.client.ui.widget.Background;
+import org.flamierawieo.x00FA9A.client.ui.ViewManager;
 import org.flamierawieo.x00FA9A.client.ui.widget.Squares;
+import org.flamierawieo.x00FA9A.client.views.SongMenu;
 
-import java.awt.*;
 import java.io.IOException;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -57,7 +53,10 @@ public class SquareMode extends View {
     private List<Deque<Double>> deque;
     private List<Deque<Double>> hints;
     private Sound song;
-    private int buttons = 8;
+    private Beatmap length;
+    private int songLength;
+    static final Object lock = new Object();
+
 
     public SquareMode(Beatmap b) {
         super();
@@ -67,16 +66,51 @@ public class SquareMode extends View {
         b.getSquareModeTiming().forEach(t -> deque.add(new ArrayDeque<>(t.stream().sorted(Double::compare).collect(Collectors.toList()))));
         hints = new ArrayList<>();
         for(int i = 0; i <= 8; i++) {
-            hints.add(new ArrayDeque<>(deque.get(i)));
-        }
-
+                hints.add(new ArrayDeque<>(deque.get(i)));
+            }
+        length = b;
+        System.out.println(length.getSongLength());
         addWidget(squares);
+
         try {
+//            execWithRate(1000, 2);
             song = Sound.loadFromOggFile(b.getOgg());
+            songLength = length.getSongLength();
+            Timer timer = new Timer();
+            int checkTime = 1000 * length.getSongLength();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    Platform.runLater(() -> {
+                        if((glfwGetTime() - startedTime + 1) >= songLength) {
+                            System.out.println("mdaaaaaaaa");
+                            System.out.println(glfwGetTime() - startedTime + 1);
+                            ViewManager.pushView(new SongMenu());
+                        } else {
+                            System.out.println("((");
+                            System.out.println(glfwGetTime() - startedTime + 1);
+                        }
+                    });
+                }
+            }, checkTime);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+//    private synchronized void execWithRate(long timeout, int iterations) throws InterruptedException {
+//        synchronized (this) {
+//            for (int i = 0; i < iterations; i++) {
+//                lock.wait(timeout);
+//
+//                System.out.println(
+//                        " time: " + (System.currentTimeMillis() / 1000 + timeout) +
+//                                " iter " + i +
+//                                " thread " + Thread.currentThread().getName());
+//                ViewManager.pushView(new SongMenu());
+//            }
+//        }
+//    }
 
     @Override
     public void onViewStarted() {
@@ -187,31 +221,30 @@ public class SquareMode extends View {
         super.tick(delta);
         double currentTime = glfwGetTime() - startedTime;
         double nearestBeatTime = 0.0;
-        double d = 0.0;
-        for(int i = 0; i <= 8; i++) {
-        if(hints.get(i).size() > 0) {
-            nearestBeatTime = hints.get(i).getFirst();
-        }
-        while((d = nearestBeatTime - currentTime) < 0 && hints.get(i).size() > 0) {
-            hints.get(i).removeFirst();
-            if(hints.get(i).size() > 0) {
-                nearestBeatTime = hints.get(i).getFirst();
-            } else {
-                nearestBeatTime = 0.0;
-            }
-        }
 
-        if(d < 1.1) {
+        double d;
+        for (int i = 0; i <= 8; i++) {
             if (hints.get(i).size() > 0) {
-                hints.get(i).removeFirst();
-//                for (i = 0; i <= 8; i++) {
-                    squares.addHint(i, (float) d);
-//                }
+                nearestBeatTime = hints.get(i).getFirst();
             }
-        }
+
+            while ((d = nearestBeatTime - currentTime) < 0 && hints.get(i).size() > 0) {
+                hints.get(i).removeFirst();
+                if (hints.get(i).size() > 0) {
+                    nearestBeatTime = hints.get(i).getFirst();
+                } else {
+                    nearestBeatTime = 0.0;
+                }
+            }
+
+            if (d < 1.1) {
+                if (hints.get(i).size() > 0) {
+                    hints.get(i).removeFirst();
+                    squares.addHint(i, (float) d);
+                }
+            }
         }
     }
-
 
     public int calculateScore(double beatTime, double keyPressedTime) {
         double delta = Math.abs(beatTime - keyPressedTime);

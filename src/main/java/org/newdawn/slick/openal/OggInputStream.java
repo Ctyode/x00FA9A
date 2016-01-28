@@ -81,7 +81,7 @@ public class OggInputStream extends InputStream implements AudioInputStream {
 		
 		init();
 	}
-	
+
 	/**
 	 * Get the number of bytes on the stream
 	 * 

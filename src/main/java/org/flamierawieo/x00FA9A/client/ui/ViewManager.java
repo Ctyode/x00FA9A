@@ -1,9 +1,6 @@
 package org.flamierawieo.x00FA9A.client.ui;
 
 import org.flamierawieo.x00FA9A.client.Images;
-import org.flamierawieo.x00FA9A.client.Sounds;
-import org.flamierawieo.x00FA9A.client.audio.Sound;
-import org.flamierawieo.x00FA9A.client.graphics.Drawable;
 import org.flamierawieo.x00FA9A.client.graphics.Sprite;
 import org.lwjgl.glfw.*;
 

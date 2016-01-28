@@ -4,10 +4,19 @@
   "artist": "Truxton",
   "title": "Alexandrian Ricochet Sphere",
   "mapper": "Ctyode",
+  "song_length": 55,
   "available_difficulties": [1],
   "mapping": {
     "square_mode": [
-
+      [1.645],
+      [2.678],
+      [3.678],
+      [4.678],
+      [5.678],
+      [6.678],
+      [7.678],
+      [8.678],
+      [9.678]
     ]
   }
 }

@@ -23,8 +23,8 @@ public class SongMenu extends View {
     public static final Font artistFont = Fonts.ROBOTO_LIGHT.getFont();
     public static final Font titleFont = Fonts.ROBOTO_LIGHT.getFont();
     public static final Font levelFont = Fonts.ROBOTO_LIGHT.getFont();
-    private SelectedBeatmap selectedBeatmap;
 
+    private SelectedBeatmap selectedBeatmap;
     private Background bottomPanelBackground;
     private Background mapHeaderBackground;
     private List songList;

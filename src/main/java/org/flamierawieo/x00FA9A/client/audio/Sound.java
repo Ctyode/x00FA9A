@@ -11,7 +11,7 @@ import static org.lwjgl.openal.AL10.*;
 
 public class Sound {
 
-    private int source;
+    private Integer source;
     private int buffer;
 
     public static Sound loadFromOggFile(File file) throws IOException {
@@ -33,6 +33,13 @@ public class Sound {
 
     public void stop() {
         alSourceStop(source);
+    }
+
+    public boolean isStopped() {
+        if(source == null) {
+            return true;
+        }
+        return false;
     }
 
     public int getSource() {

@@ -34,6 +34,7 @@ public class Beatmap {
         String artist = (String) root.get("artist");
         String title = (String) root.get("title");
         String mapper = (String) root.get("mapper");
+        Integer songLength = (int) (long) root.get("song_length");
         byte availableDifficulties = 0b00000000;
         for(Object difficulty : (JSONArray) root.get("available_difficulties")) {
             switch(((Long) difficulty).intValue()) {
@@ -57,12 +58,16 @@ public class Beatmap {
         if(mapper == null) {
             throw new IOException("mapper is not specified");
         }
+        if(songLength == null) {
+            throw new IOException("length is not specified");
+        }
         if(!ogg.exists()) {
             throw new FileNotFoundException(ogg.getPath());
         }
         if(!background.exists()) {
             throw new FileNotFoundException(background.getPath());
         }
+
         List<List<Double>> squareModeTiming = new ArrayList<>();
         JSONArray array = (JSONArray) ((JSONObject) root.get("mapping")).get("square_mode");
         if(array != null) {
@@ -78,21 +83,23 @@ public class Beatmap {
                 }
             }
         }
-        return new Beatmap(artist, title, mapper, availableDifficulties, ogg, background, squareModeTiming);
+        return new Beatmap(artist, title, mapper, songLength, availableDifficulties, ogg, background, squareModeTiming);
     }
 
     private String artist;
     private String title;
     private String mapper;
+    private Integer songLength;
     private byte availableDifficulties;
     private File ogg;
     private File background;
     private List<List<Double>> squareModeTiming;
 
-    private Beatmap(String artist, String title, String mapper, byte availableDifficulties, File ogg, File background, List<List<Double>> squareModeTiming) {
+    public Beatmap(String artist, String title, String mapper, Integer songLength, byte availableDifficulties, File ogg, File background, List<List<Double>> squareModeTiming) {
         this.artist = artist;
         this.title = title;
         this.mapper = mapper;
+        this.songLength = songLength;
         this.availableDifficulties = availableDifficulties;
         this.ogg = ogg;
         this.background = background;
@@ -109,6 +116,10 @@ public class Beatmap {
 
     public String getMapper() {
         return mapper;
+    }
+
+    public Integer getSongLength() {
+        return songLength;
     }
 
     public byte getAvailableDifficulties() {

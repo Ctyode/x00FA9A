@@ -4,6 +4,7 @@
   "artist": "Renard",
   "title": "Aviator",
   "mapper": "Ctyode",
+  "song_length": 55,
   "available_difficulties": [1, 2, 4],
   "mapping": {
     "square_mode": [
