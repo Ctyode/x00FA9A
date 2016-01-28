@@ -1,6 +1,5 @@
 package org.flamierawieo.x00FA9A.client.views.gamemods;
 
-import javafx.application.Platform;
 import org.flamierawieo.x00FA9A.client.*;
 import org.flamierawieo.x00FA9A.client.audio.Sound;
 import org.flamierawieo.x00FA9A.client.graphics.Text;
@@ -55,7 +54,6 @@ public class SquareMode extends View {
     private Sound song;
     private Beatmap length;
     private int songLength;
-    static final Object lock = new Object();
 
 
     public SquareMode(Beatmap b) {
@@ -73,44 +71,11 @@ public class SquareMode extends View {
         addWidget(squares);
 
         try {
-//            execWithRate(1000, 2);
             song = Sound.loadFromOggFile(b.getOgg());
-            songLength = length.getSongLength();
-            Timer timer = new Timer();
-            int checkTime = 1000 * length.getSongLength();
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    Platform.runLater(() -> {
-                        if((glfwGetTime() - startedTime + 1) >= songLength) {
-                            System.out.println("mdaaaaaaaa");
-                            System.out.println(glfwGetTime() - startedTime + 1);
-                            ViewManager.pushView(new SongMenu());
-                        } else {
-                            System.out.println("((");
-                            System.out.println(glfwGetTime() - startedTime + 1);
-                        }
-                    });
-                }
-            }, checkTime);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-//    private synchronized void execWithRate(long timeout, int iterations) throws InterruptedException {
-//        synchronized (this) {
-//            for (int i = 0; i < iterations; i++) {
-//                lock.wait(timeout);
-//
-//                System.out.println(
-//                        " time: " + (System.currentTimeMillis() / 1000 + timeout) +
-//                                " iter " + i +
-//                                " thread " + Thread.currentThread().getName());
-//                ViewManager.pushView(new SongMenu());
-//            }
-//        }
-//    }
 
     @Override
     public void onViewStarted() {
@@ -243,6 +208,16 @@ public class SquareMode extends View {
                     squares.addHint(i, (float) d);
                 }
             }
+
+            endGameCheck(currentTime);
+        }
+    }
+
+    public void endGameCheck(Double currentTime) {
+        if (length.getSongLength() <= currentTime) {
+            ViewManager.popView();
+            ViewManager.pushView(new SongMenu());
+            song.stop();
         }
     }
 
