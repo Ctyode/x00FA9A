@@ -4,6 +4,7 @@ import org.flamierawieo.x00FA9A.client.Beatmap;
 import org.flamierawieo.x00FA9A.client.Colors;
 import org.flamierawieo.x00FA9A.client.Fonts;
 import org.flamierawieo.x00FA9A.client.Images;
+import org.flamierawieo.x00FA9A.client.graphics.Surface;
 import org.flamierawieo.x00FA9A.client.graphics.Text;
 import org.flamierawieo.x00FA9A.client.ui.View;
 import org.flamierawieo.x00FA9A.client.ui.ViewManager;
@@ -24,13 +25,15 @@ public class SongMenu extends View {
     public static final Font titleFont = Fonts.ROBOTO_LIGHT.getFont();
     public static final Font levelFont = Fonts.ROBOTO_LIGHT.getFont();
 
+    private Button backButton;
+    private Surface back;
     private SelectedBeatmap selectedBeatmap;
     private Background bottomPanelBackground;
     private Background mapHeaderBackground;
     private List songList;
     private Background activeSongBackground;
     private Background searchBackground;
-    private Button selectModeBackground;
+//    private Button selectModeBackground;
     private Background songListBackground;
     private PublishSubject selectedTrack;
 
@@ -87,6 +90,10 @@ public class SongMenu extends View {
         mapHeaderBackground = new Background(Images.MAP_HEADER.getTexture(), -0.389f, 0.888f, 0.62239583f, 0.1171875f);
         activeSongBackground = new Background(Images.ACTIVE_SONG_BACKGROUND.getTexture(), 0.67648958f, 0.48567708f, 0.6796875f, 0.1875f, 0.0f, 0.5f);
         songList = new List(0.746f, 0.0f, 0.5f, 1.0f);
+        back = new Surface(Colors.WHITE.getColor(), Colors.WHITE.getColor(), 1.0f, 0.025f);
+        backButton = new Button(new Text("Back", Fonts.ROBOTO_LIGHT.getFont(), Colors.BLACK.getColor(), 0.05f),
+                null, -0.4f, 0.0f, 0.2f, 0.1f, 0.0f, 0.0f, back);
+
         java.util.List<ListItem> itemList = songList.getItemList();
         Beatmap.getBeatmapCache().forEach(b -> itemList.add(new Item(b)));
         selectedBeatmap = new SelectedBeatmap(0.68619791666f, 0.411458333f, 0.65755208333f, 0.16276041666f);
@@ -101,11 +108,13 @@ public class SongMenu extends View {
         addWidget(mapHeaderBackground);
         addWidget(activeSongBackground);
         addWidget(selectedBeatmap);
+        addWidget(backButton);
     }
 
     @Override
     public void onViewStarted() {
         selectedBeatmap.setOnClickRunnable(() -> ViewManager.pushView(new SquareMode(selectedBeatmap.getSelectedBeatmap())));
+        backButton.setOnClickRunnable(() -> ViewManager.popView());
 //        selectModeBackground.setOnClickRunnable(ViewManager::popView);
     }
 

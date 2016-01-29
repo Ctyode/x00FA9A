@@ -6,6 +6,7 @@ import org.flamierawieo.x00FA9A.client.graphics.Surface;
 import org.flamierawieo.x00FA9A.client.graphics.Text;
 import org.flamierawieo.x00FA9A.client.ui.View;
 import org.flamierawieo.x00FA9A.client.ui.ViewManager;
+import org.flamierawieo.x00FA9A.client.ui.Widget;
 import org.flamierawieo.x00FA9A.client.ui.widget.Button;
 import org.flamierawieo.x00FA9A.client.ui.widget.Player;
 
@@ -18,10 +19,15 @@ public class StartMenu extends View {
     private Player player;
     private Surface singleplayerButtonSurface;
     private Button singleplayerButton;
+    private Surface exitButtonSurface;
+    private Button exitButton;
 
     public StartMenu() {
         super();
 //        player = new Player(1.2f, 0.92f, 0.2f, 0.2f);
+        exitButtonSurface = new Surface(Colors.WHITE.getColor(), new Color(1.0f, 1.0f, 1.0f, 0.0f), 1.0f, 0.025f);
+        exitButton = new Button(new Text("dosvidanya ser", Fonts.ROBOTO_LIGHT.getFont(), Colors.BLACK.getColor(), 0.05f),
+                null, 0.5f, 0.7f, 0.5f, 0.1f, 0.0f, 0.0f, exitButtonSurface);
         singleplayerButtonSurface = new Surface(Colors.WHITE.getColor(), new Color(1.0f, 1.0f, 1.0f, 0.0f), 1.0f, 0.025f);
         singleplayerButton = new Button(new Text("nickta zloi", Fonts.ROBOTO_LIGHT.getFont(), Colors.BLACK.getColor(), 0.05f),
                                         null, 0.5f, 0.5f, 0.5f, 0.1f, 0.0f, 0.0f, singleplayerButtonSurface);
@@ -31,6 +37,7 @@ public class StartMenu extends View {
 
         addWidget(singleplayerButton);
         addWidget(settingsButton);
+        addWidget(exitButton);
 //        addWidget(player.getPlayButton());
 //        addWidget(player.getPauseButton());
     }
@@ -49,6 +56,7 @@ public class StartMenu extends View {
     @Override
     public void onViewStarted() {
         singleplayerButton.setOnClickRunnable(() -> ViewManager.pushView(new SongMenu()));
+        exitButton.setOnClickRunnable(() -> System.exit(0));
 //        settingsButton.setOnClickRunnable(() -> ViewManager.pushView(new SettingsMenu()));
     }
 }

@@ -6,7 +6,7 @@ import org.flamierawieo.x00FA9A.client.graphics.Text;
 import org.flamierawieo.x00FA9A.client.ui.View;
 import org.flamierawieo.x00FA9A.client.ui.ViewManager;
 import org.flamierawieo.x00FA9A.client.ui.widget.Squares;
-import org.flamierawieo.x00FA9A.client.views.SongMenu;
+import org.flamierawieo.x00FA9A.client.views.StatsView;
 
 import java.io.IOException;
 import java.util.*;
@@ -16,7 +16,7 @@ import static org.lwjgl.glfw.GLFW.*;
 
 public class SquareMode extends View {
 
-    private enum HitAccuracy {
+    public enum HitAccuracy {
 
         HIT_100 (100, 0.4),
         HIT_200 (200, 0.2),
@@ -47,6 +47,7 @@ public class SquareMode extends View {
 
     private Text scoreText;
     private Squares squares;
+    private int finalScore;
     private int score = 0;
     private double startedTime;
     private List<Deque<Double>> deque;
@@ -55,6 +56,9 @@ public class SquareMode extends View {
     private Beatmap length;
     private int songLength;
 
+    public int getFinalScore() {
+        return finalScore;
+    }
 
     public SquareMode(Beatmap b) {
         super();
@@ -135,6 +139,7 @@ public class SquareMode extends View {
             if (i > 0) {
                 score += i;
                 scoreText.setString(Integer.toString(score));
+                finalScore = score;
             }
         }
 //        System.out.printf("%f %f %f %d\n", delta, currentTime, nearestBeatTime, calculateScore(nearestBeatTime, currentTime));
@@ -216,7 +221,7 @@ public class SquareMode extends View {
     public void endGameCheck(Double currentTime) {
         if (length.getSongLength() <= currentTime) {
             ViewManager.popView();
-            ViewManager.pushView(new SongMenu());
+            ViewManager.pushView(new StatsView(this));
             song.stop();
         }
     }
