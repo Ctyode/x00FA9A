@@ -5,8 +5,14 @@ import org.flamierawieo.x00FA9A.client.Keyboard;
 import org.flamierawieo.x00FA9A.client.ui.View;
 import org.flamierawieo.x00FA9A.client.ui.widget.Background;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.stream.Collectors;
+
 public class SettingsMenu extends View {
 
+//    private final ArrayList<Deque<Integer>> deque;
     private Keyboard keyboard;
     private Background settingsLine;
     private Background settingsBackground;
@@ -19,8 +25,9 @@ public class SettingsMenu extends View {
         addWidget(settingsBackground);
         addWidget(settingsLine);
 
-        keyboard = k;
-        System.out.println(keyboard.getKeysSettings());
+//        keyboard = k;
+//        deque = new ArrayList<>();
+//        k.getKeysSettings().forEach(t -> deque.add(new ArrayDeque<>(t.stream().sorted(Integer::compare).collect(Collectors.toList()))));
+//        System.out.println(keyboard.getKeysSettings());
     }
-
 }

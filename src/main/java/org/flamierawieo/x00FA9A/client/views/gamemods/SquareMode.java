@@ -18,21 +18,25 @@ public class SquareMode extends View {
 
     public enum HitAccuracy {
 
-        HIT_100 (100, 0.4),
-        HIT_200 (200, 0.2),
-        HIT_300 (300, 0.1);
+        HIT_100 (100, 0.4, 0.5, 0),
+        HIT_200 (200, 0.2, 0.2, 1),
+        HIT_300 (300, 0.1, 0.1, 1);
 
         private int score;
 
         private double accuracy;
+        private double combo;
+        private int finalCombo;
         /**
          * @param score znachit chto ty dolboeb
          * @param accuracy znachit chto ty kosoi dolboeb
          */
 
-        HitAccuracy(int score, double accuracy) {
+        HitAccuracy(int score, double accuracy, double combo, int finalCombo) {
             this.score = score;
             this.accuracy = accuracy;
+            this.combo = combo;
+            this.finalCombo = finalCombo;
         }
 
         public int getScore() {
@@ -42,10 +46,20 @@ public class SquareMode extends View {
         public double getAccuracy() {
             return accuracy;
         }
+        public double getCombo() {
+            return combo;
+        }
+
+        public int getFinalCombo() {
+            return finalCombo;
+        }
 
     }
 
     private Text scoreText;
+    private int combo = 0;
+    private int finalCombo;
+    private Text comboText;
     private Squares squares;
     private int finalScore;
     private int score = 0;
@@ -56,13 +70,11 @@ public class SquareMode extends View {
     private Beatmap length;
     private int songLength;
 
-    public int getFinalScore() {
-        return finalScore;
-    }
 
     public SquareMode(Beatmap b) {
         super();
         squares = new Squares(0.1f, 0.1f, 1.0f, 1.0f);
+        comboText = new Text(Integer.toString(combo), Fonts.ROBOTO_LIGHT.getFont(), Colors.GRAY.getColor(), 0.1f);
         scoreText = new Text(Integer.toString(score), Fonts.ROBOTO_LIGHT.getFont(), Colors.GRAY.getColor(), 0.1f);
         deque = new ArrayList<>();
         b.getSquareModeTiming().forEach(t -> deque.add(new ArrayDeque<>(t.stream().sorted(Double::compare).collect(Collectors.toList()))));
@@ -123,14 +135,14 @@ public class SquareMode extends View {
                 squares.setButtonState(8, true);
                 break;
         }
-        for(int j = 0; j <= 8; j++) {
-            if (deque.size() > 0 && deque.get(j).size() > 0) {
-                nearestBeatTime = deque.get(j).getFirst();
+        for(int k = 0; k <= 8; k++) {
+            if (deque.size() > 0 && deque.get(k).size() > 0) {
+                nearestBeatTime = deque.get(k).getFirst();
             }
-            while ((delta = nearestBeatTime - currentTime) < 0 && deque.size() > 0 && deque.get(j).size() > 0) {
-                deque.get(j).removeFirst();
-                if (deque.get(j).size() > 0) {
-                    nearestBeatTime = deque.get(j).getFirst();
+            while ((nearestBeatTime - currentTime) < 0 && deque.size() > 0 && deque.get(k).size() > 0) {
+                deque.get(k).removeFirst();
+                if (deque.get(k).size() > 0) {
+                    nearestBeatTime = deque.get(k).getFirst();
                 } else {
                     nearestBeatTime = 0.0;
                 }
@@ -140,6 +152,12 @@ public class SquareMode extends View {
                 score += i;
                 scoreText.setString(Integer.toString(score));
                 finalScore = score;
+            }
+            int j = calculateCombo(nearestBeatTime, currentTime);
+            if (j > 0) {
+                combo += j;
+                comboText.setString(Integer.toString(combo));
+                finalCombo = combo;
             }
         }
 //        System.out.printf("%f %f %f %d\n", delta, currentTime, nearestBeatTime, calculateScore(nearestBeatTime, currentTime));
@@ -184,6 +202,7 @@ public class SquareMode extends View {
     public void draw() {
         super.draw();
         scoreText.draw(-0.05f, 0.1f);
+        comboText.draw(0.5f, 0.1f);
     }
 
     @Override
@@ -250,6 +269,40 @@ public class SquareMode extends View {
                 return 0;
             }
         }
+    }
+
+    public int calculateCombo(double beatTime, double keyPressedTime) {
+        double delta = Math.abs(beatTime - keyPressedTime);
+
+        if(delta > 0) {
+            if(delta < HitAccuracy.HIT_300.getCombo()) {
+                return HitAccuracy.HIT_300.getFinalCombo();
+            } else if (delta < HitAccuracy.HIT_200.getCombo()) {
+                return HitAccuracy.HIT_200.getFinalCombo();
+            } else if (delta < HitAccuracy.HIT_100.getCombo()) {
+                return HitAccuracy.HIT_100.getFinalCombo();
+            } else {
+                return 0;
+            }
+        } else {
+            if(-delta < HitAccuracy.HIT_300.getCombo()) {
+                return HitAccuracy.HIT_300.getFinalCombo();
+            } else if (-delta < HitAccuracy.HIT_200.getCombo()) {
+                return HitAccuracy.HIT_200.getFinalCombo();
+            } else if (-delta < HitAccuracy.HIT_100.getCombo()) {
+                return HitAccuracy.HIT_100.getFinalCombo();
+            } else {
+                return 0;
+            }
+        }
+    }
+
+    public int getFinalCombo() {
+        return finalCombo;
+    }
+
+    public int getFinalScore() {
+        return finalScore;
     }
 
 }

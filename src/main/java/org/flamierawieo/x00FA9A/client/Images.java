@@ -1,5 +1,6 @@
 package org.flamierawieo.x00FA9A.client;
 
+import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -7,6 +8,7 @@ public enum Images {
 
     CURSOR_IMAGE ("res/images/cursor.png"),
     BASIC_BACKGROUND ("res/images/background.png"),
+    TEST ("custom/beatmaps/6fb2cf0d Truxton - Alexandrian Ricochet Sphere/background.png"),
 
     // Start menu and player widget
     MENU_BUTTON ("res/images/startmenu/menu-buttons.png"),

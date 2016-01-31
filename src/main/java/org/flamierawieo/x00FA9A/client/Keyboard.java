@@ -13,6 +13,17 @@ import java.util.List;
 
 public class Keyboard {
 
+    static {
+        for(File f : new File("custom").listFiles()) {
+            try {
+                Keyboard keyboard = Keyboard.loadFromFile(f);
+            } catch (ParseException | IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
     public static Keyboard loadFromFile(File file) throws IOException, ParseException {
         File keysFile = new File(file, "keys.json");
         JSONObject root = (JSONObject) new JSONParser().parse(new FileReader(keysFile));

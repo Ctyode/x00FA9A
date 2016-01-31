@@ -2,8 +2,11 @@ package org.flamierawieo.x00FA9A.client.views;
 
 import org.flamierawieo.x00FA9A.client.Colors;
 import org.flamierawieo.x00FA9A.client.Fonts;
+import org.flamierawieo.x00FA9A.client.Keyboard;
+import org.flamierawieo.x00FA9A.client.graphics.Shadow;
 import org.flamierawieo.x00FA9A.client.graphics.Surface;
 import org.flamierawieo.x00FA9A.client.graphics.Text;
+import org.flamierawieo.x00FA9A.client.graphics.Vertex;
 import org.flamierawieo.x00FA9A.client.ui.View;
 import org.flamierawieo.x00FA9A.client.ui.ViewManager;
 import org.flamierawieo.x00FA9A.client.ui.Widget;
@@ -21,6 +24,7 @@ public class StartMenu extends View {
     private Button singleplayerButton;
     private Surface exitButtonSurface;
     private Button exitButton;
+    private Keyboard keyboard;
 
     public StartMenu() {
         super();
@@ -57,6 +61,6 @@ public class StartMenu extends View {
     public void onViewStarted() {
         singleplayerButton.setOnClickRunnable(() -> ViewManager.pushView(new SongMenu()));
         exitButton.setOnClickRunnable(() -> System.exit(0));
-//        settingsButton.setOnClickRunnable(() -> ViewManager.pushView(new SettingsMenu()));
+        settingsButton.setOnClickRunnable(() -> ViewManager.pushView(new SettingsMenu(keyboard)));
     }
 }

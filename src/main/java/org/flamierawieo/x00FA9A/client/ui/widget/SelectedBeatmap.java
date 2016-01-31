@@ -1,17 +1,17 @@
 package org.flamierawieo.x00FA9A.client.ui.widget;
 
-import org.flamierawieo.x00FA9A.client.Beatmap;
-import org.flamierawieo.x00FA9A.client.Colors;
-import org.flamierawieo.x00FA9A.client.Fonts;
-import org.flamierawieo.x00FA9A.client.Images;
+import org.flamierawieo.x00FA9A.client.*;
 import org.flamierawieo.x00FA9A.client.graphics.Sprite;
 import org.flamierawieo.x00FA9A.client.graphics.Text;
 import org.flamierawieo.x00FA9A.client.ui.Widget;
+import org.json.simple.parser.ParseException;
+import org.flamierawieo.x00FA9A.client.Beatmap;
 
 import static org.lwjgl.opengl.GL11.*;
 
 public class SelectedBeatmap extends Widget {
 
+    private Sprite background;
     private Beatmap selectedBeatmap;
     private Text artistText;
     private Text titleText;
@@ -26,6 +26,7 @@ public class SelectedBeatmap extends Widget {
 
     public SelectedBeatmap(float x, float y, float width, float height, float originX, float originY) {
         super(x, y, width, height, originX, originY);
+//        background = new Sprite(Images.TEST.getTexture());
         artistText = new Text("", Fonts.ROBOTO_LIGHT.getFont(), Colors.GRAY.getColor(), 0.04f);
         titleText = new Text("", Fonts.ROBOTO_LIGHT.getFont(), Colors.GRAY.getColor(), 0.04f);
         levelText = new Text("", Fonts.ROBOTO_LIGHT.getFont(), Colors.GRAY.getColor(), 0.04f);
@@ -118,6 +119,7 @@ public class SelectedBeatmap extends Widget {
 
     @Override
     public void draw() {
+//        background.draw(0.0f, 0.0f, 1.0f, 1.5f);
         if (selectedBeatmap != null) {
             byte availableDifficulties = selectedBeatmap.getAvailableDifficulties();
             if ((availableDifficulties & 0b00000001) != 0) {
