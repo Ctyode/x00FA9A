@@ -8,8 +8,10 @@ import org.flamierawieo.x00FA9A.client.ui.ViewManager;
 import org.flamierawieo.x00FA9A.client.ui.widget.Squares;
 import org.flamierawieo.x00FA9A.client.views.StatsView;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -46,6 +48,7 @@ public class SquareMode extends View {
         public double getAccuracy() {
             return accuracy;
         }
+
         public double getCombo() {
             return combo;
         }
@@ -60,20 +63,27 @@ public class SquareMode extends View {
     private int combo = 0;
     private int finalCombo;
     private Text comboText;
+    private Text keyPressedText;
     private Squares squares;
     private int finalScore;
     private int score = 0;
+    private int keyPressed = 0;
     private double startedTime;
     private List<Deque<Double>> deque;
     private List<Deque<Double>> hints;
     private Sound song;
     private Beatmap length;
     private int songLength;
-
+    private int maxScore;
+    private boolean isKeyDown;
+    private int finalKeyPressed = 0;
+    private Text finalKeyPressedText;
 
     public SquareMode(Beatmap b) {
         super();
         squares = new Squares(0.1f, 0.1f, 1.0f, 1.0f);
+        keyPressedText = new Text(Integer.toString(keyPressed), Fonts.ROBOTO_LIGHT.getFont(), Color.black, 0.1f);
+        finalKeyPressedText = new Text(Integer.toString(keyPressed), Fonts.ROBOTO_LIGHT.getFont(), Color.black, 0.1f);
         comboText = new Text(Integer.toString(combo), Fonts.ROBOTO_LIGHT.getFont(), Colors.GRAY.getColor(), 0.1f);
         scoreText = new Text(Integer.toString(score), Fonts.ROBOTO_LIGHT.getFont(), Colors.GRAY.getColor(), 0.1f);
         deque = new ArrayList<>();
@@ -85,6 +95,7 @@ public class SquareMode extends View {
         length = b;
         System.out.println(length.getSongLength());
         addWidget(squares);
+        maxScore = length.getSongLength() * 300;
 
         try {
             song = Sound.loadFromOggFile(b.getOgg());
@@ -135,14 +146,14 @@ public class SquareMode extends View {
                 squares.setButtonState(8, true);
                 break;
         }
-        for(int k = 0; k <= 8; k++) {
-            if (deque.size() > 0 && deque.get(k).size() > 0) {
-                nearestBeatTime = deque.get(k).getFirst();
+        for(int l = 0; l <= 8; l++) {
+            if (deque.size() > 0 && deque.get(l).size() > 0) {
+                nearestBeatTime = deque.get(l).getFirst();
             }
-            while ((nearestBeatTime - currentTime) < 0 && deque.size() > 0 && deque.get(k).size() > 0) {
-                deque.get(k).removeFirst();
-                if (deque.get(k).size() > 0) {
-                    nearestBeatTime = deque.get(k).getFirst();
+            while ((nearestBeatTime - currentTime) < 0 && deque.size() > 0 && deque.get(l).size() > 0) {
+                deque.get(l).removeFirst();
+                if (deque.get(l).size() > 0) {
+                    nearestBeatTime = deque.get(l).getFirst();
                 } else {
                     nearestBeatTime = 0.0;
                 }
@@ -159,6 +170,16 @@ public class SquareMode extends View {
                 comboText.setString(Integer.toString(combo));
                 finalCombo = combo;
             }
+        }
+        isKeyDown = true;
+        if (isKeyDown) {
+            keyPressed += 1;
+            keyPressedText.setString(Integer.toString(keyPressed));
+        }
+        int m = calculateAccuracy();
+        if (m > 0) {
+            finalKeyPressed += m;
+            finalKeyPressedText.setString(Integer.toString(finalKeyPressed));
         }
 //        System.out.printf("%f %f %f %d\n", delta, currentTime, nearestBeatTime, calculateScore(nearestBeatTime, currentTime));
 //        System.out.printf("%d %f\n", key, glfwGetTime() - startedTime);
@@ -203,6 +224,8 @@ public class SquareMode extends View {
         super.draw();
         scoreText.draw(-0.05f, 0.1f);
         comboText.draw(0.5f, 0.1f);
+        keyPressedText.draw(0.7f, 0.1f);
+        finalKeyPressedText.draw(0.9f, 0.1f);
     }
 
     @Override
@@ -294,6 +317,14 @@ public class SquareMode extends View {
             } else {
                 return 0;
             }
+        }
+    }
+
+    private int calculateAccuracy() {
+        if(maxScore == finalKeyPressed * 300) {
+            return 100;
+        } else {
+            return 2;
         }
     }
 
