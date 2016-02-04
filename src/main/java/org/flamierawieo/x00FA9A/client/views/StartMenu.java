@@ -61,7 +61,7 @@ public class StartMenu extends View {
 
     @Override
     public void onViewStarted() {
-        singleplayerButton.setOnClickRunnable(() -> ViewManager.pushView(new SongMenu()));
+        singleplayerButton.setOnClickRunnable(() -> ViewManager.pushView(new SelectMode()));
         exitButton.setOnClickRunnable(() -> System.exit(0));
 //        settingsButton.setOnClickRunnable(() -> ViewManager.pushView(new SettingsMenu(beatmap)));
     }

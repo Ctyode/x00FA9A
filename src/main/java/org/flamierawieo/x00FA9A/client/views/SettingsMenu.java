@@ -22,7 +22,7 @@ public class SettingsMenu extends View {
     public SettingsMenu(Beatmap b) {
         super();
         beatmap = b;
-        System.out.println(beatmap.getArtist());
+        System.out.println(beatmap.getSongLength());
         settingsBackground = new Background(Images.SETTINGS_BACKGROUND.getTexture(), 0.499f, -0.5f, 0.603f, 2.0f);
         settingsLine = new Background(Images.SETTINGS_LINE.getTexture(), 0.5f, 0.5f, 0.6f, 0.001f);
 
