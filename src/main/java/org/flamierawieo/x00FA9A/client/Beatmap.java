@@ -35,6 +35,7 @@ public class Beatmap {
         String title = (String) root.get("title");
         String mapper = (String) root.get("mapper");
         Integer songLength = (int) (long) root.get("song_length");
+        Integer timingSum = (int) (long) root.get("square_mode_timing");
         byte availableDifficulties = 0b00000000;
         for(Object difficulty : (JSONArray) root.get("available_difficulties")) {
             switch(((Long) difficulty).intValue()) {
@@ -83,19 +84,20 @@ public class Beatmap {
                 }
             }
         }
-        return new Beatmap(artist, title, mapper, songLength, availableDifficulties, ogg, background, squareModeTiming);
+        return new Beatmap(artist, title, mapper, songLength, timingSum, availableDifficulties, ogg, background, squareModeTiming);
     }
 
     private String artist;
     private String title;
     private String mapper;
     private Integer songLength;
+    private Integer timingSum;
     private byte availableDifficulties;
     private File ogg;
     private File background;
     private List<List<Double>> squareModeTiming;
 
-    public Beatmap(String artist, String title, String mapper, Integer songLength, byte availableDifficulties, File ogg, File background, List<List<Double>> squareModeTiming) {
+    public Beatmap(String artist, String title, String mapper, Integer songLength, Integer timingSum, byte availableDifficulties, File ogg, File background, List<List<Double>> squareModeTiming) {
         this.artist = artist;
         this.title = title;
         this.mapper = mapper;
@@ -104,6 +106,7 @@ public class Beatmap {
         this.ogg = ogg;
         this.background = background;
         this.squareModeTiming = squareModeTiming;
+        this.timingSum = timingSum;
     }
 
     public String getArtist() {
@@ -138,4 +141,7 @@ public class Beatmap {
         return squareModeTiming;
     }
 
+    public Integer getTimingSum() {
+        return timingSum;
+    }
 }

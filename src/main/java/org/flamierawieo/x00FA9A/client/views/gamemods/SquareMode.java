@@ -27,7 +27,9 @@ public class SquareMode extends View {
         private int score;
 
         private double accuracy;
+
         private double combo;
+
         private int finalCombo;
         /**
          * @param score znachit chto ty dolboeb
@@ -40,11 +42,9 @@ public class SquareMode extends View {
             this.combo = combo;
             this.finalCombo = finalCombo;
         }
-
         public int getScore() {
             return score;
         }
-
         public double getAccuracy() {
             return accuracy;
         }
@@ -60,6 +60,7 @@ public class SquareMode extends View {
     }
 
     private Text scoreText;
+    private double accuracy;
     private int combo = 0;
     private int finalCombo;
     private Text comboText;
@@ -76,14 +77,13 @@ public class SquareMode extends View {
     private int songLength;
     private int maxScore;
     private boolean isKeyDown;
-    private int finalKeyPressed = 0;
-    private Text finalKeyPressedText;
+    private Text percentText;
 
     public SquareMode(Beatmap b) {
         super();
         squares = new Squares(0.1f, 0.1f, 1.0f, 1.0f);
         keyPressedText = new Text(Integer.toString(keyPressed), Fonts.ROBOTO_LIGHT.getFont(), Color.black, 0.1f);
-        finalKeyPressedText = new Text(Integer.toString(keyPressed), Fonts.ROBOTO_LIGHT.getFont(), Color.black, 0.1f);
+        percentText = new Text(Double.toString(keyPressed), Fonts.ROBOTO_LIGHT.getFont(), Color.black, 0.1f);
         comboText = new Text(Integer.toString(combo), Fonts.ROBOTO_LIGHT.getFont(), Colors.GRAY.getColor(), 0.1f);
         scoreText = new Text(Integer.toString(score), Fonts.ROBOTO_LIGHT.getFont(), Colors.GRAY.getColor(), 0.1f);
         deque = new ArrayList<>();
@@ -93,9 +93,10 @@ public class SquareMode extends View {
             hints.add(new ArrayDeque<>(deque.get(i)));
         }
         length = b;
-        System.out.println(length.getSongLength());
+        System.out.println(length.getTimingSum());
         addWidget(squares);
-        maxScore = length.getSongLength() * 300;
+
+        maxScore = length.getTimingSum() * 300;
 
         try {
             song = Sound.loadFromOggFile(b.getOgg());
@@ -174,13 +175,12 @@ public class SquareMode extends View {
         isKeyDown = true;
         if (isKeyDown) {
             keyPressed += 1;
-            keyPressedText.setString(Integer.toString(keyPressed));
         }
-//        int m = calculateAccuracy();
-//        if (m > 0) {
-//            finalKeyPressed += m;
-//            finalKeyPressedText.setString(Integer.toString(finalKeyPressed));
-//        }
+
+        int maxCurrentScore = keyPressed * 300;
+        accuracy = ((double) score * 100 / maxCurrentScore);
+        percentText.setString(Double.toString(accuracy));
+
 //        System.out.printf("%f %f %f %d\n", delta, currentTime, nearestBeatTime, calculateScore(nearestBeatTime, currentTime));
 //        System.out.printf("%d %f\n", key, glfwGetTime() - startedTime);
     }
@@ -224,8 +224,7 @@ public class SquareMode extends View {
         super.draw();
         scoreText.draw(-0.05f, 0.1f);
         comboText.draw(0.5f, 0.1f);
-        keyPressedText.draw(0.7f, 0.1f);
-        finalKeyPressedText.draw(0.9f, 0.1f);
+        percentText.draw(0.9f, 0.1f);
     }
 
     @Override
@@ -319,34 +318,6 @@ public class SquareMode extends View {
             }
         }
     }
-
-//    private double calculateAccuracy(double beatTime, double keyPressedTime) {
-//        double delta = Math.abs(beatTime - keyPressedTime);
-//
-//        if(delta > 0) {
-//            if(delta < HitAccuracy.HIT_300.getAccuracy()) {
-//                return HitAccuracy.HIT_300.getScore();
-//            } else if (delta < HitAccuracy.HIT_200.getAccuracy()) {
-//                return HitAccuracy.HIT_200.getScore();
-//            } else if (delta < HitAccuracy.HIT_100.getAccuracy()) {
-//                return HitAccuracy.HIT_100.getScore();
-//            } else {
-//                return 0;
-//            }
-//        } else {
-//            if(-delta < HitAccuracy.HIT_300.getAccuracy()) {
-//                return HitAccuracy.HIT_300.getScore();
-//            } else if (-delta < HitAccuracy.HIT_200.getAccuracy()) {
-//                return HitAccuracy.HIT_200.getScore();
-//            } else if (-delta < HitAccuracy.HIT_100.getAccuracy()) {
-//                return HitAccuracy.HIT_100.getScore();
-//            } else {
-//                return 0;
-//            }
-//
-//        if(delta < HitAccuracy.HIT_300.getAccuracy())
-//        accuracy = (100 * (properKeyPressed - missСlicks)) / maxScore;
-//    }
 
     public int getFinalCombo() {
         return finalCombo;
