@@ -5,6 +5,7 @@
   "title": "Aviator",
   "mapper": "Ctyode",
   "song_length": 55,
+  "square_mode_timing": 61,
   "available_difficulties": [1, 2, 4],
   "mapping": {
     "square_mode": [

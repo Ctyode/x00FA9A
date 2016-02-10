@@ -72,16 +72,16 @@ public class x00FA9AClient {
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glClearColor(0.0f, 0.98f, 0.60f, 0.0f);
 
-//        int vertexShader = Resources.getShader("res/shaders/shadow_vertex_shader.glsl", GL_VERTEX_SHADER);
-//        int fragmentShader = Resources.getShader("res/shaders/shadow_fragment_shader.glsl", GL_FRAGMENT_SHADER);
-//        int program = glCreateProgram();
-//        glAttachShader(program, vertexShader);
-//        glAttachShader(program, fragmentShader);
-//        glLinkProgram(program);
-//        glValidateProgram(program);
-//        int status = glGetProgrami(program, GL_LINK_STATUS);
-//        System.out.println(status == GL_TRUE);
-//        glUseProgram(program);
+        int vertexShader = Resources.getShader("res/shaders/shadow_vertex_shader.glsl", GL_VERTEX_SHADER);
+        int fragmentShader = Resources.getShader("res/shaders/shadow_fragment_shader.glsl", GL_FRAGMENT_SHADER);
+        int program = glCreateProgram();
+        glAttachShader(program, vertexShader);
+        glAttachShader(program, fragmentShader);
+        glLinkProgram(program);
+        glValidateProgram(program);
+        int status = glGetProgrami(program, GL_LINK_STATUS);
+        System.out.println(status == GL_TRUE);
+        glUseProgram(program);
 
         float lastUpdateTime = (float)glfwGetTime();
         while(glfwWindowShouldClose(window) == GL_FALSE) {

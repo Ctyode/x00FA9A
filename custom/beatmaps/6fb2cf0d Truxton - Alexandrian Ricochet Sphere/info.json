@@ -5,6 +5,7 @@
   "title": "Alexandrian Ricochet Sphere",
   "mapper": "Ctyode",
   "song_length": 55,
+  "square_mode_timing": 9,
   "available_difficulties": [1],
   "mapping": {
     "square_mode": [
