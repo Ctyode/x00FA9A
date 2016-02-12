@@ -15,17 +15,21 @@ public class StatsView extends View {
 
     private Button backButton;
     private Surface back;
-    private Text scoreText;
     private int score;
     private int combo;
+    private double percent;
+    private Text scoreText;
     private Text comboText;
+    private Text percentText;
 
     public StatsView(SquareMode sm) {
         super();
         score = sm.getFinalScore();
         combo = sm.getFinalCombo();
+        percent = sm.getFinalPercent();
         comboText = new Text(Integer.toString(combo), Fonts.ROBOTO_LIGHT.getFont(), Colors.GRAY.getColor(), 0.1f);
         scoreText = new Text(Integer.toString(score), Fonts.ROBOTO_LIGHT.getFont(), Colors.GRAY.getColor(), 0.1f);
+        percentText = new Text(Double.toString(percent), Fonts.ROBOTO_LIGHT.getFont(), Colors.GRAY.getColor(), 0.1f);
         back = new Surface(Colors.WHITE.getColor(), new Color(1.0f, 1.0f, 1.0f, 0.0f), 1.0f, 0.025f);
         backButton = new Button(new Text("Back", Fonts.ROBOTO_LIGHT.getFont(), Colors.BLACK.getColor(), 0.05f),
                 null, -0.1f, 0.1f, 0.2f, 0.1f, 0.0f, 0.0f, back);
@@ -38,6 +42,7 @@ public class StatsView extends View {
         super.draw();
         scoreText.draw(0.5f, 0.1f);
         comboText.draw(0.8f, 0.1f);
+        percentText.draw(0.5f, 0.2f);
     }
 
     @Override

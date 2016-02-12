@@ -45,6 +45,7 @@ public class SquareMode extends View {
         public int getScore() {
             return score;
         }
+
         public double getAccuracy() {
             return accuracy;
         }
@@ -64,7 +65,6 @@ public class SquareMode extends View {
     private int combo = 0;
     private int finalCombo;
     private Text comboText;
-    private Text keyPressedText;
     private Squares squares;
     private int finalScore;
     private int score = 0;
@@ -74,15 +74,14 @@ public class SquareMode extends View {
     private List<Deque<Double>> hints;
     private Sound song;
     private Beatmap length;
-    private int songLength;
     private int maxScore;
     private boolean isKeyDown;
     private Text percentText;
+    private double finalPercent;
 
     public SquareMode(Beatmap b) {
         super();
         squares = new Squares(0.1f, 0.1f, 1.0f, 1.0f);
-        keyPressedText = new Text(Integer.toString(keyPressed), Fonts.ROBOTO_LIGHT.getFont(), Color.black, 0.1f);
         percentText = new Text(Double.toString(keyPressed), Fonts.ROBOTO_LIGHT.getFont(), Color.black, 0.1f);
         comboText = new Text(Integer.toString(combo), Fonts.ROBOTO_LIGHT.getFont(), Colors.GRAY.getColor(), 0.1f);
         scoreText = new Text(Integer.toString(score), Fonts.ROBOTO_LIGHT.getFont(), Colors.GRAY.getColor(), 0.1f);
@@ -180,6 +179,7 @@ public class SquareMode extends View {
         int maxCurrentScore = keyPressed * 300;
         accuracy = ((double) score * 100 / maxCurrentScore);
         percentText.setString(Double.toString(accuracy));
+        finalPercent = accuracy;
 
 //        System.out.printf("%f %f %f %d\n", delta, currentTime, nearestBeatTime, calculateScore(nearestBeatTime, currentTime));
 //        System.out.printf("%d %f\n", key, glfwGetTime() - startedTime);
@@ -325,6 +325,10 @@ public class SquareMode extends View {
 
     public int getFinalScore() {
         return finalScore;
+    }
+
+    public double getFinalPercent() {
+        return finalPercent;
     }
 
 }
