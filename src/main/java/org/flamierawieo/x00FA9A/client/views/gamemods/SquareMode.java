@@ -61,28 +61,33 @@ public class SquareMode extends View {
     }
 
     private Text scoreText;
-    private double accuracy;
-    private int combo = 0;
-    private int finalCombo;
     private Text comboText;
-    private Squares squares;
-    private int finalScore;
+    private Text percentText;
+
     private int score = 0;
-    private int keyPressed = 0;
+    private int combo = 0;
+    private int percent = 0;
+    private double accuracy;
+
+    private int finalScore;
+    private int finalCombo;
+    private double finalPercent;
+
+    private Sound song;
+    private Squares squares;
+    private Beatmap beatmap;
+
     private double startedTime;
     private List<Deque<Double>> deque;
     private List<Deque<Double>> hints;
-    private Sound song;
-    private Beatmap length;
     private int maxScore;
     private boolean isKeyDown;
-    private Text percentText;
-    private double finalPercent;
 
     public SquareMode(Beatmap b) {
         super();
+        beatmap = b;
         squares = new Squares(0.1f, 0.1f, 1.0f, 1.0f);
-        percentText = new Text(Double.toString(keyPressed), Fonts.ROBOTO_LIGHT.getFont(), Color.black, 0.1f);
+        percentText = new Text(Double.toString(percent), Fonts.ROBOTO_LIGHT.getFont(), Color.black, 0.1f);
         comboText = new Text(Integer.toString(combo), Fonts.ROBOTO_LIGHT.getFont(), Colors.GRAY.getColor(), 0.1f);
         scoreText = new Text(Integer.toString(score), Fonts.ROBOTO_LIGHT.getFont(), Colors.GRAY.getColor(), 0.1f);
         deque = new ArrayList<>();
@@ -91,11 +96,9 @@ public class SquareMode extends View {
         for(int i = 0; i <= 8; i++) {
             hints.add(new ArrayDeque<>(deque.get(i)));
         }
-        length = b;
-        System.out.println(length.getTimingSum());
         addWidget(squares);
 
-        maxScore = length.getTimingSum() * 300;
+        maxScore = beatmap.getTimingSum() * 300;
 
         try {
             song = Sound.loadFromOggFile(b.getOgg());
@@ -173,12 +176,12 @@ public class SquareMode extends View {
         }
         isKeyDown = true;
         if (isKeyDown) {
-            keyPressed += 1;
+            percent += 1;
         }
 
-        int maxCurrentScore = keyPressed * 300;
+        int maxCurrentScore = percent * 300;
         accuracy = ((double) score * 100 / maxCurrentScore);
-        percentText.setString(Double.toString(accuracy));
+        percentText.setString(String.format("%.2f%%", accuracy));
         finalPercent = accuracy;
 
 //        System.out.printf("%f %f %f %d\n", delta, currentTime, nearestBeatTime, calculateScore(nearestBeatTime, currentTime));
@@ -260,7 +263,7 @@ public class SquareMode extends View {
     }
 
     public void endGameCheck(Double currentTime) {
-        if (length.getSongLength() <= currentTime) {
+        if (beatmap.getSongLength() <= currentTime) {
             ViewManager.popView();
             ViewManager.pushView(new StatsView(this));
             song.stop();

@@ -15,16 +15,32 @@ public class Surface implements ButtonDrawable {
     private Color borderColor;
     private float borderThickness;
     private float radius;
+    private int vertexShader;
+    private int fragmentShader;
+    private int program;
 
     public Surface(Color backgroundColor, Color borderColor, float borderThickness, float radius) {
         this.backgroundColor = backgroundColor;
         this.borderColor = borderColor;
         this.borderThickness = borderThickness;
         this.radius = radius;
+
+        vertexShader = Resources.getShader("res/shaders/shadow_vertex_shader.glsl", GL_VERTEX_SHADER);
+        fragmentShader = Resources.getShader("res/shaders/shadow_fragment_shader.glsl", GL_FRAGMENT_SHADER);
+        program = glCreateProgram();
+        glAttachShader(program, vertexShader);
+        glAttachShader(program, fragmentShader);
+        glLinkProgram(program);
+        glValidateProgram(program);
+        int status = glGetProgrami(program, GL_LINK_STATUS);
+        System.out.println(status == GL_TRUE);
     }
 
     @Override
     public void draw(float x, float y, float width, float height) {
+        glUseProgram(program);
+        fillRect(x - 0.9f, y - 0.6f, width + 0.6f , height + 0.6f, Color.BLACK);
+        glUseProgram(0);
         strokeLine(x + radius, y, x + width - radius, y, borderThickness, borderColor);
         strokeLine(x + width, y + radius, x + width, y + height - radius, borderThickness, borderColor);
         strokeLine(x + radius, y + height, x + width - radius, y + height, borderThickness, borderColor);

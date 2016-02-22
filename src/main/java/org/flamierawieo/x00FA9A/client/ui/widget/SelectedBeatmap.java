@@ -26,7 +26,7 @@ public class SelectedBeatmap extends Widget {
 
     public SelectedBeatmap(float x, float y, float width, float height, float originX, float originY) {
         super(x, y, width, height, originX, originY);
-//        background = new Sprite(Images.TEST.getTexture());
+//        background = new Sprite();
         artistText = new Text("", Fonts.ROBOTO_LIGHT.getFont(), Colors.GRAY.getColor(), 0.04f);
         titleText = new Text("", Fonts.ROBOTO_LIGHT.getFont(), Colors.GRAY.getColor(), 0.04f);
         levelText = new Text("", Fonts.ROBOTO_LIGHT.getFont(), Colors.GRAY.getColor(), 0.04f);
@@ -119,7 +119,6 @@ public class SelectedBeatmap extends Widget {
 
     @Override
     public void draw() {
-//        background.draw(0.0f, 0.0f, 1.0f, 1.5f);
         if (selectedBeatmap != null) {
             byte availableDifficulties = selectedBeatmap.getAvailableDifficulties();
             if ((availableDifficulties & 0b00000001) != 0) {
