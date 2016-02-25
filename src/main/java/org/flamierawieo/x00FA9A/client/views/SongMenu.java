@@ -18,6 +18,7 @@ import rx.subjects.PublishSubject;
 import java.awt.*;
 
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.glfw.GLFW.*;
 
 public class SongMenu extends View {
 
@@ -36,6 +37,7 @@ public class SongMenu extends View {
 //    private Button selectModeBackground;
     private Background songListBackground;
     private PublishSubject selectedTrack;
+    private boolean isSongSelected;
 
     public class Item implements ListItem {
 
@@ -61,6 +63,7 @@ public class SongMenu extends View {
         @Override
         public void onChosen() {
             selectedTrack.onNext(this);
+            isSongSelected = true;
         }
 
         @Override
@@ -79,6 +82,7 @@ public class SongMenu extends View {
 
     public SongMenu() {
         super();
+        isSongSelected = true;
         bottomPanelBackground = new Background(Images.BOTTOM_PANEL.getTexture(), -0.389f, 0.0f, 0.701822916f, 0.069010416f);
 //        selectModeBackground = Button.builder()
 //                .setBackgroundTexture(Images.SELECT_MODE.getTexture())
@@ -99,23 +103,67 @@ public class SongMenu extends View {
         selectedBeatmap = new SelectedBeatmap(0.68619791666f, 0.411458333f, 0.65755208333f, 0.16276041666f);
         selectedTrack = PublishSubject.create();
         selectedTrack.subscribe(o -> selectedBeatmap.setSelectedBeatmap(((Item) o).getBeatmap()));
+    }
 
-        addWidget(bottomPanelBackground);
-//        addWidget(selectModeBackground);
-        addWidget(songListBackground);
-        addWidget(songList);
-        addWidget(searchBackground);
-        addWidget(mapHeaderBackground);
-        addWidget(activeSongBackground);
-        addWidget(selectedBeatmap);
-        addWidget(backButton);
+    @Override
+    public void onMouseButtonDown(float x, float y, int button, int mods) {
+        if(isHovered(backButton, x, y)) {
+            backButton.onMouseButtonDown(x, y, button, mods);
+            return;
+        }
+        if(isHovered(selectedBeatmap, x, y)) {
+            selectedBeatmap.onMouseButtonDown(x, y, button, mods);
+            return;
+        }
+        if(isHovered(songList, x, y)) {
+            songList.onMouseButtonDown(x, y, button, mods);
+            return;
+        }
+    }
+
+    @Override
+    public void onKeyDown(int key, int scancode, int mods) {
+        if(key == GLFW_KEY_ESCAPE) {
+            isSongSelected = false;
+        }
     }
 
     @Override
     public void onViewStarted() {
         selectedBeatmap.setOnClickRunnable(() -> ViewManager.pushView(new SquareMode(selectedBeatmap.getSelectedBeatmap())));
-        backButton.setOnClickRunnable(() -> ViewManager.popView());
-//        selectModeBackground.setOnClickRunnable(ViewManager::popView);
+        backButton.setOnClickRunnable(() -> System.exit(0));
     }
 
+    @Override
+    public void tick(float delta) {
+        super.tick(delta);
+        bottomPanelBackground.tick(delta);
+        songListBackground.tick(delta);
+        songList.tick(delta);
+        searchBackground.tick(delta);
+        mapHeaderBackground.tick(delta);
+        activeSongBackground.tick(delta);
+        selectedBeatmap.tick(delta);
+        backButton.tick(delta);
+        if(isSongSelected) {
+            activeSongBackground.setX((activeSongBackground.getX() + 0.67648958f) / 2.0f);
+            selectedBeatmap.setX(0.68619791666f);
+        } else {
+            activeSongBackground.setX(2.0f);
+            selectedBeatmap.setX(2.0f);
+        }
+    }
+
+    @Override
+    public void draw() {
+        super.draw();
+        bottomPanelBackground.draw();
+        songListBackground.draw();
+        songList.draw();
+        searchBackground.draw();
+        mapHeaderBackground.draw();
+        activeSongBackground.draw();
+        selectedBeatmap.draw();
+        backButton.draw();
+    }
 }

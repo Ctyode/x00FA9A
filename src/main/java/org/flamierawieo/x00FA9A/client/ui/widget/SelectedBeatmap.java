@@ -21,8 +21,6 @@ public class SelectedBeatmap extends Widget {
     private Sprite unavailableDifficulty;
     private int difficulty;
     private Runnable onClickRunnable;
-    private float relativeMousePositionY;
-    private float relativeMousePositionX;
 
     public SelectedBeatmap(float x, float y, float width, float height, float originX, float originY) {
         super(x, y, width, height, originX, originY);
@@ -55,8 +53,10 @@ public class SelectedBeatmap extends Widget {
     }
 
     @Override
-    public void onMouseButtonDown(int button, int mods) {
+    public void onMouseButtonDown(float x, float y, int button, int mods) {
         byte availableDifficulties = selectedBeatmap.getAvailableDifficulties();
+        float relativeMousePositionX = getAbsolutePositionX() - x;
+        float relativeMousePositionY = getAbsolutePositionY() - y;
         if (relativeMousePositionX > getAbsolutePositionX() + 0.26f
                 && relativeMousePositionY > getAbsolutePositionY() + 0.12f
                 && relativeMousePositionX < getAbsolutePositionX() + 0.26f + 0.030924479166f
@@ -109,12 +109,6 @@ public class SelectedBeatmap extends Widget {
         } else if (onClickRunnable != null) {
             onClickRunnable.run();
         }
-    }
-
-    @Override
-    public void onMouseMove(float x, float y) {
-        relativeMousePositionX = getAbsolutePositionX() - x;
-        relativeMousePositionY = getAbsolutePositionY() - y;
     }
 
     @Override

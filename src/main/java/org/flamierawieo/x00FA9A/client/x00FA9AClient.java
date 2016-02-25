@@ -3,7 +3,7 @@ package org.flamierawieo.x00FA9A.client;
 import org.flamierawieo.x00FA9A.client.settings.Settings;
 import org.flamierawieo.x00FA9A.client.settings.VideoMode;
 import org.flamierawieo.x00FA9A.client.ui.ViewManager;
-import org.flamierawieo.x00FA9A.client.views.StartMenu;
+import org.flamierawieo.x00FA9A.client.views.SongMenu;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.openal.ALC;
 import org.lwjgl.openal.ALContext;
@@ -58,7 +58,7 @@ public class x00FA9AClient {
         context.makeCurrent();
         alListener3f(AL_POSITION, 0.0f, 0.0f, 0.0f);
         alListener3f(AL_VELOCITY, 0.0f, 0.0f, 0.0f);
-        ViewManager.init(initialWindowWidth, initialWindowHeight, new StartMenu());
+        ViewManager.init(initialWindowWidth, initialWindowHeight, new SongMenu());
         glfwSetKeyCallback(window, ViewManager.getGlfwKeyCallback());
         glfwSetCursorPosCallback(window, ViewManager.getGlfwCursorPosCallback());
         glfwSetMouseButtonCallback(window, ViewManager.getGlfwMouseButtonCallback());

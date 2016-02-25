@@ -117,7 +117,7 @@ public class Button extends Widget implements Tickable, Drawable, MouseInputList
     }
 
     @Override
-    public void onMouseButtonDown(int button, int mods) {
+    public void onMouseButtonDown(float x, float y, int button, int mods) {
         if(onClickRunnable != null) {
             onClickRunnable.run();
         }

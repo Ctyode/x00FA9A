@@ -10,32 +10,13 @@ import java.util.List;
 
 public class View implements Tickable, Drawable, KeyInputListener, MouseInputListener {
 
-    protected List<Widget> widgets;
-    protected float xMousePosition;
-    protected float yMousePosition;
-
-    public View() {
-        widgets = new ArrayList<>();
-    }
-
-    private Widget getHoveredWidget() {
-        Widget hoveredWidget;
-        for(int i = widgets.size() - 1; i >= 0; --i) {
-            hoveredWidget = widgets.get(i);
-            float widgetX = hoveredWidget.getAbsolutePositionX();
-            float widgetY = hoveredWidget.getAbsolutePositionY();
-            if(xMousePosition >= widgetX &&
-               yMousePosition >= widgetY &&
-               xMousePosition <= widgetX + hoveredWidget.getWidth() &&
-               yMousePosition <= widgetY + hoveredWidget.getHeight()) {
-                return hoveredWidget;
-            }
-        }
-        return null;
-    }
-
-    public void addWidget(Widget widget) {
-        widgets.add(widget);
+    public Boolean isHovered(Widget widget, float xMousePosition, float yMousePosition) {
+        float widgetX = widget.getAbsolutePositionX();
+        float widgetY = widget.getAbsolutePositionY();
+        return (xMousePosition >= widgetX &&
+           yMousePosition >= widgetY &&
+           xMousePosition <= widgetX + widget.getWidth() &&
+           yMousePosition <= widgetY + widget.getHeight());
     }
 
     /**
@@ -59,65 +40,44 @@ public class View implements Tickable, Drawable, KeyInputListener, MouseInputLis
 
     }
 
+
+    @Override
+    public void draw() {
+
+    }
+
     @Override
     public void onKeyDown(int key, int scancode, int mods) {
-        Widget hoveredWidget = getHoveredWidget();
-        // коммент для тупых дебилов, чтобы даже тупой down понял
-        if(hoveredWidget != null) {
-            hoveredWidget.onKeyDown(key, scancode, mods);
-        }
+
     }
 
     @Override
     public void onKeyUp(int key, int scancode, int mods) {
-        Widget hoveredWidget = getHoveredWidget();
-        if(hoveredWidget != null) {
-            hoveredWidget.onKeyUp(key, scancode, mods);
-        }
+
     }
 
     @Override
     public void onMouseMove(float x, float y) {
-        xMousePosition = x;
-        yMousePosition = y;
-        Widget hoveredWidget = getHoveredWidget();
-        if(hoveredWidget != null) {
-            hoveredWidget.onMouseMove(x, y);
-        }
+
     }
 
     @Override
-    public void onMouseButtonDown(int button, int mods) {
-        Widget hoveredWidget = getHoveredWidget();
-        if(hoveredWidget != null) {
-            hoveredWidget.onMouseButtonDown(button, mods);
-        }
+    public void onMouseButtonDown(float x, float y, int button, int mods) {
+
     }
 
     @Override
-    public void onMouseButtonUp(int button, int mods) {
-        Widget hoveredWidget = getHoveredWidget();
-        if(hoveredWidget != null) {
-            hoveredWidget.onMouseButtonUp(button, mods);
-        }
+    public void onMouseButtonUp(float x, float y, int button, int mods) {
+
     }
 
     @Override
-    public void onScroll(double x, double y) {
-        Widget hoveredWidget = getHoveredWidget();
-        if(hoveredWidget != null) {
-            hoveredWidget.onScroll(x, y);
-        }
-    }
+    public void onScroll(float x, float y, double scrollX, double scrollY) {
 
-    @Override
-    public void draw() {
-        widgets.forEach(Widget::draw);
     }
 
     @Override
     public void tick(float delta) {
-        widgets.forEach(w -> w.tick(delta));
-    }
 
+    }
 }

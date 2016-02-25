@@ -66,16 +66,16 @@ public class ViewManager {
             @Override
             public void invoke(long window, int button, int action, int mods) {
                 if(action == GLFW_PRESS) {
-                    currentView.onMouseButtonDown(button, mods);
+                    currentView.onMouseButtonDown(mouseRelativePosX, mouseRelativePosY, button, mods);
                 } else if(action == GLFW_RELEASE) {
-                    currentView.onMouseButtonUp(button, mods);
+                    currentView.onMouseButtonUp(mouseRelativePosX, mouseRelativePosY, button, mods);
                 }
             }
         };
         glfwScrollCallback = new GLFWScrollCallback() {
             @Override
             public void invoke(long window, double x, double y) {
-                currentView.onScroll(x, y);
+                currentView.onScroll(mouseRelativePosX, mouseRelativePosY, x, y);
             }
         };
     }

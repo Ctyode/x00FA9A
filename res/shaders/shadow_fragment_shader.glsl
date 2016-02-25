@@ -29,7 +29,7 @@ void main(void) {
     radius *= 0.6;
     thickness == 0.0;
     intensity = roundedRectangle(pos, size, radius, 0.030); // интенсивность сглаживания
-    const vec4 rect2Color = vec4(0.0, 0.0, 0.0, 0.20); // цвет прямоугольника
+    const vec4 rect2Color = vec4(0.0, 0.0, 0.0, 1.0); // цвет прямоугольника
     color = mix(color, rect2Color, intensity);
 
     gl_FragColor = vec4(color); // прозрачность/непрозрачность шейдера

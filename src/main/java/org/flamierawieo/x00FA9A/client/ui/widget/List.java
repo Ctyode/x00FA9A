@@ -7,8 +7,6 @@ public class List extends Widget {
 
     private java.util.List<ListItem> itemList;
     private float scroll;
-    private float relativeCursorPositionX;
-    private float relativeCursorPositionY;
 
     public List(float x, float y, float width, float height, float originX, float originY) {
         super(x, y, width, height, originX, originY);
@@ -24,13 +22,8 @@ public class List extends Widget {
     }
 
     @Override
-    public void onMouseMove(float x, float y) {
-        relativeCursorPositionX = x - getAbsolutePositionX();
-        relativeCursorPositionY = y - getAbsolutePositionY();
-    }
-
-    @Override
-    public void onMouseButtonDown(int button, int mods) {
+    public void onMouseButtonDown(float x, float y, int button, int mods) {
+        float relativeCursorPositionY = y - getAbsolutePositionY();
         float offset = scroll;
         float itemHeight;
         for(ListItem item : itemList) {
@@ -43,8 +36,8 @@ public class List extends Widget {
     }
 
     @Override
-    public void onScroll(double x, double y) {
-        scroll -= y * 0.1;
+    public void onScroll(float x, float y, double scrollX, double scrollY) {
+        scroll -= scrollY * 0.1;
     }
 
     @Override

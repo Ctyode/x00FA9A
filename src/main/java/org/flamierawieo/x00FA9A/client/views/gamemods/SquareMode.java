@@ -96,7 +96,6 @@ public class SquareMode extends View {
         for(int i = 0; i <= 8; i++) {
             hints.add(new ArrayDeque<>(deque.get(i)));
         }
-        addWidget(squares);
 
         maxScore = beatmap.getTimingSum() * 300;
 
@@ -225,6 +224,7 @@ public class SquareMode extends View {
     @Override
     public void draw() {
         super.draw();
+        squares.draw();
         scoreText.draw(-0.05f, 0.1f);
         comboText.draw(0.5f, 0.1f);
         percentText.draw(0.9f, 0.1f);
@@ -233,6 +233,7 @@ public class SquareMode extends View {
     @Override
     public void tick(float delta) {
         super.tick(delta);
+        squares.tick(delta);
         double currentTime = glfwGetTime() - startedTime;
         double nearestBeatTime = 0.0;
 

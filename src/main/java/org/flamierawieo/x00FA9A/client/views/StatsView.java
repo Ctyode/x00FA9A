@@ -34,12 +34,12 @@ public class StatsView extends View {
         backButton = new Button(new Text("Back", Fonts.ROBOTO_LIGHT.getFont(), Colors.BLACK.getColor(), 0.05f),
                 null, -0.1f, 0.1f, 0.2f, 0.1f, 0.0f, 0.0f, back);
 
-        addWidget(backButton);
     }
 
     @Override
     public void draw() {
         super.draw();
+        backButton.draw();
         scoreText.draw(0.5f, 0.1f);
         comboText.draw(0.8f, 0.1f);
         percentText.draw(0.5f, 0.2f);

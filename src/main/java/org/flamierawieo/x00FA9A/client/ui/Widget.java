@@ -135,19 +135,20 @@ public class Widget implements Drawable, Tickable, KeyInputListener, MouseInputL
     }
 
     @Override
-    public void onMouseButtonDown(int button, int mods) {
+    public void onMouseButtonDown(float x, float y, int button, int mods) {
 
     }
 
     @Override
-    public void onMouseButtonUp(int button, int mods) {
+    public void onMouseButtonUp(float x, float y, int button, int mods) {
 
     }
 
     @Override
-    public void onScroll(double x, double y) {
+    public void onScroll(float x, float y, double scrollX, double scrollY) {
 
     }
+
 
     @Override
     public void draw() {
