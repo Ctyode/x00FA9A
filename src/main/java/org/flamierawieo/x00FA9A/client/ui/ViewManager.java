@@ -34,7 +34,7 @@ public class ViewManager {
         viewStack.push(rootView);
         rootView.onViewStarted();
         cursor = new Cursor();
-        gameBackground = new Sprite(Images.BASIC_BACKGROUND.getTexture());
+//        gameBackground = new Sprite(Images.BASIC_BACKGROUND.getTexture());
         glfwWindowSizeCallback = new GLFWWindowSizeCallback() {
             @Override
             public void invoke(long window, int width, int height) {
@@ -145,7 +145,7 @@ public class ViewManager {
         glViewport(0, 0, windowWidth, windowHeight);
         double offset = (aspect - 1.0) / 2.0;
         glOrtho(-offset, 1.0 + offset, 0.0, 1.0, -1.0, 1.0);
-        gameBackground.draw((float) -offset, 0.0f, aspect, 1.0f);
+//        gameBackground.draw((float) -offset, 0.0f, aspect, 1.0f);
         currentView.draw();
         cursor.draw();
     }

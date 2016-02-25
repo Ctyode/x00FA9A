@@ -7,11 +7,12 @@ import org.flamierawieo.x00FA9A.client.ui.Widget;
 import org.json.simple.parser.ParseException;
 import org.flamierawieo.x00FA9A.client.Beatmap;
 
+import java.io.IOException;
+
 import static org.lwjgl.opengl.GL11.*;
 
 public class SelectedBeatmap extends Widget {
 
-    private Sprite background;
     private Beatmap selectedBeatmap;
     private Text artistText;
     private Text titleText;
@@ -24,7 +25,6 @@ public class SelectedBeatmap extends Widget {
 
     public SelectedBeatmap(float x, float y, float width, float height, float originX, float originY) {
         super(x, y, width, height, originX, originY);
-//        background = new Sprite();
         artistText = new Text("", Fonts.ROBOTO_LIGHT.getFont(), Colors.GRAY.getColor(), 0.04f);
         titleText = new Text("", Fonts.ROBOTO_LIGHT.getFont(), Colors.GRAY.getColor(), 0.04f);
         levelText = new Text("", Fonts.ROBOTO_LIGHT.getFont(), Colors.GRAY.getColor(), 0.04f);
@@ -182,24 +182,5 @@ public class SelectedBeatmap extends Widget {
         artistText.draw(getAbsolutePositionX() + 0.0260416f, getAbsolutePositionY() + 0.11458333f);
         titleText.draw(getAbsolutePositionX() + 0.0260416f, getAbsolutePositionY() + 0.07291666f);
         levelText.draw(getAbsolutePositionX() + 0.0260416f, getAbsolutePositionY() + 0.0338541666f);
-        glColor3f(1.0f, 0.0f, 0.0f);
-        glLineWidth(1.0f);
-        glBegin(GL_LINES);
-        glVertex2f(getAbsolutePositionX(), getAbsolutePositionY());
-        glVertex2f(getAbsolutePositionX() + getWidth(), getAbsolutePositionY());
-        glEnd();
-        glBegin(GL_LINES);
-        glVertex2f(getAbsolutePositionX() + getWidth(), getAbsolutePositionY());
-        glVertex2f(getAbsolutePositionX() + getWidth(), getAbsolutePositionY() + getHeight());
-        glEnd();
-        glBegin(GL_LINES);
-        glVertex2f(getAbsolutePositionX(), getAbsolutePositionY() + getHeight());
-        glVertex2f(getAbsolutePositionX() + getWidth(), getAbsolutePositionY() + getHeight());
-        glEnd();
-        glBegin(GL_LINES);
-        glVertex2f(getAbsolutePositionX(), getAbsolutePositionY());
-        glVertex2f(getAbsolutePositionX(), getAbsolutePositionY() + getHeight());
-        glEnd();
     }
-
 }

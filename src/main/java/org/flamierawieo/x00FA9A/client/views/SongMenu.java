@@ -1,9 +1,7 @@
 package org.flamierawieo.x00FA9A.client.views;
 
-import org.flamierawieo.x00FA9A.client.Beatmap;
-import org.flamierawieo.x00FA9A.client.Colors;
-import org.flamierawieo.x00FA9A.client.Fonts;
-import org.flamierawieo.x00FA9A.client.Images;
+import org.flamierawieo.x00FA9A.client.*;
+import org.flamierawieo.x00FA9A.client.graphics.Sprite;
 import org.flamierawieo.x00FA9A.client.graphics.Surface;
 import org.flamierawieo.x00FA9A.client.graphics.Text;
 import org.flamierawieo.x00FA9A.client.ui.View;
@@ -34,10 +32,10 @@ public class SongMenu extends View {
     private List songList;
     private Background activeSongBackground;
     private Background searchBackground;
-//    private Button selectModeBackground;
     private Background songListBackground;
     private PublishSubject selectedTrack;
     private boolean isSongSelected;
+    private Sprite selectedBeatmapBackground;
 
     public class Item implements ListItem {
 
@@ -84,11 +82,6 @@ public class SongMenu extends View {
         super();
         isSongSelected = true;
         bottomPanelBackground = new Background(Images.BOTTOM_PANEL.getTexture(), -0.389f, 0.0f, 0.701822916f, 0.069010416f);
-//        selectModeBackground = Button.builder()
-//                .setBackgroundTexture(Images.SELECT_MODE.getTexture())
-//                .setPosition(-0.389f, 0.0f)
-//                .setSize(0.13671875f, 0.130208f)
-//                .setOrigin(0.0f, 0.0f).build();
         songListBackground = new Background(Images.SONG_LIST_BACKGROUND.getTexture(), 0.746f, -0.5f, 0.542f, 2.0f);
         searchBackground = new Background(Images.SEARCH_BACKGROUND.getTexture(), 0.98307f, 0.8958333f, 0.342447916f, 0.0833333f);
         mapHeaderBackground = new Background(Images.MAP_HEADER.getTexture(), -0.389f, 0.888f, 0.62239583f, 0.1171875f);
@@ -102,7 +95,20 @@ public class SongMenu extends View {
         Beatmap.getBeatmapCache().forEach(b -> itemList.add(new Item(b)));
         selectedBeatmap = new SelectedBeatmap(0.68619791666f, 0.411458333f, 0.65755208333f, 0.16276041666f);
         selectedTrack = PublishSubject.create();
-        selectedTrack.subscribe(o -> selectedBeatmap.setSelectedBeatmap(((Item) o).getBeatmap()));
+        selectedTrack.subscribe(o -> {
+            if(o != null) {
+                selectedBeatmap.setSelectedBeatmap(((Item) o).getBeatmap());
+            }
+        });
+        selectedBeatmapBackground = new Sprite(Images.BASIC_BACKGROUND.getTexture());
+        selectedTrack.subscribe(o -> {
+            if(o != null) {
+                Beatmap beatmap = ((Item) o).getBeatmap();
+                selectedBeatmapBackground.setTexture(Resources.getTexture(beatmap.getBackground().getAbsolutePath()));
+            } else {
+                selectedBeatmapBackground.setTexture(Images.BASIC_BACKGROUND.getTexture());
+            }
+        });
     }
 
     @Override
@@ -125,6 +131,7 @@ public class SongMenu extends View {
     public void onKeyDown(int key, int scancode, int mods) {
         if(key == GLFW_KEY_ESCAPE) {
             isSongSelected = false;
+            selectedTrack.onNext(null);
         }
     }
 
@@ -157,6 +164,7 @@ public class SongMenu extends View {
     @Override
     public void draw() {
         super.draw();
+        selectedBeatmapBackground.draw(-((ViewManager.getAspect() - 1.0f) / 2.0f), 0.0f, ViewManager.getAspect(), 1.0f);
         bottomPanelBackground.draw();
         songListBackground.draw();
         songList.draw();
