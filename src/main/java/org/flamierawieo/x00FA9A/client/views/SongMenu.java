@@ -1,6 +1,7 @@
 package org.flamierawieo.x00FA9A.client.views;
 
 import org.flamierawieo.x00FA9A.client.*;
+import org.flamierawieo.x00FA9A.client.graphics.DropShadow;
 import org.flamierawieo.x00FA9A.client.graphics.Sprite;
 import org.flamierawieo.x00FA9A.client.graphics.Surface;
 import org.flamierawieo.x00FA9A.client.graphics.Text;
@@ -36,6 +37,7 @@ public class SongMenu extends View {
     private PublishSubject selectedTrack;
     private boolean isSongSelected;
     private Sprite selectedBeatmapBackground;
+    private final DropShadow shadow;
 
     public class Item implements ListItem {
 
@@ -85,6 +87,7 @@ public class SongMenu extends View {
         songListBackground = new Background(Images.SONG_LIST_BACKGROUND.getTexture(), 0.746f, -0.5f, 0.542f, 2.0f);
         searchBackground = new Background(Images.SEARCH_BACKGROUND.getTexture(), 0.98307f, 0.8958333f, 0.342447916f, 0.0833333f);
         mapHeaderBackground = new Background(Images.MAP_HEADER.getTexture(), -0.389f, 0.888f, 0.62239583f, 0.1171875f);
+        shadow = new DropShadow();
         activeSongBackground = new Background(Images.ACTIVE_SONG_BACKGROUND.getTexture(), 0.67648958f, 0.48567708f, 0.6796875f, 0.1875f, 0.0f, 0.5f);
         songList = new List(0.746f, 0.0f, 0.5f, 1.0f);
         back = new Surface(Colors.WHITE.getColor(), Colors.WHITE.getColor(), 1.0f, 0.025f);
@@ -165,6 +168,7 @@ public class SongMenu extends View {
     public void draw() {
         super.draw();
         selectedBeatmapBackground.draw(-((ViewManager.getAspect() - 1.0f) / 2.0f), 0.0f, ViewManager.getAspect(), 1.0f);
+        shadow.draw(0.0f, 0.0f, 1.0f, 1.0f);
         bottomPanelBackground.draw();
         songListBackground.draw();
         songList.draw();
