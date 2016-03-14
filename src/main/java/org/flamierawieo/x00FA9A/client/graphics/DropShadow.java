@@ -19,7 +19,8 @@ public class DropShadow implements ButtonDrawable {
     private int vertexShader;
     private int fragmentShader;
     private int program;
-    protected HashMap<String, Integer> uniforms = new HashMap<String, Integer>();
+    private ShaderConfig shaderConfig;
+    protected HashMap<String, Integer> uniforms = new HashMap<>();
 
     public DropShadow() {
 //        vertexShader = Resources.getShader("res/shaders/shadow_vertex_shader.glsl", GL_VERTEX_SHADER);
@@ -31,6 +32,7 @@ public class DropShadow implements ButtonDrawable {
         glValidateProgram(program);
         int status = glGetProgrami(program, GL_LINK_STATUS);
         System.out.println(status == GL_TRUE);
+        shaderConfig = new ShaderConfig(program);
     }
 
     @Override
@@ -39,32 +41,8 @@ public class DropShadow implements ButtonDrawable {
         VideoMode videoMode = settings.getVideoMode();
         glUseProgram(program);
         fillRect(x - 0.5f, y, width + 1.0f, height + 1.0f, Color.BLACK);
-        setUniformf("resolution", videoMode.getWidth(), videoMode.getHeight());
+        shaderConfig.setUniformf("resolution", videoMode.getWidth(), videoMode.getHeight());
         glUseProgram(0);
-    }
-
-    public int getUniformLocation(String name) {
-        int location = -1;
-        Integer locI = uniforms.get(name);
-        if (locI == null) { // maybe it's not yet cached?
-            location = glGetUniformLocation(program, name);
-            uniforms.put(name, location);
-    } else
-            location = locI.intValue();
-        // throw an exception if not found...
-        if (location == -1)
-            throw new IllegalArgumentException("no active uniform by name '" + name + "' "
-                    + "(disable strict compiling to suppress warnings)");
-        return location;
-    }
-
-    public void setUniformf(int loc, float a, float b) {
-        if (loc==-1) return;
-        glUniform2f(loc, a, b);
-    }
-
-    public void setUniformf(String name, float a, float b) {
-        setUniformf(getUniformLocation(name), a, b);
     }
 
 

@@ -38,6 +38,7 @@ public class SongMenu extends View {
     private boolean isSongSelected;
     private Sprite selectedBeatmapBackground;
     private final DropShadow shadow;
+    private final Surface whatever;
 
     public class Item implements ListItem {
 
@@ -83,6 +84,7 @@ public class SongMenu extends View {
     public SongMenu() {
         super();
         isSongSelected = true;
+        whatever = new Surface(Colors.WHITE.getColor(), Colors.WHITE.getColor(), 2.0f, 0.0025f);
         bottomPanelBackground = new Background(Images.BOTTOM_PANEL.getTexture(), -0.389f, 0.0f, 0.701822916f, 0.069010416f);
         songListBackground = new Background(Images.SONG_LIST_BACKGROUND.getTexture(), 0.746f, -0.5f, 0.542f, 2.0f);
         searchBackground = new Background(Images.SEARCH_BACKGROUND.getTexture(), 0.98307f, 0.8958333f, 0.342447916f, 0.0833333f);
@@ -169,6 +171,7 @@ public class SongMenu extends View {
         super.draw();
         selectedBeatmapBackground.draw(-((ViewManager.getAspect() - 1.0f) / 2.0f), 0.0f, ViewManager.getAspect(), 1.0f);
         shadow.draw(0.0f, 0.0f, 1.0f, 1.0f);
+//        whatever.draw(0.5f, 0.5f, 0.2f, 0.2f);
         bottomPanelBackground.draw();
         songListBackground.draw();
         songList.draw();
