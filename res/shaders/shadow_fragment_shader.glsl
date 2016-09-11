@@ -1,36 +1,32 @@
 #ifdef GL_ES
-precision mediump float;
+precision highp float;
 #endif
-#extension GL_OES_standard_derivatives : enable
 
 uniform vec2 resolution;
-vec2 uv;
+uniform vec2 position;
+uniform vec2 size;
 
-float roundedRectangle(vec2 pos, vec2 size, float radius, float thickness) {
-    float dist = length(max(abs(uv - pos), size) - size) - radius;
+float cornerRadius = 0.1; // TODO: meant to be uniform
+uniform float shadowRadius;
 
-    // первое число - сила размытия краев
-    return smoothstep(20.0, 1.0, dist / thickness);
-}
+vec4 shadowColor = vec4(0.0, 0.0, 0.0, 1.0); // TODO: meant to be uniform
 
-vec2 shadow_center = vec2(0.5, 0.5);
+// float pow2(float x) { return x * x; }
 
-void main(void) {
-    uv =  gl_FragCoord.xy / resolution.xy - shadow_center;
-	uv *= resolution.xy / resolution.y;
-    vec4 color = vec4(0.0, 0.0, 0.0, 0.0); // цвет фона
+void main() {
+  float aspect = resolution.x / resolution.y;
+  float offset = (aspect - 1.0) * 0.5;
+  vec2 relativeCoord = vec2(gl_FragCoord.x / resolution.x * aspect - offset, gl_FragCoord.y / resolution.y);
+  float opacity =
+    smoothstep(position.x, position.x + shadowRadius, relativeCoord.x) *
+    smoothstep(position.x + size.x, position.x + size.x - shadowRadius, relativeCoord.x) *
+    smoothstep(position.y, position.y + shadowRadius, relativeCoord.y) *
+    smoothstep(position.y + size.y, position.y + size.y - shadowRadius, relativeCoord.y);
 
-    vec2 pos = vec2(0.0, 0.0);
-    vec2 size = vec2(1.9, 1.9); // размер прямоуголльника по осям x и y
-    float radius = 0.1; // радиус угла. больше число - круглее углы. 2.0 превратит прямоугольник в круг
-    float thickness = 1.0;
-    float intensity = roundedRectangle(pos, size, radius, thickness);
+  /*
+    smooth circle:
+    smoothstep(cornerRadius, 0.0, sqrt(pow2(distance(relativeCoord.x, position.x)) + pow2(distance(relativeCoord.y, position.y))))
+  */
 
-    size *= 0.48;
-    radius *= 0.6;
-    intensity = roundedRectangle(pos, size, radius, 0.0005); // интенсивность сглаживания
-    const vec4 rectColor = vec4(0.0, 0.0, 0.0, 0.16); // цвет прямоугольника
-    color = mix(color, rectColor, intensity);
-
-    gl_FragColor = vec4(color); // прозрачность/непрозрачность шейдера
+  gl_FragColor = mix(vec4(0.0, 0.0, 0.0, 0.0), shadowColor, opacity); // TODO: replace black with transparent shadowColor
 }

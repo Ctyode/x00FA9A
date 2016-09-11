@@ -14,19 +14,15 @@ import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL20.GL_LINK_STATUS;
 import static org.lwjgl.opengl.GL20.glGetProgrami;
 
-public class DropShadow implements ButtonDrawable {
+public class Vignette implements ButtonDrawable {
 
-    private int vertexShader;
     private int fragmentShader;
     private int program;
     private ShaderConfig shaderConfig;
-    protected HashMap<String, Integer> uniforms = new HashMap<>();
 
-    public DropShadow() {
-//        vertexShader = Resources.getShader("res/shaders/shadow_vertex_shader.glsl", GL_VERTEX_SHADER);
-        fragmentShader = Resources.getShader("res/shaders/shadow_fragment_shader.glsl", GL_FRAGMENT_SHADER);
+    public Vignette() {
+        fragmentShader = Resources.getShader("res/shaders/vignette_fragment_shader.glsl", GL_FRAGMENT_SHADER);
         program = glCreateProgram();
-//        glAttachShader(program, vertexShader);
         glAttachShader(program, fragmentShader);
         glLinkProgram(program);
         glValidateProgram(program);

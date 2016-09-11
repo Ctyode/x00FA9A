@@ -1,13 +1,10 @@
 package org.flamierawieo.x00FA9A.client.graphics;
 
-import org.flamierawieo.x00FA9A.client.Resources;
 import org.flamierawieo.x00FA9A.client.ui.widget.ButtonDrawable;
 
 import java.awt.*;
 
 import static org.flamierawieo.x00FA9A.client.graphics.Graphics.*;
-import static org.lwjgl.opengl.GL11.GL_TRUE;
-import static org.lwjgl.opengl.GL20.*;
 
 public class Surface implements ButtonDrawable {
 
@@ -15,16 +12,29 @@ public class Surface implements ButtonDrawable {
     private Color borderColor;
     private float borderThickness;
     private float radius;
+    private Shadow shadow;
+    private float shadowRadius;
 
-    public Surface(Color backgroundColor, Color borderColor, float borderThickness, float radius) {
+    public Surface(Color backgroundColor, Color borderColor, float borderThickness, float radius, float shadowRadius) {
         this.backgroundColor = backgroundColor;
         this.borderColor = borderColor;
         this.borderThickness = borderThickness;
         this.radius = radius;
+        this.shadowRadius = shadowRadius;
+        if(shadowRadius > 0.0f) {
+            shadow = new Shadow();
+        }
+    }
+
+    public Surface(Color backgroundColor, Color borderColor, float borderThickness, float radius) {
+        this(backgroundColor, borderColor, borderThickness, radius, 0.0f);
     }
 
     @Override
     public void draw(float x, float y, float width, float height) {
+        if(shadow != null) {
+            shadow.draw(x - shadowRadius, y - shadowRadius, width + shadowRadius * 2, height + shadowRadius * 2, shadowRadius);
+        }
         strokeLine(x + radius, y, x + width - radius, y, borderThickness, borderColor);
         strokeLine(x + width, y + radius, x + width, y + height - radius, borderThickness, borderColor);
         strokeLine(x + radius, y + height, x + width - radius, y + height, borderThickness, borderColor);
